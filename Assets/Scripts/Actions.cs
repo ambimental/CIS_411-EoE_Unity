@@ -1,4 +1,7 @@
-﻿//USED TO DETERMINE WHAT HAPPENS WHEN THE ACTIONS ARE CALLED
+﻿/*
+ * @class   Actions.cs
+ * @purpose Dertermine what actions the player will take 
+ */
 
 using System;
 using System.Collections;
