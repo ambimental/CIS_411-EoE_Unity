@@ -1,0 +1,38 @@
+fileFormatVersion: 2
+guid: 846fde9c3f7251147885a3e9d3f30387
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - anfTitle: {fileID: 21300000, guid: ff0451eb820d4e540b1872be3d9ee04d, type: 3}
+  - ahTitle: {fileID: 21300000, guid: d1b35f4855f3c3b459d9063413168f0b, type: 3}
+  - crTitle: {fileID: 21300000, guid: fcdf91d85a1cfb54a8498b66f5bcf631, type: 3}
+  - pbTitle: {fileID: 21300000, guid: 631c3857c6885de4b99e39efe51beffc, type: 3}
+  - playerRound: {instanceID: 0}
+  - oneRound: {instanceID: 0}
+  - twoRound: {instanceID: 0}
+  - threeRound: {instanceID: 0}
+  - pScore: {instanceID: 0}
+  - oneScore: {instanceID: 0}
+  - twoScore: {instanceID: 0}
+  - threeScore: {instanceID: 0}
+  - cp1Hand: {instanceID: 0}
+  - cp2Hand: {instanceID: 0}
+  - cp3Hand: {instanceID: 0}
+  - cardInfoPanel: {instanceID: 0}
+  - nameCard: {instanceID: 0}
+  - descriptionCard: {instanceID: 0}
+  - actionCard: {instanceID: 0}
+  - imageCard: {instanceID: 0}
+  - DraggedCard: {instanceID: 0}
+  - cp1AI: {instanceID: 0}
+  - importer: {instanceID: 0}
+  - endTurnButton: {instanceID: 0}
+  - check: {instanceID: 0}
+  - pickCardHolder: {instanceID: 0}
+  - pickExtinction: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
