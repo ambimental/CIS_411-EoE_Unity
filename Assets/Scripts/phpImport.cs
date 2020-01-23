@@ -1,10 +1,21 @@
-﻿using UnityEngine;
+﻿/*
+ *  @class      phpImport
+ *  @purpose    Request card information from online database and populate card list
+ *  
+ *  @author     John Georgvich, previous CIS411 group
+ *  @date       2020-01-22
+ */
+using UnityEngine;
 using System.Collections;
 using System;
 using System.Collections.Generic;
 
 public class phpImport : MonoBehaviour
 {
+
+    /// <summary>
+    ///     Class object/variable declaration block
+    /// </summary>
     public List<string> cardidA;
     public List<string> cardidR;
     public List<string> actions;
@@ -26,8 +37,13 @@ public class phpImport : MonoBehaviour
         StartCoroutine(GetScores());
     }
 
-    // Get the scores from the MySQL DB to display in a GUIText.
-    // remember to use StartCoroutine when calling this function!
+    /*
+     *  @name       GetScores()
+     *  @purpose    Retrieve all card data from MySQL database on-site
+     *  
+     *  @ATTN:      use StartCoroutine when calling this function
+     *  @TODO:      document function line-by-line
+     */
     public IEnumerator GetScores()
     {
         hs_get = new WWW(actionURL);
