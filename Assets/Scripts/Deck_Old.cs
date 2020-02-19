@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Deck
-{
+public class Deck {
 
     private string deckId; //id of the deck
     private List<Card> cards; //stores the cards
@@ -19,17 +18,14 @@ public class Deck
         Cards = new List<Card>();
     }
 
-    // Use this for initialization
-    void Start()
-    {
+	// Use this for initialization
+	void Start () {
         DeckId = "";
         Cards = new List<Card>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
 }
-
