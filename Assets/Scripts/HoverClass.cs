@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
+//I TEMPORARILY GOT RID OF THE SORTING ORDER FUNTION BECASUE NOW IN SCREEN OVERLAY WE DONT USE THAT
+
+
 public class HoverClass : MonoBehaviour {
     //declarations of object names
     public SpriteRenderer rend;
@@ -24,7 +27,7 @@ public class HoverClass : MonoBehaviour {
         //storing the original sorting order
         originalOrder = rend.sortingOrder;
         //setting the max sorting order, so it will always appear on top
-        rend.sortingOrder = 999;
+       rend.sortingOrder = 999;
         //increasing the renderer's localScale by 50% while the mouse is on it
         rend.transform.localScale += new Vector3(0.4F, 0.4F);
     }
