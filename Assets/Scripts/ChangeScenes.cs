@@ -1,5 +1,10 @@
-﻿//WILL BE USED TO CHANGE THE SCENE WHENEVER NECESSARY
-
+﻿/*
+ *  @class      ChangeScenes
+ *  @purpose    handles scene transition between game scenes
+ *  
+ *  @author     John Georgvich, previous CIS411 group
+ *  @date       2020/01/22
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,16 +12,20 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScenes : MonoBehaviour {
 
-    //NO NEED FOR START OR UPDATE FUNCTIONS
-
-    // Changes to the appropriate scene
+    /*
+     *  @name       ChangeScene()
+     *  @purpose    Changes active game scene to appropriate scene
+     *  
+     *  @param      string sceneName;   the name of the appropriate scene
+     */
     public void ChangeScene(string sceneName)
     {
         try
         {
             SceneManager.LoadScene(sceneName);
 
-            if (sceneName == "LoadingScreen") //for when the game is restarted - where the game manager should be reset
+            //  if next scene is LoadingScreen, call GameManager.restartGame()
+            if (sceneName == "LoadingScreen")
             {
                 GameManager.Instance.restartGame();
             }
