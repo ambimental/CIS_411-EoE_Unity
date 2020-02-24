@@ -1,6 +1,9 @@
 ﻿/*
- * @class   Actions.cs
- * @purpose Dertermine what actions the player will take 
+ *  @class   Actions.cs
+ *  @purpose Determine what actions the player will take 
+ * 
+ *  @author     John Georgvich, previous CIS411 group
+ *  @date       2020/01/23
  */
 
 using System;
@@ -11,25 +14,40 @@ using UnityEngine;
 
 public class Actions : MonoBehaviour {
 
-    // Use this for initialization
+    /*
+     *  @name       Start()
+     *  @purpose    Used by Unity engine to initialize objects
+     */
     void Start() {
 
     }
 	
-	// Update is called once per frame
+	/*
+     *  @name       Update()
+     *  @purpose    Used by Unity engine to update game object frame-by-frame
+     */
 	void Update () {
 	}
 
-    //will determine whether or not the card has an action what to ddo with it
+    /*
+     *  @name       checkAction()
+     *  @purpose    Determine whether or not card has an action associated with it
+     *  
+     *  @param      Card card;  Card object to inspect for associated action
+     */
     public void checkAction(Card card)
     {
-        List<string> actions = new List<string>(); //to store the action ids
-
+        //  stores actionIDs
+        List<string> actions = new List<string>();
+        
+        //  for each string in card actionID
         foreach(string x in card.ActionID)
         {
+            //  save string to instanced variable and add to actions list
             string actionId = x;
-            actions.Add(actionId); //adds the ids to the list
+            actions.Add(actionId);
         }
+
 
         foreach(string x in actions)
         {
@@ -41,22 +59,35 @@ public class Actions : MonoBehaviour {
     }
 }
 
+/*
+ *  @class      Acts
+ *  @purpose    Holds all actions (get rid of this shit)
+ *  
+ *  @author     John Georgvich, previous CIS411 group
+ *  @date       2020/01/23
+ */
 public class Acts
 {
-    public CardRetrievalFromDeck holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>(); //gets access to the script
-    public DebugDealer playerDraw = ScriptableObject.FindObjectOfType<DebugDealer>(); //gets access to the script
+    //  create public/private objects for "acts class"
+    //  all of this shit is going away anyway, who cares
+    public CardRetrievalFromDeck holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>();
+    public DebugDealer playerDraw = ScriptableObject.FindObjectOfType<DebugDealer>();
     private GameObject cardObject;
-    public Transform cardParent; //to get the parent of the card
+    public Transform cardParent;
     private SpriteRenderer sr;
 
-    public bool requirementsWork = false; //determines whether or not the requirements will work
-    public Requirements cardReqs; //to get access to the rquirements
+    //  determines if requirements are met and retrieves necessary requirements
+    public bool requirementsWork = false;
+    public Requirements cardReqs;
 
     int deckCount = 0;
     int discardCount = 0;
     bool display = true;
 
-    //Function that  is used to create an object to represent the card
+    /*
+     *  @name       generateCardObject()
+     *  @purpose    Creates an instance of card object
+     */
     private void generateCardObject()
     {
         //creating a new gameobject  to hold act as the card

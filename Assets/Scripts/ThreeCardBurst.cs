@@ -1,5 +1,10 @@
-﻿// THIS SCRIPT WILL BE USED FOR THE THREE VARD BURST BUTTON, WHENEVER IT IS CLICKED, 3 MORE CARDS WILL BE PUT INTO THE HAND OF THE PLAYER.
-// ONCE IT IS CLICKED IT SHOULD EITHER BE DISABLED UNTIL FURTHER NOTICE OR IT SHOULD BE COMPLETELY INVISIBLE
+﻿/*
+ *  @class      ThreeCardBurst
+ *  @purpose    Provide the player with three additional cards in their hand
+ *  
+ *  @author     John Georgvich, previous CIS411 group
+ *  @date       2020/01/22
+ */
 
 using System.Collections;
 using System.Collections.Generic;
@@ -8,16 +13,20 @@ using UnityEngine.UI;
 
 public class ThreeCardBurst : MonoBehaviour {
 
-    public Button threeCard; //to hold the place and reference to the button
+    //  button for TCB
+    public Button threeCard;
 
-    //variables to be used for the card generation
+    //  class variables for button
     public CardRetrievalFromDeck holder;
     public DebugDealer playerDraw;
     private GameObject cardObject;
-    public Transform cardParent; //to get the parent of the card
+    public Transform cardParent;
     private SpriteRenderer sr;
 
-    // Use this for initialization
+    /*
+     *  @name       Start()
+     *  @purpose    Required for initialization of Unity object
+     */
     void Start () {
 
         threeCard = GameManager.Instance.threeCardBurst;
@@ -28,25 +37,34 @@ public class ThreeCardBurst : MonoBehaviour {
 
     }
 	
-	// Update is called once per frame
+	/*
+     *  @name       Update()
+     *  @purpose    Updates object every frame
+     */
 	void Update () {
 		
 	}
 
-    //the main method for the three card burst, where the cards are put into the hand
+    /*
+     *  @name       ThreeCardExecute()
+     *  @purpose    Executes the TCB as-per game rules; adds three cards to the player's hand and is disabled for the remainder of the game
+     */
     public void ThreeCardExecute()
     {
-        //three cards should bedrawn randomly from the deck
+        //  three cards are randomly drawn from the deck
         for(int i = 0; i < 3; i++)
         {
             DrawCard();
         }
 
-        //once cards are drawn, button dissapears because you can no longer use it
+        //  disable button after burst is called
         threeCard.gameObject.SetActive(false);
     }
 
-    //Function that  is used to create an object to represent the card
+    /*
+     *  @name       generateCardObject()
+     *  @purpose    generates objects to represent the cards being drawn
+     */
     private void generateCardObject()
     {
         //creating a new gameobject  to hold act as the card
@@ -69,7 +87,10 @@ public class ThreeCardBurst : MonoBehaviour {
         cardObject.AddComponent<Draggable>();
     }
 
-    //just call this to draw one random card from thedeck
+    /*
+     *  @name       DarwCard()
+     *  @purpose    Draws a single random card from the deck
+     */
     public void DrawCard()
     {
         //looping through each deck in play
