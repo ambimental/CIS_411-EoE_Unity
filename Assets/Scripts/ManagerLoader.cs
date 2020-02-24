@@ -1,17 +1,25 @@
-﻿using UnityEngine;
+﻿/*
+ *  @class      ManagerLoader
+ *  @purpose    Load GameManager object from prefab
+ *  
+ *  @author     John Georgvich, previous CIS411 group
+ *  @date       2020/01/22
+ */
+using UnityEngine;
 using System.Collections;
 
 
 public class ManagerLoader : MonoBehaviour
 {
-    public GameObject gameManager;          //GameManager prefab to instantiate.
+    //  create GameManager object prefab
+    public GameObject gameManager;
 
 
     void Awake()
     {
-        //Check if a GameManager has already been assigned to static variable GameManager.instance or if it's still null
+        //  check if GameManager prefab has already been instantiated (see GameManager.cs)
         if (GameManager.Instance == null)
-            //Instantiate gameManager prefab
+            //  if GameManager prefab has not been instantiated, do so
             Instantiate(gameManager);
     }
 }
