@@ -602,6 +602,7 @@ GameObject:
   - component: {fileID: 103930508}
   - component: {fileID: 103930507}
   - component: {fileID: 103930506}
+  - component: {fileID: 103930509}
   m_Layer: 5
   m_Name: Computer1Button
   m_TagString: Untagged
@@ -719,6 +720,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103930504}
   m_CullTransparentMesh: 0
+--- !u!122 &103930509
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103930504}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278218523
+  m_Size: 1
 --- !u!1 &108362819
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,6 +976,76 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 165906579}
+  m_CullTransparentMesh: 0
+--- !u!1 &166584282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 166584283}
+  - component: {fileID: 166584285}
+  - component: {fileID: 166584284}
+  m_Layer: 14
+  m_Name: GreenBackGround
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &166584283
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166584282}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 68, y: 68, z: 0}
+  m_Children: []
+  m_Father: {fileID: 637655452}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.025024002, y: 0}
+  m_SizeDelta: {x: 18.2, y: 10.9}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &166584284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166584282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: eabbcc18ad79e04488c4831351de6890, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: 52eaf6932e9cccb48a57568647d4136e, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &166584285
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166584282}
   m_CullTransparentMesh: 0
 --- !u!1 &176066952
 GameObject:
@@ -1736,6 +1819,7 @@ GameObject:
   - component: {fileID: 250353709}
   - component: {fileID: 250353708}
   - component: {fileID: 250353707}
+  - component: {fileID: 250353710}
   m_Layer: 5
   m_Name: Computer3Button
   m_TagString: Untagged
@@ -1853,6 +1937,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 250353705}
   m_CullTransparentMesh: 0
+--- !u!122 &250353710
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250353705}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278218523
+  m_Size: 1
 --- !u!1 &252895236
 GameObject:
   m_ObjectHideFlags: 0
@@ -4986,76 +5082,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 492445434}
   m_CullTransparentMesh: 0
---- !u!1 &499918947
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 499918948}
-  - component: {fileID: 499918950}
-  - component: {fileID: 499918949}
-  m_Layer: 14
-  m_Name: GreenBackGround
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &499918948
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499918947}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 68, y: 68, z: 0}
-  m_Children: []
-  m_Father: {fileID: 637655452}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.025024, y: 0}
-  m_SizeDelta: {x: 18.2, y: 10.9}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &499918949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499918947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 52eaf6932e9cccb48a57568647d4136e, type: 3}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
---- !u!222 &499918950
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499918947}
-  m_CullTransparentMesh: 0
 --- !u!1 &535898663
 GameObject:
   m_ObjectHideFlags: 0
@@ -5209,8 +5235,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12740.701, y: 523.8282}
-  m_SizeDelta: {x: -1088.5, y: -406.8}
+  m_AnchoredPosition: {x: -11775.7, y: 525.1}
+  m_SizeDelta: {x: -1052.4, y: -558.1}
   m_Pivot: {x: 11.494947, y: -0.29751283}
 --- !u!114 &548831066
 MonoBehaviour:
@@ -6014,7 +6040,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4278414678
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &629636794
 MonoBehaviour:
@@ -6290,7 +6316,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 499918948}
+  - {fileID: 166584283}
   - {fileID: 647331783}
   - {fileID: 435404976}
   - {fileID: 869436283}
@@ -7104,7 +7130,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4278941793
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &676154879
 MonoBehaviour:
@@ -7450,7 +7476,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4278613085
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &691920007
 MonoBehaviour:
@@ -7862,7 +7888,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4279989088
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &735578639
 MonoBehaviour:
@@ -7985,6 +8011,7 @@ GameObject:
   - component: {fileID: 775287464}
   - component: {fileID: 775287463}
   - component: {fileID: 775287462}
+  - component: {fileID: 775287465}
   m_Layer: 5
   m_Name: PlayerButton
   m_TagString: Untagged
@@ -8102,6 +8129,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 775287460}
   m_CullTransparentMesh: 0
+--- !u!122 &775287465
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775287460}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278218523
+  m_Size: 1
 --- !u!1 &787739416
 GameObject:
   m_ObjectHideFlags: 0
@@ -10508,8 +10547,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12740.701, y: 523.8282}
-  m_SizeDelta: {x: -1088.5, y: -406.8}
+  m_AnchoredPosition: {x: -11765, y: 525.1}
+  m_SizeDelta: {x: -1051.6, y: -558.4}
   m_Pivot: {x: 11.494947, y: -0.29751283}
 --- !u!114 &988433822
 MonoBehaviour:
@@ -10584,6 +10623,7 @@ GameObject:
   - component: {fileID: 993198406}
   - component: {fileID: 993198405}
   - component: {fileID: 993198404}
+  - component: {fileID: 993198407}
   m_Layer: 5
   m_Name: Computer2Button
   m_TagString: Untagged
@@ -10701,6 +10741,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993198402}
   m_CullTransparentMesh: 0
+--- !u!122 &993198407
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993198402}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278218523
+  m_Size: 1
 --- !u!1 &1015020538
 GameObject:
   m_ObjectHideFlags: 0
@@ -13332,7 +13384,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4278877541
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &1361861236
 MonoBehaviour:
@@ -15041,7 +15093,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4279532132
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &1561029166
 MonoBehaviour:
@@ -15520,7 +15572,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4279594587
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &1585901968
 MonoBehaviour:
@@ -15779,7 +15831,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4279268702
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &1592975263
 MonoBehaviour:
@@ -18542,7 +18594,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4278942049
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &1795404981
 MonoBehaviour:
@@ -21195,8 +21247,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12740.701, y: 523.8282}
-  m_SizeDelta: {x: -1088.5, y: -406.8}
+  m_AnchoredPosition: {x: -11833.57, y: 525}
+  m_SizeDelta: {x: -1057.6, y: -558.1}
   m_Pivot: {x: 11.494947, y: -0.29751283}
 --- !u!114 &2089713022
 MonoBehaviour:
@@ -21627,7 +21679,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4278283863
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &2098231234
 MonoBehaviour:
@@ -21918,10 +21970,10 @@ GameObject:
   - component: {fileID: 2117324282}
   - component: {fileID: 2117324281}
   - component: {fileID: 2117324280}
-  - component: {fileID: 2117324279}
   - component: {fileID: 2117324278}
   - component: {fileID: 2117324277}
   - component: {fileID: 2117324276}
+  - component: {fileID: 2117324279}
   m_Layer: 5
   m_Name: Discard Pile Placement
   m_TagString: Untagged
@@ -21938,16 +21990,16 @@ RectTransform:
   m_GameObject: {fileID: 2117324274}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 723687266}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12740.701, y: 523.8282}
-  m_SizeDelta: {x: -1088.5, y: -406.8}
-  m_Pivot: {x: 11.494947, y: -0.29751283}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -204.69998, y: 79}
+  m_SizeDelta: {x: 88.400024, y: 120}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &2117324276
 Rigidbody2D:
   serializedVersion: 4
@@ -21982,7 +22034,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 12.982367, y: 99.004845}
+  m_Offset: {x: 43.488846, y: 58.109222}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -21993,7 +22045,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 84.80737, y: 113.75615}
+  m_Size: {x: 83.257065, y: 123.829025}
   m_EdgeRadius: 0
 --- !u!114 &2117324278
 MonoBehaviour:
@@ -22029,7 +22081,7 @@ Halo:
   m_Enabled: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4278874973
+    rgba: 4278255422
   m_Size: 1.5
 --- !u!114 &2117324280
 MonoBehaviour:

@@ -32,7 +32,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/PlayerBoardNew.unity
-    guid: 145c3d307a4b63a4eba4b39d3a60bde6
+    path: Assets/Scenes/LearnToPlay.unity
+    guid: 6b2ba2a10d0970747b79109b3a835f9a
   m_configObjects: {}
