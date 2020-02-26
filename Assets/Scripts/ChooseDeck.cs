@@ -1,5 +1,10 @@
-﻿//WILL BE USED TO DETERMINE WHICH DECK THE USER HAS CHOSEN
-
+﻿/*
+ *  @class      ChooseDeck
+ *  @purpose    handles human player deck selection
+ *  
+ *  @author     John Georgvich, previous CIS411 group
+ *  @date       2020/01/22
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
