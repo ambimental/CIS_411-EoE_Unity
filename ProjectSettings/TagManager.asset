@@ -13,13 +13,13 @@ TagManager:
   - UI
   - 
   - 
-  - Back
-  - PlayerBoards69
-  - DeckAndDiscard
   - CardInfo
-  - AcidicWaters
-  - PauseGame
-  - LearnToPlay
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -40,7 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: GameBoard
-    uniqueID: 183990275
     locked: 0

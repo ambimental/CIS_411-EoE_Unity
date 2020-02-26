@@ -47,10 +47,4 @@ public class OpenURL : MonoBehaviour {
         Application.Quit(); //closes
     }
 
-    //this bit of code is for the thank you scene to take player to store
-    public void EndOpenStore()
-    {
-        Application.OpenURL("https://squareup.com/store/twosistersinthewild/");
-        Application.Quit();
-    }
 }

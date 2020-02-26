@@ -13,7 +13,7 @@ public class LevelLoader : MonoBehaviour {
 
     public void loadLevel() //will load the next level whenever is necessary
     {
-        StartCoroutine(LoadAsynchronously("MainMenu")); //calls the coroutine and starts laoding the function asynchronously
+        StartCoroutine(LoadAsynchronously("Main Menu")); //calls the coroutine and starts laoding the function asynchronously
     }
 
     IEnumerator LoadAsynchronously(string name) //will be used to load the scene and keep track of the progress

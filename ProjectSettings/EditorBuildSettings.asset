@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/LoadingScreen.unity
+    path: Assets/Scenes/SceneLoader.unity
     guid: ba815f902662ac5498ec7659e26dc00d
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/Main Menu.unity
     guid: f6211774358b88740b9b8a15d1621485
   - enabled: 1
     path: Assets/Scenes/PickStarterDeck.unity
@@ -17,9 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayerBoard.unity
     guid: f2113361d1aff9e4c85a943bda3331eb
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Settings.unity
+    guid: 278d6e1260e6d834690dc4c8f08b9cff
   - enabled: 1
     path: Assets/Scenes/ExitBuyCards.unity
     guid: eca3b6f48e3edf74099a122bcd97bacf
@@ -29,13 +29,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WinScene.unity
     guid: 9ee3b7902112fc848bff48b3f878f406
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/Scenes/LearnToPlay.unity
-    guid: 6b2ba2a10d0970747b79109b3a835f9a
   m_configObjects: {}
