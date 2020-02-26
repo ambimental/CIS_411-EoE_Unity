@@ -64,7 +64,7 @@ public class HideShowBoards : MonoBehaviour {
         cp3CG = GameObject.Find("CP3 Board").GetComponent<CanvasGroup>();
 
         showPlayer = GameObject.Find("Player");
-      //  GameManager.Instance.playerView = showPlayer; //sets the global variable
+        GameManager.Instance.playerView = showPlayer; //sets the global variable
         showCP1 = GameObject.Find("CP1 Board");
         showCP2 = GameObject.Find("CP2 Board");
         showCP3 = GameObject.Find("CP3 Board");
@@ -355,7 +355,7 @@ public class HideShowBoards : MonoBehaviour {
         playerCG.interactable = false;
 
         showPlayer.SetActive(false);
-        //sets the canvas group opacity to full 
+
         cp1CG.alpha = 1f;
         cp1CG.blocksRaycasts = true;
         cp1CG.interactable = true;
