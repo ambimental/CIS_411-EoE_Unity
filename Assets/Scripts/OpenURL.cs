@@ -29,6 +29,32 @@ public class OpenURL : MonoBehaviour {
         Application.Quit(); //just closes the application
     }
 
+    //opens coreect store page based on decks
+    public void AlleghenyBuy()
+    {
+        Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/allegheny-national-forest-starter-deck");
+        Application.Quit();
+    }
+    public void AppalachianBuy()
+    {
+        Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/appalachian-homestead-starter-deck");
+        Application.Quit();
+    }
+
+    public void PeatBogsBuy()
+    {
+        Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/peat-bogs-of-the-allegheny-front-starter-deck");
+        Application.Quit();
+    }
+
+    public void ClarionRiverBuy()
+    {
+        Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/clarion-river-starter-deck");
+        Application.Quit();
+    }
+
+
+
     //will open the web home page
     public void OpenHomePage()
     {
@@ -47,4 +73,10 @@ public class OpenURL : MonoBehaviour {
         Application.Quit(); //closes
     }
 
+    //this bit of code is for the thank you scene to take player to store
+    public void EndOpenStore()
+    {
+        Application.OpenURL("https://squareup.com/store/twosistersinthewild/");
+        Application.Quit();
+    }
 }

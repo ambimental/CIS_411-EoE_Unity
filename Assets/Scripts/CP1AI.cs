@@ -73,8 +73,7 @@ public class CP1AI : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
-
+    {
     }
 
     //Function that  is used to create an object to represent the card
