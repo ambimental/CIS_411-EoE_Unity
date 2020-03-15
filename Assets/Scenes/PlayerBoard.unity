@@ -20057,6 +20057,7 @@ GameObject:
   - component: {fileID: 1986522115}
   - component: {fileID: 1986522111}
   - component: {fileID: 1986522110}
+  - component: {fileID: 1986522120}
   - component: {fileID: 1986522107}
   - component: {fileID: 1986522114}
   - component: {fileID: 1986522113}
@@ -20171,7 +20172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b100e2c7328e7e419c9686831fc3ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeLoadingText: {fileID: 0}
 --- !u!114 &1986522105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20395,6 +20395,21 @@ MonoBehaviour:
   threeScore: {fileID: 0}
   endTurnButton: {fileID: 0}
   showBoards: {fileID: 1986522105}
+  showOneCard: {fileID: 1986522120}
+--- !u!114 &1986522120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986522098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb8e1aa36bbd89548942741f68efaa3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texSprite: {fileID: 0}
+  tempSprite: {fileID: 0}
 --- !u!1 &1992182566
 GameObject:
   m_ObjectHideFlags: 0

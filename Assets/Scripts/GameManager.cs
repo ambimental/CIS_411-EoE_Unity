@@ -74,7 +74,6 @@ public class GameManager : MonoBehaviour {
     public Text oneScore;
     public Text twoScore;
     public Text threeScore;
-   
     //  button to end turn
     public Button endTurnButton;
 
