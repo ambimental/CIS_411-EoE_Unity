@@ -9,7 +9,7 @@ public class DisplayOneCard : MonoBehaviour
 {
 
     //creates a sprite renderer
-    private SpriteRenderer sr;
+    public SpriteRenderer sr;
     //creates a 2D texture to assign the JPeg to
     public Texture2D texSprite;
     //creates a sprite to assign the 2D texture to
