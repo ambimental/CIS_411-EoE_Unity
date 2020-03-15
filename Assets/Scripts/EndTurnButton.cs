@@ -22,7 +22,8 @@ public class EndTurnButton : MonoBehaviour {
 
     void TaskOnClick()
     {
-        mainCamera.AddComponent<CP1AI>(); //adds this script to the main camera
+        //I BEN DISABLED THIS JUST AS A REMINDER TO MYSELF
+        //mainCamera.AddComponent<CP1AI>(); //adds this script to the main camera
     }
 
 }
