@@ -9,23 +9,22 @@ public class OpenURL : MonoBehaviour {
     //will open the store web page
     public void OpenStore()
     {
-        if (GameManager.Instance.deckPicked == "D001")
-        {
-            Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/allegheny-national-forest-starter-deck");
-        }
-        else if (GameManager.Instance.deckPicked == "D002")
-        {
-            Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/appalachian-homestead-starter-deck");
-        }
-        else if (GameManager.Instance.deckPicked == "D003")
-        {
-            Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/peat-bogs-of-the-allegheny-front-starter-deck");
-        }
-        else if (GameManager.Instance.deckPicked == "D004")
-        {
-            Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/clarion-river-starter-deck");
-        }
-
+        //if (GameManager.Instance.deckPicked == "D001")
+        //{
+        //    Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/allegheny-national-forest-starter-deck");
+        //}
+        //else if (GameManager.Instance.deckPicked == "D002")
+        //{
+        //    Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/appalachian-homestead-starter-deck");
+        //}
+        //else if (GameManager.Instance.deckPicked == "D003")
+        //{
+        //    Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/peat-bogs-of-the-allegheny-front-starter-deck");
+        //}
+        //else if (GameManager.Instance.deckPicked == "D004")
+        //{
+        //    Application.OpenURL("https://squareup.com/store/twosistersinthewild/item/clarion-river-starter-deck");
+        //}
         Application.Quit(); //just closes the application
     }
 
