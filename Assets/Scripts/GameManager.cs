@@ -45,64 +45,46 @@ public class GameManager : MonoBehaviour {
     }
 
     //  create playerView and playerCanvas objects
-    private GameObject playerView;
-    private CanvasGroup playerCanvas;
+    public GameObject playerView;
+    public CanvasGroup playerCanvas;
 
     //  stores round number
-    private int round;
+    public int round;
 
     //  stores player scores
-    private int playerScore;
-    private int computerOneScore;
-    private int computerTwoScore;
-    private int computerThreeScore;
+    public int playerScore;
+    public int computerOneScore;
+    public int computerTwoScore;
+    public int computerThreeScore;
 
     //  stores sorting layers
-    private int sortingOrder = 10;
+    public int sortingOrder = 10;
 
     //  determines win/loss status for human player
-    private bool win;
-    private bool lose;
+    public bool win;
+    public bool lose;
 
     //  stores values for round text information
     //we may not need these variables we can probably just use one round varibale since we will all always be on same round
-    private Text playerRound;
-    private Text oneRound;
-    private Text twoRound;
-    private Text threeRound;
+    public Text playerRound;
+    public Text oneRound;
+    public Text twoRound;
+    public Text threeRound;
 
     //  stores values for player score information
-    private Text pScore;
-    private Text oneScore;
-    private Text twoScore;
-    private Text threeScore;
+    public Text pScore;
+    public Text oneScore;
+    public Text twoScore;
+    public Text threeScore;
 
     //  button to end turn
-    private Button endTurnButton;
+    public Button endTurnButton;
 
     //created object to access funstionc for hide show boards
-    private HideShowBoards showBoards;
+    public HideShowBoards showBoards;
 
     //Creates object to show card
-    private DisplayOneCard showOneCard;
-
-    //gettes and setters
-    public CanvasGroup PlayerCanvas { get => playerCanvas; set => playerCanvas = value; }
-    public GameObject PlayerView { get => playerView; set => playerView = value; }
-    public int PlayerScore { get => playerScore; set => playerScore = value; }
-    public int ComputerOneScore { get => computerOneScore; set => computerOneScore = value; }
-    public int ComputerTwoScore { get => computerTwoScore; set => computerTwoScore = value; }
-    public int ComputerThreeScore { get => computerThreeScore; set => computerThreeScore = value; }
-    public int SortingOrder { get => sortingOrder; set => sortingOrder = value; }
-    public bool Win { get => win; set => win = value; }
-    public bool Lose { get => lose; set => lose = value; }
-    public Text PScore { get => pScore; set => pScore = value; }
-    public Text OneScore { get => oneScore; set => oneScore = value; }
-    public Text TwoScore { get => twoScore; set => twoScore = value; }
-    public Text ThreeScore { get => threeScore; set => threeScore = value; }
-    public Button EndTurnButton { get => endTurnButton; set => endTurnButton = value; }
-    public HideShowBoards ShowBoards { get => showBoards; set => showBoards = value; }
-    public int Round { get => round; set => round = value; }
+    public DisplayOneCard showOneCard;
 
     /*
      *  @name       Awake()
@@ -120,7 +102,7 @@ public class GameManager : MonoBehaviour {
      */
     void  Start () {
         //  sets initial round number
-        Round = 1;
+        round = 1;
     }
 
     /*
@@ -154,20 +136,20 @@ public class GameManager : MonoBehaviour {
             if (computerNum == 1)
             {
                 Debug.Log("worked cp1");
-                ShowBoards.ShowCP1();
+                showBoards.ShowCP1();
 
             }
             //shows cp2 board
             else if (computerNum == 2)
             {
                 Debug.Log("worked c2");
-                ShowBoards.ShowCP2();
+                showBoards.ShowCP2();
             }
             //shows cp3 board
             else if (computerNum == 3)
             {
                 Debug.Log("worked c3");
-                ShowBoards.ShowCP3();
+                showBoards.ShowCP3();
             }
 
             //this is how we implement the pause in the loop 
@@ -175,13 +157,13 @@ public class GameManager : MonoBehaviour {
         }
         //shows players board
         Debug.Log("play work");
-        ShowBoards.ShowPlayer();
+        showBoards.ShowPlayer();
 
         //changes scores and round
-        changePlayerScore(PlayerScore);
-        changeComputerOneScore(ComputerOneScore);
-        changeComputerTwoScore(ComputerTwoScore);
-        changeComputerThreeScore(ComputerThreeScore);
+        changePlayerScore(playerScore);
+        changeComputerOneScore(computerOneScore);
+        changeComputerTwoScore(computerTwoScore);
+        changeComputerThreeScore(computerThreeScore);
         changeRound();
     }
 
@@ -192,12 +174,12 @@ public class GameManager : MonoBehaviour {
     public void winOrLose()
     {
         //  if human playerScore is less than computer player scores
-        if(PlayerScore < ComputerOneScore || PlayerScore < ComputerTwoScore || PlayerScore < ComputerThreeScore)
+        if(playerScore < computerOneScore || playerScore < computerTwoScore || playerScore < computerThreeScore)
         {
             //  set lose to true
-            Lose = true;
+            lose = true;
             //  set win to false
-            Win = false;
+            win = false;
 
             //  load game-lose screen
             SceneManager.LoadScene("LoseScene"); 
@@ -205,16 +187,16 @@ public class GameManager : MonoBehaviour {
         else
         {
             //  set win to true
-            Win = true;
+            win = true;
             //  set lose to false
-            Lose = false;
+            lose = false;
 
             //  load game-win screen
             SceneManager.LoadScene("WinScene");
         }
 
         //  resets round number
-        Round = 1;
+        round = 1;
     }
 
     /*
@@ -236,18 +218,18 @@ public class GameManager : MonoBehaviour {
     public void changeRound()
     {
         //  check if round number is not 10
-        if (Round != 10)
+        if (round != 10)
         {
             //  increment round number
-            Round++;
+            round++;
 
             //  update round text
             playerRound = GameObject.Find("PlayerRoundText").GetComponent<Text>();
-            playerRound.text = Round.ToString();
+            playerRound.text = round.ToString();
         }
 
         //  if round number is 10
-        else if ( Round == 10)
+        else if ( round == 10)
         {
             //  end game; 
             winOrLose();
@@ -263,11 +245,11 @@ public class GameManager : MonoBehaviour {
     public void changePlayerScore(int score)
     {
         //  adds integer parameter to existing score
-        PlayerScore = PlayerScore + score;
+        playerScore = playerScore + score;
 
         //  updates score text
-        PScore = GameObject.Find("PlayerScoreText").GetComponent<Text>();
-        PScore.text = PlayerScore.ToString();
+        pScore = GameObject.Find("PlayerScoreText").GetComponent<Text>();
+        pScore.text = playerScore.ToString();
     }
 
     /*
@@ -279,11 +261,11 @@ public class GameManager : MonoBehaviour {
     public void changeComputerOneScore(int score)
     {
         //  adds integer parameter to existing score
-        ComputerOneScore = ComputerOneScore + score;
+        computerOneScore = computerOneScore + score;
 
         //  updates score text
-        OneScore = GameObject.Find("ComputerOneScoreText").GetComponent<Text>();
-        OneScore.text = ComputerOneScore.ToString();
+        oneScore = GameObject.Find("ComputerOneScoreText").GetComponent<Text>();
+        oneScore.text = computerOneScore.ToString();
     }
 
     /*
@@ -295,11 +277,11 @@ public class GameManager : MonoBehaviour {
     public void changeComputerTwoScore(int score)
     {
         //  adds integer parameter to existing score
-        ComputerTwoScore = ComputerTwoScore + score;
+        computerTwoScore = computerTwoScore + score;
 
         //  updates score text
-        TwoScore = GameObject.Find("ComputerTwoScoreText").GetComponent<Text>();
-        TwoScore.text = ComputerTwoScore.ToString();
+        twoScore = GameObject.Find("ComputerTwoScoreText").GetComponent<Text>();
+        twoScore.text = computerTwoScore.ToString();
     }
 
     /*
@@ -311,11 +293,11 @@ public class GameManager : MonoBehaviour {
     public void changeComputerThreeScore(int score)
     {
         //  adds integer parameter to existing score
-        ComputerThreeScore = ComputerThreeScore + score;
+        computerThreeScore = computerThreeScore + score;
 
         //  updates score text
-        ThreeScore = GameObject.Find("ComputerThreeScoreText").GetComponent<Text>();
-        ThreeScore.text = ComputerThreeScore.ToString();
+        threeScore = GameObject.Find("ComputerThreeScoreText").GetComponent<Text>();
+        threeScore.text = computerThreeScore.ToString();
     }
 
 }

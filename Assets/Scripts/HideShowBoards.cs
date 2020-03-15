@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class HideShowBoards : MonoBehaviour {
 
 
-    public GameManager gm;
 
     //will be used to access the canvas groups to disable and enable the view
     public CanvasGroup playerCG;
@@ -67,8 +66,8 @@ public class HideShowBoards : MonoBehaviour {
         cp3CG = GameObject.Find("CP3 Board").GetComponent<CanvasGroup>();
 
         //i feel like we dont need this
-        //showPlayer = GameObject.Find("Player");
-        gm.PlayerView = GameObject.Find("Player"); //sets the global variable
+        showPlayer = GameObject.Find("Player");
+        GameManager.Instance.playerView = showPlayer; //sets the global variable
         showCP1 = GameObject.Find("CP1 Board");
         showCP2 = GameObject.Find("CP2 Board");
         showCP3 = GameObject.Find("CP3 Board");
@@ -235,7 +234,7 @@ public class HideShowBoards : MonoBehaviour {
         drawText.text = "Please Draw 1 Card!";
 
         ////getting access to two of the buttons on the playerboard scene
-        gm.EndTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
+        GameManager.Instance.endTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
         //GameManager.Instance.threeCardBurst = GameObject.Find("3CardBurst").GetComponent<Button>();
 
         //will set the initial playing field to this
@@ -366,8 +365,8 @@ public class HideShowBoards : MonoBehaviour {
 
         showCP1.SetActive(true);
 
-        if (cp1Round.text != gm.Round.ToString()) //should set the round
-            cp1Round.text = gm.Round.ToString();
+        if (cp1Round.text != GameManager.Instance.round.ToString()) //should set the round
+            cp1Round.text = GameManager.Instance.round.ToString();
 
         cp2CG.alpha = 0f;
         cp2CG.blocksRaycasts = false;
@@ -404,8 +403,8 @@ public class HideShowBoards : MonoBehaviour {
 
         showCP2.SetActive(true);
 
-        if (cp2Round.text != gm.Round.ToString()) //should set the round
-            cp2Round.text = gm.Round.ToString();
+        if (cp2Round.text != GameManager.Instance.round.ToString()) //should set the round
+            cp2Round.text = GameManager.Instance.round.ToString();
 
         cp3CG.alpha = 0f;
         cp3CG.blocksRaycasts = false;
@@ -442,8 +441,8 @@ public class HideShowBoards : MonoBehaviour {
 
         showCP3.SetActive(true);
 
-        if (cp3Round.text != gm.Round.ToString()) //should set the round
-            cp3Round.text = gm.Round.ToString();
+        if (cp3Round.text != GameManager.Instance.round.ToString()) //should set the round
+            cp3Round.text = GameManager.Instance.round.ToString();
     }
 
     public void showNone() //will only be used whenever the picking of cards from the deck is happening
