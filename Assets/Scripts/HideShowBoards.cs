@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class HideShowBoards : MonoBehaviour {
 
 
-
     //will be used to access the canvas groups to disable and enable the view
     public CanvasGroup playerCG;
     public CanvasGroup cp1CG;
@@ -65,7 +64,7 @@ public class HideShowBoards : MonoBehaviour {
         cp2CG = GameObject.Find("CP2 Board").GetComponent<CanvasGroup>();
         cp3CG = GameObject.Find("CP3 Board").GetComponent<CanvasGroup>();
 
-        //i feel like we dont need this
+
         showPlayer = GameObject.Find("Player");
         GameManager.Instance.playerView = showPlayer; //sets the global variable
         showCP1 = GameObject.Find("CP1 Board");

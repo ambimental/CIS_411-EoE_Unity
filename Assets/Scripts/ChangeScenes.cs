@@ -20,8 +20,7 @@ public class ChangeScenes : MonoBehaviour {
      *  @param      string sceneName;   the name of the appropriate scene
      */
 
-    private Text changeLoadingText;
-    
+    public Text changeLoadingText;
 
     public void ChangeScene(string sceneName)
     {
@@ -29,7 +28,7 @@ public class ChangeScenes : MonoBehaviour {
         {
             SceneManager.LoadScene(sceneName);
 
-            //if next scene is LoadingScreen, call GameManager.restartGame()
+            //  if next scene is LoadingScreen, call GameManager.restartGame()
             if (sceneName == "LoadingScreen")
             {
                 GameManager.Instance.restartGame();
@@ -49,9 +48,8 @@ public class ChangeScenes : MonoBehaviour {
         }
     }
 
-
-    //the function to change text
-    public void ChangeLoadingText()
+   //the function to change text
+   public void ChangeLoadingText()
     {
         //changes the text
         changeLoadingText.text = "RETURNING TO MENU...";

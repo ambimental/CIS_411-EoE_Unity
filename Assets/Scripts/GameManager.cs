@@ -16,8 +16,6 @@ using System;
 
 public class GameManager : MonoBehaviour {
 
-
-   
     //  ensures GameManager can be used in all scripts (interact with other game objects)
     private static GameManager _instance = null;
 
@@ -32,7 +30,7 @@ public class GameManager : MonoBehaviour {
         get
         {
             //  check if static GameManager object is null
-            if (_instance == null)
+            if(_instance == null)
             {
                 //  if static object is null, create and add new GameManager object
                 GameObject go = new GameObject("GameManager");
@@ -76,7 +74,6 @@ public class GameManager : MonoBehaviour {
     public Text oneScore;
     public Text twoScore;
     public Text threeScore;
-
     //  button to end turn
     public Button endTurnButton;
 
