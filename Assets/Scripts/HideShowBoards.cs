@@ -66,7 +66,7 @@ public class HideShowBoards : MonoBehaviour {
 
 
         showPlayer = GameObject.Find("Player");
-        GameManager.Instance.playerView = showPlayer; //sets the global variable
+      //  GameManager.Instance.playerView = showPlayer; //sets the global variable
         showCP1 = GameObject.Find("CP1 Board");
         showCP2 = GameObject.Find("CP2 Board");
         showCP3 = GameObject.Find("CP3 Board");
