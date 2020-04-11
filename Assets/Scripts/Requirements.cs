@@ -50,6 +50,30 @@ public class Requirements : MonoBehaviour
 
 public class Reqs
 {
+
+    //this is the idea that Jody and I discussed
+    //public bool r001(Player pPlayer) //5 forest cards, grassland, arid, or Sub-Zero region
+    //{
+    //    pPlayer thePlayer;
+    //    if (pPlayer.GetType() == typeof(Human))
+    //    {
+    //        thePlayer = (Human)pPlayer;
+    //    }
+    //    else
+    //    {
+    //        thePlayer = (Computer)pPlayer;
+    //    }
+    //    int count = 0;
+
+    //    count += thePlayer.ForestCount;
+    //    count += GameManager.Instance.playerGrasslandsCount;
+    //    count += GameManager.Instance.playerAridCount;
+    //    count += GameManager.Instance.playerSubZeroCount;
+
+    //    if (count >= 5)
+    //        return true;
+    //    else return false;
+    //}
     public bool r001() //5 forest cards, grassland, arid, or Sub-Zero region
     {
         int count = 0;
@@ -158,7 +182,7 @@ public class Reqs
     {
         int count = 0;
 
-        for(int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
         {
             if ((GameManager.Instance.PlantPlacement[i].PlantType == "Canopy" || GameManager.Instance.PlantPlacement[i].PlantType == "Understory") && (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta" || GameManager.Instance.PlantPlacement[i].Division == "Coniferophyta"))
                 count++;
@@ -410,8 +434,8 @@ public class Reqs
     {
         if (GameManager.Instance.AnimalPlacement.Count > 0 || GameManager.Instance.PlantPlacement.Count > 0 || GameManager.Instance.InvertebratePlacement.Count > 0 || GameManager.Instance.HumanPlacement.Count > 0)
             return true;
-        
-        for(int i = 0; i < GameManager.Instance.DiscardPlacement.Count; i++)
+
+        for (int i = 0; i < GameManager.Instance.DiscardPlacement.Count; i++)
         {
             if (GameManager.Instance.DiscardPlacement[i].CardType == "Human" || GameManager.Instance.DiscardPlacement[i].CardType == "Animal" || GameManager.Instance.DiscardPlacement[i].CardType == "Plant" || GameManager.Instance.DiscardPlacement[i].CardType == "Invertebrate")
                 return true;
@@ -537,7 +561,7 @@ public class Reqs
     {
         int count = 0;
 
-        for(int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
         {
             if (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta")
                 count++;
@@ -1388,7 +1412,7 @@ public class Reqs
     {
         int count = 0;
 
-        for(int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
         {
             if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
@@ -1669,7 +1693,7 @@ public class Reqs
     {
         int count = 0;
 
-        for(int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
         {
             if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
                 count++;
@@ -1960,7 +1984,7 @@ public class Reqs
     {
         int count = 0;
 
-        for(int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
         {
             if (GameManager.Instance.PlantPlacement[i].AnimalEnvironment == "Aquatic")
                 count++;
@@ -1980,22 +2004,22 @@ public class Reqs
     {
         int count = 0;
 
-        for(int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
         {
             int id = GameManager.Instance.AnimalPlacement[i].ReqID.Count;
 
-            for(int j = 0; j < id; j++) //goes through and checks the requirements of the animals to see if they need running or standing water
+            for (int j = 0; j < id; j++) //goes through and checks the requirements of the animals to see if they need running or standing water
             {
-                if(GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r002" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r137" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r140" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r143" 
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r150" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r154" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r156" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r160" 
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r163" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r166" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r167" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r170" 
+                if (GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r002" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r137" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r140" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r143"
+                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r150" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r154" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r156" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r160"
+                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r163" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r166" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r167" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r170"
                     || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r172"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r173" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r174" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r176" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r180" 
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r188" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r189" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r190" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r191" 
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r192" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r194" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r198" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r199" 
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r202" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r207" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r235" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r145" 
+                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r173" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r174" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r176" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r180"
+                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r188" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r189" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r190" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r191"
+                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r192" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r194" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r198" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r199"
+                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r202" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r207" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r235" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r145"
                     || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r211"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r218" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r222" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r225" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r229" 
+                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r218" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r222" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r225" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r229"
                     || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r231" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r235")
                 {
                     count++;
@@ -2326,7 +2350,7 @@ public class Reqs
     {
         int count = 0;
 
-        for(int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
         {
             if (GameManager.Instance.PlantPlacement[i].PlantType == "Groundcover")
                 count++;
@@ -2671,7 +2695,7 @@ public class Reqs
     {
         int count = 0;
 
-        for(int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
         {
             if (GameManager.Instance.InvertebratePlacement[i].Family == "Aphididae")
                 count++;
@@ -2806,7 +2830,7 @@ public class Reqs
             if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny")
                 count++;
         }
-        for(int i = 0; i < GameManager.Instance.MicrobePlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.MicrobePlacement.Count; i++)
         {
             if (GameManager.Instance.MicrobePlacement[i].AnimalSize == "Tiny")
                 count++;
@@ -2830,7 +2854,7 @@ public class Reqs
     {
         int count = 0;
 
-        for(int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
         {
             if (GameManager.Instance.PlantPlacement[i].Genus.Contains("Sphagnum"))
                 count++;

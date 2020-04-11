@@ -1,10 +1,4 @@
-﻿/*
- *  @class      Card.cs
- *  @puyrpose   Act as card object; store data for individual cards during playtime
- *  
- *  @author     John Georgvich, previous CIS411 group
- *  @date       2020/01/22
- */
+﻿//CARD OBJECT CLASS - USED TO STORE INFO FROM THE DATABASE
 
 using System.Collections;
 using System.Collections.Generic;
@@ -12,10 +6,7 @@ using UnityEngine;
 
 public class Card {
 
-    /// <summary>
-    /// DECLARATION BLOCK
-    ///     This block contains all declarations of card-related information variables.
-    /// </summary>
+    //info from card
     private string cardID;
     private string cardName;
     private string cardType;
@@ -28,7 +19,7 @@ public class Card {
     private string superphylum;
     private string phylum;
     private string subphylum;
-    private string cardClass;
+    private string cardClass;  //cant just be "class" due to errors in code
     private string superclass;
     private string subclass;
     private string superorder;
@@ -62,10 +53,7 @@ public class Card {
 
     private List<string> actionID;
 
-    /// <summary>
-    /// ACCESSOR/MUTATOR BLOCK
-    ///     Contains accessors and mutators for all class variables
-    /// </summary>
+    //Accesor and mutator methods for all variables
     public string CardID { get { return cardID; } set { cardID = value; } }
     public string CardName { get { return cardName; } set { cardName = value; } }
     public string CardType { get { return cardType; } set { cardType = value; } }
@@ -107,12 +95,6 @@ public class Card {
     public List<string> ReqID { get { return reqID; } set { reqID = value; } }
     public List<string> ActionID { get { return actionID; } set { actionID = value; } }
 
-    /// <summary>
-    /// @TODO:
-    ///     Next three functions; fucking why?
-    /// @RESAON:
-    ///     Seriously, why?
-    /// </summary>
     public string StandingAction
     {
         get
@@ -152,11 +134,7 @@ public class Card {
         }
     }
 
-    /*
-     *  @name       Card()
-     *  @purpose    Default constructor for card class
-     */
-    public Card()
+    public Card() //default constructor
     {
         CardID = "";
         CardName = "";
@@ -199,18 +177,12 @@ public class Card {
         actionID = new List<string>();
     }
 
-	/*
-     *  @name       Start()
-     *  @purpose    Initialize the object
-     */
+	// Use this for initialization
 	void Start () {
 		
 	}
 	
-	/*
-     *  @name       Update()
-     *  @purpose    Update the object once per frame
-     */
+	// Update is called once per frame
 	void Update () {
 		
 	}

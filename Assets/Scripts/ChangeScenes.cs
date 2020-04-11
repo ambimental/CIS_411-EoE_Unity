@@ -2,7 +2,7 @@
  *  @class      ChangeScenes
  *  @purpose    handles scene transition between game scenes
  *  
- *  @author     John Georgvich, previous CIS411 group
+ *  @author     CIS 411
  *  @date       2020/01/22
  */
 using System.Collections;
@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ChangeScenes : MonoBehaviour {
+public class ChangeScenes : MonoBehaviour
+{
 
     /*
      *  @name       ChangeScene()

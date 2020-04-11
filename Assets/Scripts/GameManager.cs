@@ -2,8 +2,8 @@
  *  @class      GameManager.cs
  *  @purpose    Manages turn-by-turn game loop and game-critical functions
  *  
- *  @author     John Georgvich, previous CIS411 group
- *  @date       2020/01/22
+ *  @author     CIS411
+ *  @date       2020/04/10
  */
 
 using System.Collections;
@@ -40,26 +40,37 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public bool canDraw = true;
+    //  stores player scores
+    public int playerScore;
+    public int computerOneScore;
+    public int computerTwoScore;
+    public int computerThreeScore;
 
-    //  create playerView and playerCanvas objects
-    public GameObject playerView;
-    public CanvasGroup playerCanvas;
+    //  stores values for round text information
+    //i dont think we will need these becasue we wil update this within the players calss
+    public Text playerRound;
+    public Text oneRound;
+    public Text twoRound;
+    public Text threeRound;
 
-    //  create list to hold Deck IDs
-    public List<string> DeckIds = new List<string>();
+    //  stores values for player score information
+    //we will need these becasue we need to update each UIscore element, not just the one specific to the player 
+    //we will need more of these
+    public Text pScore;
+    public Text oneScore;
+    public Text twoScore;
+    public Text threeScore;
 
-    //  create list to hold individual decks
-    public List<Deck> Decks = new List<Deck>();
+    //this is currently what populated our cards
+    public phpImport importer;
 
-    //  create list to hold player cards in hand
+
+    //these are all here until we figure out the requirements part
     public List<Card> Hand = new List<Card>();
-
-    //  create lists for player card placements
     public List<Card> RegionPlacement = new List<Card>();
     public List<Card> SpecialRegionPlacement = new List<Card>();
     public List<Card> PlantPlacement = new List<Card>();
-    public List<Card> AnimalPlacement= new List<Card>();
+    public List<Card> AnimalPlacement = new List<Card>();
     public List<Card> InvertebratePlacement = new List<Card>();
     public List<Card> MicrobePlacement = new List<Card>();
     public List<Card> HumanPlacement = new List<Card>();
@@ -67,11 +78,8 @@ public class GameManager : MonoBehaviour {
     public List<Card> FungiPlacement = new List<Card>();
     public List<Card> ConditionPlacement = new List<Card>();
     public List<Card> DiscardPlacement = new List<Card>();
-
-    //  create computer one deck, hand
     public List<Deck> cp1Deck = new List<Deck>();
     public List<Card> HandCP1 = new List<Card>();
-
     public List<Card> RegionPlacementCP1 = new List<Card>();
     public List<Card> SpecialRegionPlacementCP1 = new List<Card>();
     public List<Card> PlantPlacementCP1 = new List<Card>();
@@ -83,11 +91,8 @@ public class GameManager : MonoBehaviour {
     public List<Card> FungiPlacementCP1 = new List<Card>();
     public List<Card> ConditionPlacementCP1 = new List<Card>();
     public List<Card> DiscardPlacementCP1 = new List<Card>();
-
-    //  create computer two deck, hand
     public List<Deck> cp2Deck = new List<Deck>();
     public List<Card> HandCP2 = new List<Card>();
-
     public List<Card> RegionPlacementCP2 = new List<Card>();
     public List<Card> SpecialRegionPlacementCP2 = new List<Card>();
     public List<Card> PlantPlacementCP2 = new List<Card>();
@@ -99,11 +104,8 @@ public class GameManager : MonoBehaviour {
     public List<Card> FungiPlacementCP2 = new List<Card>();
     public List<Card> ConditionPlacementCP2 = new List<Card>();
     public List<Card> DiscardPlacementCP2 = new List<Card>();
-
-    //  create computer three deck, hand
     public List<Deck> cp3Deck = new List<Deck>();
     public List<Card> HandCP3 = new List<Card>();
-
     public List<Card> RegionPlacementCP3 = new List<Card>();
     public List<Card> SpecialRegionPlacementCP3 = new List<Card>();
     public List<Card> PlantPlacementCP3 = new List<Card>();
@@ -115,220 +117,51 @@ public class GameManager : MonoBehaviour {
     public List<Card> FungiPlacementCP3 = new List<Card>();
     public List<Card> ConditionPlacementCP3 = new List<Card>();
     public List<Card> DiscardPlacementCP3 = new List<Card>();
-
-    //  placement of deck selection and discard selection
-    public List<Card> DeckSelectionList = new List<Card>();
-    public List<Card> DiscardSelectionList = new List<Card>();
-
-    //  holds deck colors
-    /*
-     *  @TODO:
-     *      break color palettes out into functions (get, set)
-     *  @REASON:
-     *      no declaration in create statement
-     *      
-     *  appalachianColor = tan-ish
-     *  alleghenyColor = green-ish
-     *  clarionRiverColor = gray-ish
-     *  peatBogsColor = maroon-ish
-     */
-    public Color32 appalachianColor = new Color32(166, 135, 82, 128);
-    public Color32 alleghenyColor = new Color32(58, 102, 44, 128);
-    public Color32 clarionRiverColor = new Color32(116, 126, 140, 128);
-    public Color32 peatBogsColor = new Color32(124, 56, 58, 128);
-
-    public Sprite anfTitle;
-    public Sprite ahTitle;
-    public Sprite crTitle;
-    public Sprite pbTitle;
-
-    //  stores selected decks for game
-    public string deckPicked;
-    public string computerOneDeck;
-    public string computerTwoDeck;
-    public string computerThreeDeck;
-
-    //  stores round number
-    public int round;
-
-    //  stores player scores
-    public int playerScore;
-    public int computerOneScore;
-    public int computerTwoScore;
-    public int computerThreeScore;
-
-    //  stores sorting layers
-    public int sortingOrder = 10;
-
-    //  determines win/loss status for human player
-    public bool win;
-    public bool lose;
-
-    //  stores values for round text information
-    public Text playerRound;
-    public Text oneRound;
-    public Text twoRound;
-    public Text threeRound;
-
-    //  stores values for player score information
-    public Text pScore;
-    public Text oneScore;
-    public Text twoScore;
-    public Text threeScore;
-
-    //  placement of cards in-hand for players
-    public Transform cp1Hand;
-    public Transform cp2Hand;
-    public Transform cp3Hand;
-
-    //  object displays card information
-    public GameObject cardInfoPanel; 
-    public Text nameCard;
-    public Text descriptionCard;
-    public Image imageCard;
-    //  determines special action usage basedon card description
-    public Button specialActionButton; 
-
-    //  for @performAction.cs, returns card name
-    public GameObject DraggedCard;
-
-    public Transform cp1AI;
-
-    public phpImport importer;
-
-    //  button to end turn
-    public Button endTurnButton;
-    //  button to use three-card burst ability
-    public Button threeCardBurst;
-
-    //  used when checking deck/discard pile
-    public CheckDeckAndDiscardPlayer check;
-
-    //  used to store parent of selected card location
-    //  set by player actions
-    public Transform pickCardHolder;
-
-    //  displays extinction choices
-    public Image pickExtinction;
-
-    //  specifies whether or not card was discarded when dragging
-    public bool cardDiscarded = false;
-    //  used for the intial draw to determine if there is a region that needs to be drawn
-    /*
-     *  @TODO:
-     *      Refactor this.
-     *  @REASON:
-     *      No declarations in create statements.
-     */
-    public int regionCounter = 0;
-
-    //  used when player selects card to read description
-    //  when false, special action button is unavailable
-    public bool playerActionCanBeUsed = false;
-
-
-    /*
-     *  @TODO:
-     *      Refactor?
-     *  @REASON:
-     *      Conditions should be object independent.
-     */
-    //  canvas for acidic water condition
-    public GameObject AcidicWatersCanvas;
-
-    //  buttons for selecting which user to affect with acidic waters
-    public Button cp1AcidButton; 
-    public Button cp2AcidButton;
-    public Button cp3AcidButton;
-
-    //  text for acidic waters affectation
-    public Text cp1AcidText;
-    public Text cp2AcidText;
-    public Text cp3AcidText;
-
-    /*
-     *  @TODO:
-     *      Refactor.
-     *  @REASON:
-     *      Use flags to determine action/standing action status; not individual variables.
-     */
-    //  necessary variables for actions and standing actions
-    //  extinction flags
     public bool playerProtectedFromExtinction = false;
     public bool cp1ProtectedFromExtinction = false;
     public bool cp2ProtectedFromExtinction = false;
     public bool cp3ProtectedFromExtinction = false;
-
-    //  invasive animal flags
     public bool playerProtectedFromInvasiveAnimal = false;
     public bool cp1ProtectedFromInvasiveAnimal = false;
     public bool cp2ProtectedFromInvasiveAnimal = false;
     public bool cp3ProtectedFromInvasiveAnimal = false;
-
-    //  invasive plant flags
     public bool playerProtectedFromInvasivePlant = false;
     public bool cp1ProtectedFromInvasivePlant = false;
     public bool cp2ProtectedFromInvasivePlant = false;
     public bool cp3ProtectedFromInvasivePlant = false;
-
-    //  condition card flags
     public bool playerNoConditionRequirements = false;
     public bool cp1NoConditionRequirements = false;
     public bool cp2NoConditionRequirements = false;
     public bool cp3NoConditionRequirements = false;
-
-    //  blight protection flags
     public bool playerProtectedFromBlight = false;
     public bool cp1ProtectedFromBlight = false;
     public bool cp2ProtectedFromBlight = false;
     public bool cp3ProtectedFromBlight = false;
-
-    //  turn pause flags
     public bool playerPausedOneTurn = false;
     public bool cp1PausedOneTurn = false;
     public bool cp2PausedOneTurn = false;
     public bool cp3PausedOneTurn = false;
-
-    //  web of life protection flags
     public bool playerProtectedFromWeb = false;
     public bool cp1ProtectedFromWeb = false;
     public bool cp2ProtectedFromWeb = false;
     public bool cp3ProtectedFromWeb = false;
-
-    //  no discard flags
     public bool playerNoDiscard = false;
     public bool cp1NoDiscard = false;
     public bool cp2NoDiscard = false;
     public bool cp3NoDiscard = false;
-
-    //  extra draw flags
     public bool playerDrawExtraCard = false;
     public bool cp1DrawExtraCard = false;
     public bool cp2DrawExtraCard = false;
     public bool cp3DrawExtraCard = false;
-
-    //  all player ecosystems connected flag
     public bool ecosystemsConnected = false;
-
-    //  discard 20 point card protection flags
     public bool playerTwentyPointNoDiscard = false;
     public bool cp1TwentyPointNoDiscard = false;
     public bool cp2TwentyPointNoDiscard = false;
     public bool cp3TwentyPointNoDiscard = false;
-
-    //  invasive invertibrate flags
     public bool playerProtectedFromInvertebrate = false;
     public bool cp1ProtectedFromInvertebrate = false;
     public bool cp2ProtectedFromInvertebrate = false;
     public bool cp3ProtectedFromInvertebrate = false;
-
-    /*
-     *  @TODO:
-     *      Refactor.
-     *  @REASON:
-     *      Region counts can be accessed from player/CP objects?
-     */
-    //  lists human player region individual/total counts
     public int playerAridCount = 0;
     public int playerForestCount = 0;
     public int playerGrasslandsCount = 0;
@@ -338,8 +171,6 @@ public class GameManager : MonoBehaviour {
     public int playerSubZeroCount = 0;
     public int playerMountainRange = 0;
     public int playerTotalRegions = 0;
-
-    //  lists computer one player region individual/total counts
     public int cp1AridCount = 0; 
     public int cp1ForestCount = 0;
     public int cp1GrasslandsCount = 0;
@@ -349,8 +180,6 @@ public class GameManager : MonoBehaviour {
     public int cp1SubZeroCount = 0;
     public int cp1MountainRange = 0;
     public int cp1TotalRegions = 0;
-
-    //  lists computer two player region individual/total counts
     public int cp2AridCount = 0;
     public int cp2ForestCount = 0;
     public int cp2GrasslandsCount = 0;
@@ -360,8 +189,6 @@ public class GameManager : MonoBehaviour {
     public int cp2SubZeroCount = 0;
     public int cp2MountainRange = 0;
     public int cp2TotalRegions = 0;
-
-    //  lists computer three player region individual/total counts
     public int cp3AridCount = 0;
     public int cp3ForestCount = 0;
     public int cp3GrasslandsCount = 0;
@@ -372,11 +199,50 @@ public class GameManager : MonoBehaviour {
     public int cp3MountainRange = 0;
     public int cp3TotalRegions = 0;
 
-    public int playerDrawCount = 0;
+
+    private bool firstRound;
+    /*****************************************************************************/
+    /*****************************************************************************/
+    /*EVERYTHING BELPOW HERE REGAURDING OBJECTS AND VARIABLES WILL DEFINATELY BE 
+     * STAYING IN THE GAME MANAGER CLASS, EVERYTHING ABOVE WILL PROBABLY BE DELETED
+     */
+    /*****************************************************************************/
+    /*****************************************************************************/
+    
+        //  create list to hold Deck IDs
+    public List<string> DeckIds = new List<string>();
+    //  create list to hold individual decks until they are assigned to players
+    public List<Deck> Decks = new List<Deck>();
+
+    //  stores round number
+    public int round;
+
+    //  stores sorting layers used throughout different classes to display objects in front of everything
+    public int sortingOrder = 10;
+
+    //  determines win/loss status for human player
+    public bool win;
+    public bool lose;
+
+    /*these are what are needed to create the player objects
+     the GameObject is what is created the add a compenent to
+     the Class object is what the game compentent is assigned to its just the way unity makes you do it*/
+    private GameObject personGO;
+    private Human person;
+    private GameObject cP1GO;
+    private Computer cP1;
+    private GameObject cP2GO;
+    private Computer cP2;
+    private GameObject cP3GO;
+    private Computer cP3;
+
+    //this is to be able to hide and show the boards
+    private GameObject hideShowGO;
+    private HideShowBoards hideShow;
 
     /*
      *  @name       Awake()
-     *  @purpose    start Unity framework; ensure GameManager instance is not destoryed on scene load
+     *  @purpose    
      */
     public void Awake()
     {
@@ -389,6 +255,70 @@ public class GameManager : MonoBehaviour {
      *  @purpose    initialize GameManager object 
      */
     void Start () {
+        
+        CreateDecks();
+
+        //populates decks
+        gameObject.AddComponent<phpImport>();
+
+        //  sets initial round number
+        round = 1;
+        firstRound = true;
+
+        //this is how we inialize objects
+        //initializing Human Person Player
+        PersonGO = new GameObject("Person");
+        PersonGO.AddComponent<Human>();
+        Person = GameObject.Find("Person").GetComponent<Human>();
+        Person.InitializeObjects("PlayerScoreText", "PlayerRoundText", "Hand", "Region Card Placement",
+            "Condition Card Placement", "Plant Card Placement", "Invertebrate Card Placement",
+            "Animal Card Placement", "Special Region Placement", "Multiplayer Card Placement",
+            "Microbe Card Placement", "Fungi Card Placement", "Discard Pile Placement", "Human Card Placement", "PlayerColor",
+            "PlayerDeckText");
+
+        //Initilizing CP1 Player
+        CP1GO = new GameObject("CP1");
+        CP1GO.AddComponent<Computer>();
+        CP1 = GameObject.Find("CP1").GetComponent<Computer>();
+        CP1.InitializeObjects("Computer One Board/ComputerOneScoreText", "Computer One Board/ComputerOneRoundText", "Computer One Board/CP1Hand", "Computer One Board/Region Card Placement",
+            "Computer One Board/Condition Card Placement", "Computer One Board/Plant Card Placement", "Computer One Board/Invertebrate Card Placement", 
+            "Computer One Board/Animal Card Placement", "Computer One Board/Special Region Placement", "Computer One Board/Multiplayer Card Placement", 
+            "Computer One Board/Microbe Card Placement", "Computer One Board/Fungi Card Placement", "Computer One Board/Discard Pile Placement", "Computer One Board/Human Card Placement",
+            "CP1Color","CP1DeckText");
+
+        //Initilizing CP2 Player
+        CP2GO = new GameObject("CP2");
+        CP2GO.AddComponent<Computer>();
+        CP2 = GameObject.Find("CP2").GetComponent<Computer>();
+        CP2.InitializeObjects("Computer Two Board/ComputerTwoScoreText", "Computer Two Board/ComputerTwoRoundText", "Computer Two Board/CP2Hand", "Computer Two Board/Region Card Placement",
+            "Computer Two Board/Condition Card Placement", "Computer Two Board/Plant Card Placement", "Computer Two Board/Invertebrate Card Placement",
+            "Computer Two Board/Animal Card Placement", "Computer Two Board/Special Region Placement", "Computer Two Board/Multiplayer Card Placement",
+            "Computer Two Board/Microbe Card Placement", "Computer Two Board/Fungi Card Placement", "Computer Two Board/Discard Pile Placement", "Computer Two Board/Human Card Placement",
+            "CP2Color", "CP2DeckText");
+
+        //Initilizing CP3 Player
+        CP3GO = new GameObject("CP3");
+        CP3GO.AddComponent<Computer>();
+        CP3 = GameObject.Find("CP3").GetComponent<Computer>();
+        CP3.InitializeObjects("Computer Three Board/ComputerThreeScoreText", "Computer Three Board/ComputerThreeRoundText", "Computer Three Board/CP3Hand", "Computer Three Board/Region Card Placement",
+            "Computer Three Board/Condition Card Placement", "Computer Three Board/Plant Card Placement", "Computer Three Board/Invertebrate Card Placement",
+            "Computer Three Board/Animal Card Placement", "Computer Three Board/Special Region Placement", "Computer Three Board/Multiplayer Card Placement",
+            "Computer Three Board/Microbe Card Placement", "Computer Three Board/Fungi Card Placement", "Computer Three Board/Discard Pile Placement", "Computer Three Board/Human Card Placement",
+            "CP3Color", "CP3DeckText");
+
+        //hard codes deck for now
+        Person.Deck = Decks[0];
+        CP1.Deck = Decks[1];
+        CP2.Deck = Decks[2];
+        CP3.Deck = Decks[3];
+    }
+
+        /*
+     *  @name       CreateDecks()
+     *  @purpose    Hard code deck IDs to a list then creates a deck and adds it to deck list with an id associated with it
+     */
+    public void CreateDecks()
+    {
         //  adds individual deck IDs to list
         DeckIds.Add("D001");
         DeckIds.Add("D002");
@@ -406,13 +336,61 @@ public class GameManager : MonoBehaviour {
             Decks.Add(deck);
         }
 
-        //  ???
-        gameObject.AddComponent<phpImport>();
-
-        //  sets initial round number
-        round = 1;
     }
-    
+
+
+    //this is kind of a temporary start function for the player that needs worked out but functions for now
+    public void StuffForLater()
+    {
+        //i have the hide show here for now becasue at this point the playerboard scene has already been created
+        //creates hide show boards object
+        
+        //this is temporary but its so we dont remake objects and get erros
+        if (FirstRound == true)
+        {
+            HideShowGO = new GameObject("HideShow");
+            HideShowGO.AddComponent<HideShowBoards>();
+            HideShow = GameObject.Find("HideShow").GetComponent<HideShowBoards>();
+        }
+
+        Person.StartTurn();
+        
+        //Cursor.visible = false; //hides the mouse from the user
+        //Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor
+    }
+
+    public void StartComputerLoop()
+    {
+        Cursor.visible = false; //hides the mouse from the user
+        Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor     
+        //CP1
+        HideShow.ShowCP1();
+        CP1.StartTurn();
+        for (int i = 0; i < 100; i++) { }
+        //CP2
+        HideShow.ShowCP2();
+        CP2.StartTurn();
+        for (int i = 0; i < 100; i++) { }
+        //CP3
+        HideShow.ShowCP3();
+        CP3.StartTurn();
+        for (int i = 0; i < 100; i++) { }
+        //Back to player
+        Cursor.visible = true; //hides the mouse from the user
+        Cursor.lockState = CursorLockMode.None; //you cannot use the cursor  
+        HideShow.ShowPlayer();
+        //CP2.Begin turn or whatever
+        //some function that updates all scores to current canvas
+        //ShowCP3()
+        //CP# begin turn or whatever
+        //some function that updates all scores to current canvas
+        //ShowPlayer
+        //increase round
+        //if round 10 win lose
+        //restart the game
+    }
+
+
     /*
      *  @name       winOrLose
      *  @purpose    determines whether the human player has won or lost
@@ -420,7 +398,7 @@ public class GameManager : MonoBehaviour {
     public void winOrLose()
     {
         //  if human playerScore is less than computer player scores
-        if(playerScore < computerOneScore || playerScore < computerTwoScore || playerScore < computerThreeScore)
+        if (playerScore < computerOneScore || playerScore < computerTwoScore || playerScore < computerThreeScore)
         {
             //  set lose to true
             lose = true;
@@ -428,7 +406,7 @@ public class GameManager : MonoBehaviour {
             win = false;
 
             //  load game-lose screen
-            SceneManager.LoadScene("LoseScene"); 
+            SceneManager.LoadScene("LoseScene");
         }
         else
         {
@@ -467,10 +445,8 @@ public class GameManager : MonoBehaviour {
      *  @name       changeRound()
      *  @purpose    progress game across round numbers
      */
-    public void changeRound()
+    public void UpdateRound()
     {
-        //  set player discard value to false, requiring discard
-        cardDiscarded = false;
 
         //  check if round number is not 10
         if (round != 10)
@@ -483,204 +459,24 @@ public class GameManager : MonoBehaviour {
             playerRound.text = round.ToString();
         }
         //  if round number is 10
-        else if ( round == 10)
+        else if (round == 10)
         {
             //  end game; see winOrLose()
             winOrLose();
         }
     }
 
-    /*
-     *  @name       changePlayerScore()
-     *  @purpose    update player score when point-bearing cards are played
-     *  
-     *  @param      int score;  specifies the amount of points to be added to player score
-     */
-    public void changePlayerScore(int score)
-    {
-        //  adds integer parameter to existing score
-        playerScore = playerScore + score;
-
-        //  updates score text
-        pScore = GameObject.Find("PlayerScoreText").GetComponent<Text>();
-        pScore.text = playerScore.ToString();
-    }
-
-    /*
-     *  @name       changeComputerOneScore()
-     *  @purpose    update computer player score when point-bearing cards are played
-     *  
-     *  @param      int score;  specifies the amount of points to be added to computer one player score
-     */
-    public void changeComputerOneScore(int score)
-    {
-        //  adds integer parameter to existing score
-        computerOneScore = computerOneScore + score;
-
-        //  updates score text
-        oneScore = GameObject.Find("ComputerOneScoreText").GetComponent<Text>();
-        oneScore.text = computerOneScore.ToString();
-    }
-
-    /*
-     *  @name       changeComputerTwoScore()
-     *  @purpose    update computer player score when point-bearing cards are played
-     *  
-     *  @param      int score;  specifies the amount of points to be added to computer player two score
-     */
-    public void changeComputerTwoScore(int score)
-    {
-        //  adds integer parameter to existing score
-        computerTwoScore = computerTwoScore + score;
-
-        //  updates score text
-        twoScore = GameObject.Find("ComputerTwoScoreText").GetComponent<Text>();
-        twoScore.text = computerTwoScore.ToString();
-    }
-
-    /*
-     *  @name       changeComputerThreeScore()
-     *  @purpose    update computer player score when points-bearing cards are played
-     *  
-     *  @param      int score;  specifies the amount of points to be added to computer player three score
-     */
-    public void changeComputerThreeScore(int score)
-    {
-        //  adds integer parameter to existing score
-        computerThreeScore = computerThreeScore + score;
-
-        //  updates score text
-        threeScore = GameObject.Find("ComputerThreeScoreText").GetComponent<Text>();
-        threeScore.text = computerThreeScore.ToString();
-    }
-
-    /*
-     *  @name       enableTurnButton()
-     *  @purpose    enables button used to end turn
-     */
-    public void enableTurnButton()
-    {
-        endTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
-        endTurnButton.interactable = true;
-    }
-
-    /*
-     *  @name       disableTurnButton()
-     *  @purpose    disables button used to end turn
-     */
-    public void disableTurnButton()
-    {
-        endTurnButton.interactable = false;
-    }
-
-    /*
-     *  @name       makeButtonInvisible()
-     *  @purpose    makes end-turn button invisible
-     */
-    public void makeButtonInvisible()
-    {
-        endTurnButton.gameObject.SetActive(false);
-    }
-
-    /*
-     *  @name       makeButtonVisible()
-     *  @purpose    makes end-turn button visible
-     */
-    public void makeButtonVisible()
-    {
-        endTurnButton.gameObject.SetActive(true);
-    }
-
-    /*
-     *  @name       getPlayerTotalRegions()
-     *  @purpose    returns human player region totals
-     *  
-     *  @return     int total;  total amount of regions human player has played
-     */
-    public int getPlayerTotalRegions()
-    {
-        int total = 0;
-
-        //  human player region totals
-        total += playerAridCount;
-        total += playerGrasslandsCount;
-        total += playerForestCount;
-        total += playerRunningWaterCount;
-        total += playerStandingWaterCount;
-        total += playerSaltWaterCount;
-        total += playerSubZeroCount;
-        total += playerMountainRange;
-
-        return total;
-    }
-
-    /*
-     *  @name       getCP1TotalRegions()
-     *  @purpose    returns computer one region totals
-     *  
-     *  @return     int total; total amount of regions computer player one has played
-     */
-    public int getCP1TotalRegions()
-    {
-        int total = 0;
-
-        //  computer player region totals
-        total += cp1AridCount;
-        total += cp1GrasslandsCount;
-        total += cp1ForestCount;
-        total += cp1RunningWaterCount;
-        total += cp1StandingWaterCount;
-        total += cp1SaltWaterCount;
-        total += cp1SubZeroCount;
-        total += cp1MountainRange;
-
-        return total;
-    }
-
-    /*
-     *  @name       getCP2TotalRegions()
-     *  @purpose    returns computer two region totals
-     *  
-     *  @return     int total;  total amount of regions computer player two has played
-     */
-    public int getCP2TotalRegions()
-    {
-        int total = 0;
-
-        //  computer player region totals
-        total += cp2AridCount;
-        total += cp2GrasslandsCount;
-        total += cp2ForestCount;
-        total += cp2RunningWaterCount;
-        total += cp2StandingWaterCount;
-        total += cp2SaltWaterCount;
-        total += cp2SubZeroCount;
-        total += cp2MountainRange;
-
-        return total;
-    }
-
-    /*
-     *  @name       getCP3TotalRegions()
-     *  @purpose    returns computer player three region tools
-     *  
-     *  @return     int total;  total amount of regions computer player three has played
-     */
-    public int getCP3TotalRegions()
-    {
-        int total = 0;
-
-        //  computer player region totals
-        total += cp3AridCount;
-        total += cp3GrasslandsCount;
-        total += cp3ForestCount;
-        total += cp3RunningWaterCount;
-        total += cp3StandingWaterCount;
-        total += cp3SaltWaterCount;
-        total += cp3SubZeroCount;
-        total += cp3MountainRange;
-
-        return total;
-    }
+    //accessors and mutators
+    public GameObject PersonGO { get => personGO; set => personGO = value; }
+    public Human Person { get => person; set => person = value; }
+    public GameObject CP1GO { get => cP1GO; set => cP1GO = value; }
+    public Computer CP1 { get => cP1; set => cP1 = value; }
+    public GameObject CP2GO { get => cP2GO; set => cP2GO = value; }
+    public Computer CP2 { get => cP2; set => cP2 = value; }
+    public GameObject CP3GO { get => cP3GO; set => cP3GO = value; }
+    public Computer CP3 { get => cP3; set => cP3 = value; }
+    public GameObject HideShowGO { get => hideShowGO; set => hideShowGO = value; }
+    public HideShowBoards HideShow { get => hideShow; set => hideShow = value; }
+    public bool FirstRound { get => firstRound; set => firstRound = value; }
 }
 
