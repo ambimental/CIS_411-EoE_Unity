@@ -40,27 +40,6 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    //  stores player scores
-    public int playerScore;
-    public int computerOneScore;
-    public int computerTwoScore;
-    public int computerThreeScore;
-
-    //  stores values for round text information
-    //i dont think we will need these becasue we wil update this within the players calss
-    public Text playerRound;
-    public Text oneRound;
-    public Text twoRound;
-    public Text threeRound;
-
-    //  stores values for player score information
-    //we will need these becasue we need to update each UIscore element, not just the one specific to the player 
-    //we will need more of these
-    public Text pScore;
-    public Text oneScore;
-    public Text twoScore;
-    public Text threeScore;
-
     //this is currently what populated our cards
     public phpImport importer;
 
@@ -200,7 +179,6 @@ public class GameManager : MonoBehaviour {
     public int cp3TotalRegions = 0;
 
 
-    private bool firstRound;
     /*****************************************************************************/
     /*****************************************************************************/
     /*EVERYTHING BELPOW HERE REGAURDING OBJECTS AND VARIABLES WILL DEFINATELY BE 
@@ -210,19 +188,15 @@ public class GameManager : MonoBehaviour {
     /*****************************************************************************/
     
         //  create list to hold Deck IDs
-    public List<string> DeckIds = new List<string>();
+    private List<string> deckIds = new List<string>();
     //  create list to hold individual decks until they are assigned to players
-    public List<Deck> Decks = new List<Deck>();
+    private List<Deck> decks = new List<Deck>();
 
     //  stores round number
-    public int round;
+    private int round;
 
     //  stores sorting layers used throughout different classes to display objects in front of everything
-    public int sortingOrder = 10;
-
-    //  determines win/loss status for human player
-    public bool win;
-    public bool lose;
+    private int sortingOrder = 10;
 
     /*these are what are needed to create the player objects
      the GameObject is what is created the add a compenent to
@@ -256,55 +230,60 @@ public class GameManager : MonoBehaviour {
      */
     void Start () {
         
+        //populates DeckId Class and then creates decks and polpulates the decklist
         CreateDecks();
 
-        //populates decks
+        //populates decks in deck list
         gameObject.AddComponent<phpImport>();
 
         //  sets initial round number
-        round = 1;
-        firstRound = true;
+        Round = 1;
 
         //this is how we inialize objects
         //initializing Human Person Player
         PersonGO = new GameObject("Person");
         PersonGO.AddComponent<Human>();
         Person = GameObject.Find("Person").GetComponent<Human>();
-        Person.InitializeObjects("PlayerScoreText", "PlayerRoundText", "Hand", "Region Card Placement",
-            "Condition Card Placement", "Plant Card Placement", "Invertebrate Card Placement",
-            "Animal Card Placement", "Special Region Placement", "Multiplayer Card Placement",
-            "Microbe Card Placement", "Fungi Card Placement", "Discard Pile Placement", "Human Card Placement", "PlayerColor",
-            "PlayerDeckText");
+        Person.InitializeObjects("PlayerScoreText", "PlayerRoundText", "Hand", "Region Card Placement", "Condition Card Placement", 
+            "Plant Card Placement", "Invertebrate Card Placement", "Animal Card Placement", "Special Region Placement", "Multiplayer Card Placement",
+            "Microbe Card Placement", "Fungi Card Placement", "Discard Pile Placement", "Human Card Placement", "PlayerColor", "PlayerDeckText", 
+            "PlayerScoreText", "ComputerOneScoreText", "ComputerTwoScoreText", "ComputerThreeScoreText");
 
         //Initilizing CP1 Player
         CP1GO = new GameObject("CP1");
         CP1GO.AddComponent<Computer>();
         CP1 = GameObject.Find("CP1").GetComponent<Computer>();
-        CP1.InitializeObjects("Computer One Board/ComputerOneScoreText", "Computer One Board/ComputerOneRoundText", "Computer One Board/CP1Hand", "Computer One Board/Region Card Placement",
-            "Computer One Board/Condition Card Placement", "Computer One Board/Plant Card Placement", "Computer One Board/Invertebrate Card Placement", 
-            "Computer One Board/Animal Card Placement", "Computer One Board/Special Region Placement", "Computer One Board/Multiplayer Card Placement", 
-            "Computer One Board/Microbe Card Placement", "Computer One Board/Fungi Card Placement", "Computer One Board/Discard Pile Placement", "Computer One Board/Human Card Placement",
-            "CP1Color","CP1DeckText");
+        CP1.InitializeObjects("Computer One Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer One Board/Main Images and Placements/ComputerOneRoundText", 
+            "Computer One Board/CP1Hand", "Computer One Board/Region Card Placement", "Computer One Board/Condition Card Placement", "Computer One Board/Plant Card Placement", 
+            "Computer One Board/Invertebrate Card Placement", "Computer One Board/Animal Card Placement", "Computer One Board/Special Region Placement", 
+            "Computer One Board/Multiplayer Card Placement", "Computer One Board/Microbe Card Placement", "Computer One Board/Fungi Card Placement", 
+            "Computer One Board/Discard Pile Placement", "Computer One Board/Human Card Placement", "CP1Color", "CP1DeckText", "Computer One Board/Main Images and Placements/PlayerButton/PlayerScoreText",
+            "Computer One Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer One Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
+            "Computer One Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText");
 
         //Initilizing CP2 Player
         CP2GO = new GameObject("CP2");
         CP2GO.AddComponent<Computer>();
         CP2 = GameObject.Find("CP2").GetComponent<Computer>();
-        CP2.InitializeObjects("Computer Two Board/ComputerTwoScoreText", "Computer Two Board/ComputerTwoRoundText", "Computer Two Board/CP2Hand", "Computer Two Board/Region Card Placement",
-            "Computer Two Board/Condition Card Placement", "Computer Two Board/Plant Card Placement", "Computer Two Board/Invertebrate Card Placement",
-            "Computer Two Board/Animal Card Placement", "Computer Two Board/Special Region Placement", "Computer Two Board/Multiplayer Card Placement",
-            "Computer Two Board/Microbe Card Placement", "Computer Two Board/Fungi Card Placement", "Computer Two Board/Discard Pile Placement", "Computer Two Board/Human Card Placement",
-            "CP2Color", "CP2DeckText");
+        CP2.InitializeObjects("Computer Two Board/ComputerTwoScoreText", "Computer Two Board/Main Images and Placements/ComputerTwoRoundText", "Computer Two Board/CP2Hand", 
+            "Computer Two Board/Region Card Placement", "Computer Two Board/Condition Card Placement", "Computer Two Board/Plant Card Placement", 
+            "Computer Two Board/Invertebrate Card Placement", "Computer Two Board/Animal Card Placement", "Computer Two Board/Special Region Placement",
+            "Computer Two Board/Multiplayer Card Placement", "Computer Two Board/Microbe Card Placement", "Computer Two Board/Fungi Card Placement", 
+            "Computer Two Board/Discard Pile Placement", "Computer Two Board/Human Card Placement", "CP2Color", "CP2DeckText", "Computer Two Board/Main Images and Placements/PlayerButton/PlayerScoreText",
+            "Computer Two Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Two Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
+            "Computer Two Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText");
 
         //Initilizing CP3 Player
         CP3GO = new GameObject("CP3");
         CP3GO.AddComponent<Computer>();
         CP3 = GameObject.Find("CP3").GetComponent<Computer>();
-        CP3.InitializeObjects("Computer Three Board/ComputerThreeScoreText", "Computer Three Board/ComputerThreeRoundText", "Computer Three Board/CP3Hand", "Computer Three Board/Region Card Placement",
-            "Computer Three Board/Condition Card Placement", "Computer Three Board/Plant Card Placement", "Computer Three Board/Invertebrate Card Placement",
-            "Computer Three Board/Animal Card Placement", "Computer Three Board/Special Region Placement", "Computer Three Board/Multiplayer Card Placement",
-            "Computer Three Board/Microbe Card Placement", "Computer Three Board/Fungi Card Placement", "Computer Three Board/Discard Pile Placement", "Computer Three Board/Human Card Placement",
-            "CP3Color", "CP3DeckText");
+        CP3.InitializeObjects("Computer Three Board/ComputerThreeScoreText", "Computer Three Board/Main Images and Placements/ComputerThreeRoundText", "Computer Three Board/CP3Hand", 
+            "Computer Three Board/Region Card Placement", "Computer Three Board/Condition Card Placement", "Computer Three Board/Plant Card Placement", 
+            "Computer Three Board/Invertebrate Card Placement", "Computer Three Board/Animal Card Placement", "Computer Three Board/Special Region Placement", 
+            "Computer Three Board/Multiplayer Card Placement", "Computer Three Board/Microbe Card Placement", "Computer Three Board/Fungi Card Placement", 
+            "Computer Three Board/Discard Pile Placement", "Computer Three Board/Human Card Placement", "CP3Color", "CP3DeckText", "Computer Three Board/Main Images and Placements/PlayerButton/PlayerScoreText",
+            "Computer Three Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText",
+            "Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText");
 
         //hard codes deck for now
         Person.Deck = Decks[0];
@@ -335,59 +314,59 @@ public class GameManager : MonoBehaviour {
             //  add newly created deck to Deck list
             Decks.Add(deck);
         }
-
     }
 
 
-    //this is kind of a temporary start function for the player that needs worked out but functions for now
-    public void StuffForLater()
+    /*
+     *  @name       StartHumanTurn()
+     *  @purpose   Starts teh human turn
+     */
+    public void StartHumanTurn()
     {
         //i have the hide show here for now becasue at this point the playerboard scene has already been created
-        //creates hide show boards object
-        
+        //creates hide show boards object     
         //this is temporary but its so we dont remake objects and get erros
-        if (FirstRound == true)
-        {
             HideShowGO = new GameObject("HideShow");
             HideShowGO.AddComponent<HideShowBoards>();
             HideShow = GameObject.Find("HideShow").GetComponent<HideShowBoards>();
-        }
 
+        //updates all the scores on the UI of that canvas
+        Person.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
         Person.StartTurn();
-        
-        //Cursor.visible = false; //hides the mouse from the user
-        //Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor
     }
 
     public void StartComputerLoop()
     {
         Cursor.visible = false; //hides the mouse from the user
         Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor     
-        //CP1
+       
         HideShow.ShowCP1();
+        //makes sure all scores on the canvas are up to date
+        CP1.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
         CP1.StartTurn();
-        for (int i = 0; i < 100; i++) { }
         //CP2
         HideShow.ShowCP2();
+        //makes sure all scores on the canvas are up to date
+        CP2.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
         CP2.StartTurn();
-        for (int i = 0; i < 100; i++) { }
         //CP3
         HideShow.ShowCP3();
+        //makes sure all scores on the canvas are up to date
+        CP3.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
         CP3.StartTurn();
-        for (int i = 0; i < 100; i++) { }
         //Back to player
-        Cursor.visible = true; //hides the mouse from the user
-        Cursor.lockState = CursorLockMode.None; //you cannot use the cursor  
+
+        //shows mouse
+        Cursor.visible = true; 
+        //enables mouse
+        Cursor.lockState = CursorLockMode.None;
+
+        //change the round
+        //UpdateRound();
+        Round++;
+
+        //returns to players screen
         HideShow.ShowPlayer();
-        //CP2.Begin turn or whatever
-        //some function that updates all scores to current canvas
-        //ShowCP3()
-        //CP# begin turn or whatever
-        //some function that updates all scores to current canvas
-        //ShowPlayer
-        //increase round
-        //if round 10 win lose
-        //restart the game
     }
 
 
@@ -398,35 +377,26 @@ public class GameManager : MonoBehaviour {
     public void winOrLose()
     {
         //  if human playerScore is less than computer player scores
-        if (playerScore < computerOneScore || playerScore < computerTwoScore || playerScore < computerThreeScore)
+        if (Person.Score < CP1.Score || Person.Score < CP2.Score || Person.Score < CP3.Score)
         {
-            //  set lose to true
-            lose = true;
-            //  set win to false
-            win = false;
-
             //  load game-lose screen
             SceneManager.LoadScene("LoseScene");
         }
         else
         {
-            //  set win to true
-            win = true;
-            //  set lose to false
-            lose = false;
-
             //  load game-win screen
             SceneManager.LoadScene("WinScene");
         }
 
         //  resets round number
-        round = 1;
+        Round = 1;
 
         //  clear human and computer player hands
         Hand.Clear();
         HandCP1.Clear();
         HandCP2.Clear();
         HandCP3.Clear();
+        restartGame();
     }
 
     /*
@@ -447,19 +417,14 @@ public class GameManager : MonoBehaviour {
      */
     public void UpdateRound()
     {
-
         //  check if round number is not 10
-        if (round != 10)
+        if (Round != 10)
         {
             //  increment round number
-            round++;
-
-            //  update round text
-            playerRound = GameObject.Find("PlayerRoundText").GetComponent<Text>();
-            playerRound.text = round.ToString();
+            Round++;
         }
         //  if round number is 10
-        else if (round == 10)
+        else if (Round == 10)
         {
             //  end game; see winOrLose()
             winOrLose();
@@ -477,6 +442,9 @@ public class GameManager : MonoBehaviour {
     public Computer CP3 { get => cP3; set => cP3 = value; }
     public GameObject HideShowGO { get => hideShowGO; set => hideShowGO = value; }
     public HideShowBoards HideShow { get => hideShow; set => hideShow = value; }
-    public bool FirstRound { get => firstRound; set => firstRound = value; }
+    public int Round { get => round; set => round = value; }
+    public int SortingOrder { get => sortingOrder; set => sortingOrder = value; }
+    public List<string> DeckIds { get => deckIds; set => deckIds = value; }
+    public List<Deck> Decks { get => decks; set => decks = value; }
 }
 

@@ -675,8 +675,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         //to make sure there are no sorting issues so that the cards are positioned properly, always amakes sure what ever object
         //uses sorting order is being placed on the very top
-        DraggedInstance.GetComponent<SpriteRenderer>().sortingOrder = GameManager.Instance.sortingOrder;
-        GameManager.Instance.sortingOrder++;
+        DraggedInstance.GetComponent<SpriteRenderer>().sortingOrder = GameManager.Instance.SortingOrder;
+        GameManager.Instance.SortingOrder++;
 
         DraggedInstance = null; //drops object
         //resets dragging values
@@ -700,6 +700,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
     }
+
 
     /*
       * @name    outOfCards

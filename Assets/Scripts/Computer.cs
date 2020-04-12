@@ -21,14 +21,14 @@ public class Computer : Player
      */
     public void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject,
         string pPlantGameObject, string pInvertebrateGameObject, string pAnimalGameObject, string pSpecialRegionGameObject, string pMultiplayerGameObject,
-        string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject,
-        string pDeckTextGameObject)
+        string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject, string pDeckTextGameObject,
+        string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject)
     {
         //gets base parent class info
         base.InitializeObjects(pScoreGameObject, pRoundGameObject, pHandGameObject, pRegionGameObject, pConditionGameObject,
         pPlantGameObject, pInvertebrateGameObject, pAnimalGameObject, pSpecialRegionGameObject, pMultiplayerGameObject,
-        pMicrobeGameObject, pFungiGameObject, pDiscardGameObject, pHumanGameObject, pDeckColorGameObject,
-        pDeckTextGameObject);
+        pMicrobeGameObject, pFungiGameObject, pDiscardGameObject, pHumanGameObject, pDeckColorGameObject, pDeckTextGameObject,
+        pHumanScoreGameObject, pCP1ScoreGameObject, pCP2ScoreGameObject, pCP3ScoreGameObject);
         //info specific to computers
         CurrentPlayer = this;
         RequirementsWork = false;
@@ -45,7 +45,7 @@ public class Computer : Player
         //execute parent method
         base.StartTurn();
         //if it is the first round then deal 5 cards automatically
-        if (GameManager.Instance.round == 1) //only happens in the first round
+        if (Round == 1) //only happens in the first round
         {
             Draw(5);
         }
@@ -124,7 +124,7 @@ public class Computer : Player
         //for (int z = Hand.Count - 1; z > -1; z--) //done this way to avoid exception
         //{
             //i believe this is jsut to slow things down and create time
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 200; i++)
             {
                 yield return null;
             }

@@ -39,14 +39,14 @@ public class Human : Player
  */
     public void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject,
         string pPlantGameObject, string pInvertebrateGameObject, string pAnimalGameObject, string pSpecialRegionGameObject, string pMultiplayerGameObject,
-        string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject,
-        string pDeckTextGameObject)
+        string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject, string pDeckTextGameObject,
+        string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject)
     {
         //gets base parent class info
         base.InitializeObjects(pScoreGameObject, pRoundGameObject, pHandGameObject, pRegionGameObject, pConditionGameObject,
         pPlantGameObject, pInvertebrateGameObject, pAnimalGameObject, pSpecialRegionGameObject, pMultiplayerGameObject,
-        pMicrobeGameObject, pFungiGameObject, pDiscardGameObject, pHumanGameObject, pDeckColorGameObject,
-        pDeckTextGameObject);
+        pMicrobeGameObject, pFungiGameObject, pDiscardGameObject, pHumanGameObject, pDeckColorGameObject, pDeckTextGameObject,
+        pHumanScoreGameObject, pCP1ScoreGameObject, pCP2ScoreGameObject, pCP3ScoreGameObject);
         //info specific to human
         CurrentPlayer = this;
         CanDraw = true;
@@ -66,14 +66,17 @@ public class Human : Player
         Physics.queriesHitTriggers = true;
         drawText = GameObject.Find("DrawText").GetComponent<Text>(); //gets the text component so it can be changed
         //if it is the first round then deal 5 cards automatically
-        if (GameManager.Instance.round == 1) //only happens in the first round
+        if (Round == 1) //only happens in the first round
         {
             Draw(5);
         }
-        //gets the right amount of cards to draw based off regions its a parent function
-        DrawAmount();
-        //draws the apropriate amount
-        Draw(DrawCount);
+
+            //gets the right amount of cards to draw based off regions its a parent function
+            DrawAmount();
+            //draws the apropriate amount
+            Draw(DrawCount);
+            //makes the human player unable to draw again
+            CanDraw = false;
     }
     /*
  *  @name       GenerateCardObjects() extend from parent class and ads additon info specific to human
@@ -103,28 +106,32 @@ public class Human : Player
     {
         //gets parent info
         base.Draw(pAmount);
-        //checking to make sure there are cards left in the deck
-        if (Deck.Cards.Count != 0)
+        //makes sure you can opnly draw once basically
+        if (CanDraw == true)
         {
-            //determins how many cards to draw
-            for (int i = 0; i < pAmount; i++)
+            //checking to make sure there are cards left in the deck
+            if (Deck.Cards.Count != 0)
             {
-                //retrieving the object created in the form of the "instance" earlier
-                Holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>();
-                //sets the parent
-                CardParent = GameObject.Find(HandGameObject).transform;
-                //calling the object's CardDrawRandomizer function, which selects a random card from the deck
-                Holder.CardDrawRandomizer(CurrentPlayer);
-                //calling this script's generateCardObject function,  which creates an object to represent the card
-                GenerateCardObject();
-                //calling the script object's setSprite function, which passes in the SpriteRenderer, and sets it's sprite to the corresponding card chosen in CardDrawRandomizer
-                Holder.setSprite(Sr);
+                //determins how many cards to draw
+                for (int i = 0; i < pAmount; i++)
+                {
+                    //retrieving the object created in the form of the "instance" earlier
+                    Holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>();
+                    //sets the parent
+                    CardParent = GameObject.Find(HandGameObject).transform;
+                    //calling the object's CardDrawRandomizer function, which selects a random card from the deck
+                    Holder.CardDrawRandomizer(CurrentPlayer);
+                    //calling this script's generateCardObject function,  which creates an object to represent the card
+                    GenerateCardObject();
+                    //calling the script object's setSprite function, which passes in the SpriteRenderer, and sets it's sprite to the corresponding card chosen in CardDrawRandomizer
+                    Holder.setSprite(Sr);
+                }
             }
-        }
-        else
-        {
-            //calling this script's changeDeck function, which replaces the deck with an out of cards image
-            ChangeDeck();
+            else
+            {
+                //calling this script's changeDeck function, which replaces the deck with an out of cards image
+                ChangeDeck();
+            }
         }
     }
 
@@ -155,6 +162,8 @@ public class Human : Player
     public void ThreeCardExecute()
     {
         base.ThreeCardExecute();
+        //makes it so player can draw the cards
+        CanDraw = true;
         Draw(3);
         ThreeCardBurstAvailable = false;
         //Disables the button 

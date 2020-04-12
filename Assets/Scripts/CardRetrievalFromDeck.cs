@@ -31,7 +31,7 @@ public class CardRetrievalFromDeck : ScriptableObject
                 {
                     Region = false;
 
-                    while (Region == false && GameManager.Instance.round == 1)
+                    while (Region == false && GameManager.Instance.Round == 1)
                     {
                         CardDrawHolder = Random.Range(0, (pCurrentPlayer.Deck.Cards.Count - 1));
 
@@ -74,7 +74,7 @@ public class CardRetrievalFromDeck : ScriptableObject
         {
             Region = false;
 
-            while (Region == false && GameManager.Instance.round == 1)
+            while (Region == false && GameManager.Instance.Round == 1)
             {
                 CardDrawHolder = Random.Range(0, (pCurrentPlayer.Deck.Cards.Count - 1));
 
@@ -120,9 +120,9 @@ public class CardRetrievalFromDeck : ScriptableObject
         //  Attach newly created sprite to SpriteRenderer Unity object
         sr.sprite = MySprite;
         //  sets sorting level of hand so that sprites do not inappropriately stack
-        sr.sortingOrder = GameManager.Instance.sortingOrder;
+        sr.sortingOrder = GameManager.Instance.SortingOrder;
         //  sets active instance to next in sprite sorting order
-        GameManager.Instance.sortingOrder++;
+        GameManager.Instance.SortingOrder++;
         //  sets SpriteRenderer's layer name
         sr.sortingLayerName = "Default";
     }

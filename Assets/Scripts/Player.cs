@@ -48,6 +48,10 @@ public class Player : MonoBehaviour
     private string humanGameObject;
     private string scoreGameObject;
     private string roundGameObject;
+    private string humanScoreGameObject;
+    private string cP1ScoreGameObject;
+    private string cP2ScoreGameObject;
+    private string cP3ScoreGameObject;
 
     //  Creates objects  to interact with UI canvas
     //  stores values for round text information
@@ -55,6 +59,13 @@ public class Player : MonoBehaviour
     private Text scoreText;
     private Image deckColor;
     private Text deckText;
+
+    //this is to change all of the score texts on the screen for each player
+    private Text humanScoreText;
+    private Text cP1ScoreText;
+    private Text cP2ScoreText;
+    private Text cP3ScoreText;
+
 
     //graphics and card objects
     private CardRetrievalFromDeck holder;
@@ -117,7 +128,8 @@ public class Player : MonoBehaviour
      */
     public void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject, 
         string pPlantGameObject, string pInvertebrateGameObject, string pAnimalGameObject, string pSpecialRegionGameObject, string pMultiplayerGameObject, 
-        string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject, string pDeckTextGameObject)
+        string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject, string pDeckTextGameObject,
+        string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject)
     {
      
         //this will all be stuff from parent class below
@@ -142,6 +154,10 @@ public class Player : MonoBehaviour
         HumanGameObject = pHumanGameObject;
         DeckColorGameObject = pDeckColorGameObject;
         DeckTextGameObject = pDeckTextGameObject;
+        HumanScoreGameObject= pHumanScoreGameObject;
+        CP1ScoreGameObject= pCP1ScoreGameObject;
+        CP2ScoreGameObject= pCP2ScoreGameObject;
+        CP3ScoreGameObject= pCP3ScoreGameObject;
 
         //game values
         Score = 0;
@@ -249,8 +265,29 @@ public class Player : MonoBehaviour
     }
 
         /*
+    *  @name       ChangeAllScore()
+    *  @purpose    Updates all the scores om the current canvas screen happens after each players turn
+    */
+    public void ChangeAllScore(int pHumanScore, int pCP1Score, int pCP2Score, int pCP3Score)
+    {
+        //updates human score
+        HumanScoreText = GameObject.Find(HumanScoreGameObject).GetComponent<Text>();
+        HumanScoreText.text = pHumanScore.ToString();
+        //updates CP1 score
+        //updates score text
+        CP1ScoreText = GameObject.Find(CP1ScoreGameObject).GetComponent<Text>();
+        CP1ScoreText.text = pCP1Score.ToString();
+        //updates CP2 score
+        CP2ScoreText = GameObject.Find(CP2ScoreGameObject).GetComponent<Text>();
+        CP2ScoreText.text = pCP2Score.ToString();
+        //updates CP3 score
+        CP3ScoreText = GameObject.Find(CP3ScoreGameObject).GetComponent<Text>();
+        CP3ScoreText.text = pCP3Score.ToString();
+    }
+
+        /*
     *  @name       ChangeScore()
-    *  @purpose    Change Player score
+    *  @purpose    Change Player score within this class as the cards are being places
     */
     public void ChangeScore(int pScore)
     {
@@ -296,14 +333,14 @@ public class Player : MonoBehaviour
     *  @name       ChangeRound()
     *  @purpose    Change Player round
     */
-    public void ChangeRound(int pRound)
+    public void ChangeRound()
     {
-        //takes int round parameter and changes proper text
-        Round = pRound;
-
+        //assigns the round in this class to game manager
+        Round = GameManager.Instance.Round;
         //  updates score text
         RoundText = GameObject.Find(RoundGameObject).GetComponent<Text>();
-        RoundText.text = Score.ToString();
+        RoundText.text = Round.ToString();
+        Debug.Log(Round);
     }
 
         /*
@@ -347,6 +384,8 @@ public class Player : MonoBehaviour
     {
         //assigns deck info and color
         //CreateDeckInfo();
+        //Updates the round to current
+        ChangeRound();
         //creating an "instance" of the CardRetrievalFromDeck script, allows it to be retrieved as an object
         ScriptInstance = ScriptableObject.CreateInstance("CardRetrievalFromDeck"); //so you can use the script
         Holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>(); //access to script
@@ -422,5 +461,13 @@ public class Player : MonoBehaviour
     public Text DeckText { get => deckText; set => deckText = value; }
     public string HumanGameObject { get => humanGameObject; set => humanGameObject = value; }
     public bool ThreeCardBurstAvailable { get => threeCardBurstAvailable; set => threeCardBurstAvailable = value; }
+    public string HumanScoreGameObject { get => humanScoreGameObject; set => humanScoreGameObject = value; }
+    public string CP1ScoreGameObject { get => cP1ScoreGameObject; set => cP1ScoreGameObject = value; }
+    public string CP2ScoreGameObject { get => cP2ScoreGameObject; set => cP2ScoreGameObject = value; }
+    public string CP3ScoreGameObject { get => cP3ScoreGameObject; set => cP3ScoreGameObject = value; }
+    public Text HumanScoreText { get => humanScoreText; set => humanScoreText = value; }
+    public Text CP1ScoreText { get => cP1ScoreText; set => cP1ScoreText = value; }
+    public Text CP2ScoreText { get => cP2ScoreText; set => cP2ScoreText = value; }
+    public Text CP3ScoreText { get => cP3ScoreText; set => cP3ScoreText = value; }
 }
 
