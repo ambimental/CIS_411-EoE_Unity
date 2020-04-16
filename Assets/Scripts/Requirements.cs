@@ -4,84 +4,143 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *  @class      Requirements
+ *  @purpose    This class is used to check requirements and also has another class called reqs in it which has all the requirements
+ *  
+ *  @author     CIS 411
+ *  @date       2020/04/13
+ */
 public class Requirements : MonoBehaviour
 {
-
-    public delegate void Del();
-
     // Use this for initialization
     void Start()
     {
     }
 
-    public bool requirementCheck(Card card)
+    /*
+      * @name    requirementCheck()
+      * @purpose checks to see if the current card passed in passes reuirements and also assigns the player object of the class
+      * 
+      * @return  bool
+      */
+    public bool RequirementCheck(Card card, Player pPlayer)
     {
+
+        //the bool that is returned to say wether or not the rewuirements worked
         bool works = false;
 
+        //creates a list to hold requirements
         List<string> reqs = new List<string>();
+
+        //adds each of the requirements associated with the card to a string list
         foreach (string x in card.ReqID)
         {
             string reqID = x;
             reqs.Add(reqID);
         }
 
+        //goes through each requirement string in the list and checks
         foreach (string x in reqs)
         {
+            //creates an object of the type that is a Reqs
             Type type = typeof(Reqs);
-            Reqs ClassObject = new Reqs();
+            //creates an object of Reqs and passes in the current player parameter
+            Reqs ClassObject = new Reqs(pPlayer);
+            //finds the method that has the same name as the requirement ID in the type object and assigns the correct requirement method to it
             MethodInfo method = type.GetMethod(x);
-            method.Invoke(ClassObject, null);
-
-            //Debug.Log(method.Invoke(ClassObject, null)); //for testing purposes
-
+            //calls the method that was assigned from the list and passes in the "Class Object" so it know where to get the method from
+            //and then in the returned value is false then set the requirements work to false
+            Debug.Log(card.CardName);
             if (method.Invoke(ClassObject, null).ToString() == "False")
             {
                 works = false;
-                break;
+                //i dont think we need this break not sure why its here but ill keep if for now in case anyhting suacy happens
+                //break;
             }
-            else works = true;
+
+            //if iot didnt return false then it returned true which means the requirements worked 
+            else 
+            { 
+                works = true; 
+            }
         }
 
-        if (works == true) //returns true or false based on the reqs
-            return works;
-        else return works;
+        //returns if the card works or not
+        return works;
     }
 }
 
+/*
+ *  @class      Reqs
+ *  @purpose    This class has all the requiorements and is called in Requirements class to check if the card works
+ *  
+ *  @author     CIS 411
+ *  @date       2020/04/13
+ */
 public class Reqs
 {
+    //this is to hold the player object. We are using this that way the computer and humans can each use this class. 
+    private Player thePlayer;
 
-    //this is the idea that Jody and I discussed
-    //public bool r001(Player pPlayer) //5 forest cards, grassland, arid, or Sub-Zero region
+    //this is the constructor that assigns the currentplayer that was passed in from the requirements 
+    public Reqs(Player pPlayer)
+    {
+        ThePlayer = pPlayer;
+        //this casts the player so humans and computers can use this class
+        //it probably isnt neccisary because computers and humands both share a lot of the same values but we will use it here for expansion 
+        //reasons later on
+        CastPlayer(ThePlayer);
+    }
+
+        /*
+      * @name    CastPlayer()
+      * @purpose This downcasts the correct player to wether or not it is a human or computer.
+      * 
+      * @return  bool
+      */
+    public void CastPlayer(Player pPlayer)
+    {
+
+        if (ThePlayer.GetType() == typeof(Human))
+        {
+            ThePlayer = (Human)pPlayer;
+        }
+        else
+        {
+            ThePlayer = (Computer)pPlayer;
+        }
+    }
+
+
+    /*
+      * @name    test()
+      * @purpose This is just to test stuff out
+      * 
+      * @return  bool
+      */
+    //public bool test() //any 1 region card must be placed
     //{
-    //    pPlayer thePlayer;
-    //    if (pPlayer.GetType() == typeof(Human))
-    //    {
-    //        thePlayer = (Human)pPlayer;
-    //    }
-    //    else
-    //    {
-    //        thePlayer = (Computer)pPlayer;
-    //    }
-    //    int count = 0;
-
-    //    count += thePlayer.ForestCount;
-    //    count += GameManager.Instance.playerGrasslandsCount;
-    //    count += GameManager.Instance.playerAridCount;
-    //    count += GameManager.Instance.playerSubZeroCount;
-
-    //    if (count >= 5)
+    //    if (ThePlayer.RegionPlacement.Count >= 1)
     //        return true;
+    //    //else if (ThePlayer.SpecialRegionPlacement.Count > 0)
+    //        //return true;
     //    else return false;
     //}
+
+
+    /********************************************************************************/
+    //All the methods below thise are to check requirements and then accessors and mutators are at the end
+    /********************************************************************************/
+
     public bool r001() //5 forest cards, grassland, arid, or Sub-Zero region
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerSubZeroCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.SubZeroCount;
 
         if (count >= 5)
             return true;
@@ -92,8 +151,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -101,38 +160,38 @@ public class Reqs
     }
     public bool r003() //3 plants type cards must be placed
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 3)
+        if (ThePlayer.PlantPlacement.Count >= 3)
             return true;
         else return false;
     }
     public bool r004() //2 invertebrate type cards must be placed
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 2)
+        if (ThePlayer.InvertebratePlacement.Count >= 2)
             return true;
         else return false;
     }
     public bool r005() //2 animal type cards must be placed
     {
-        if (GameManager.Instance.AnimalPlacement.Count >= 2)
+        if (ThePlayer.AnimalPlacement.Count >= 2)
             return true;
         else return false;
     }
     public bool r006() //any 1 region card must be placed
     {
-        if (GameManager.Instance.RegionPlacement.Count >= 1)
+        if (ThePlayer.RegionPlacement.Count >= 1)
             return true;
-        else if (GameManager.Instance.SpecialRegionPlacement.Count > 0)
+        else if (ThePlayer.SpecialRegionPlacement.Count > 0)
             return true;
         else return false;
     }
     public bool r007() //1 species in play or in the discard pile
     {
-        if (GameManager.Instance.AnimalPlacement.Count > 0 || GameManager.Instance.PlantPlacement.Count > 0 || GameManager.Instance.InvertebratePlacement.Count > 0 || GameManager.Instance.HumanPlacement.Count > 0)
+        if (ThePlayer.AnimalPlacement.Count > 0 || ThePlayer.PlantPlacement.Count > 0 || ThePlayer.InvertebratePlacement.Count > 0 || ThePlayer.HumanPlacement.Count > 0)
             return true;
 
-        for (int i = 0; i < GameManager.Instance.DiscardPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.DiscardPlacement.Count; i++)
         {
-            if (GameManager.Instance.DiscardPlacement[i].CardType == "Human" || GameManager.Instance.DiscardPlacement[i].CardType == "Animal" || GameManager.Instance.DiscardPlacement[i].CardType == "Plant" || GameManager.Instance.DiscardPlacement[i].CardType == "Invertebrate")
+            if (ThePlayer.DiscardPlacement[i].CardType == "Human" || ThePlayer.DiscardPlacement[i].CardType == "Animal" || ThePlayer.DiscardPlacement[i].CardType == "Plant" || ThePlayer.DiscardPlacement[i].CardType == "Invertebrate")
                 return true;
         }
 
@@ -142,14 +201,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 2)
             return true;
@@ -157,13 +216,13 @@ public class Reqs
     }
     public bool r009() //2 of any plants
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 2)
+        if (ThePlayer.PlantPlacement.Count >= 2)
             return true;
         else return false;
     }
     public bool r010() //1 invertebrate or animal card
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 1 || GameManager.Instance.AnimalPlacement.Count >= 1)
+        if (ThePlayer.InvertebratePlacement.Count >= 1 || ThePlayer.AnimalPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -171,8 +230,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -182,9 +241,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if ((GameManager.Instance.PlantPlacement[i].PlantType == "Canopy" || GameManager.Instance.PlantPlacement[i].PlantType == "Understory") && (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta" || GameManager.Instance.PlantPlacement[i].Division == "Coniferophyta"))
+            if ((ThePlayer.PlantPlacement[i].PlantType == "Canopy" || ThePlayer.PlantPlacement[i].PlantType == "Understory") && (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta" || ThePlayer.PlantPlacement[i].Division == "Coniferophyta"))
                 count++;
         }
 
@@ -196,7 +255,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 3)
             return true;
@@ -206,9 +265,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -220,9 +279,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -234,9 +293,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -248,8 +307,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -259,9 +318,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if ((GameManager.Instance.PlantPlacement[i].PlantType == "Canopy" || GameManager.Instance.PlantPlacement[i].PlantType == "Understory") && (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta" || GameManager.Instance.PlantPlacement[i].Division == "Coniferophyta"))
+            if ((ThePlayer.PlantPlacement[i].PlantType == "Canopy" || ThePlayer.PlantPlacement[i].PlantType == "Understory") && (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta" || ThePlayer.PlantPlacement[i].Division == "Coniferophyta"))
                 count++;
         }
 
@@ -273,7 +332,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -283,13 +342,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 3)
             return true;
@@ -299,9 +358,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -313,9 +372,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -327,7 +386,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -337,9 +396,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if ((GameManager.Instance.PlantPlacement[i].PlantType == "Canopy" || GameManager.Instance.PlantPlacement[i].PlantType == "Understory") && (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta" || GameManager.Instance.PlantPlacement[i].Division == "Coniferophyta"))
+            if ((ThePlayer.PlantPlacement[i].PlantType == "Canopy" || ThePlayer.PlantPlacement[i].PlantType == "Understory") && (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta" || ThePlayer.PlantPlacement[i].Division == "Coniferophyta"))
                 count++;
         }
 
@@ -351,8 +410,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerAridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.AridCount;
 
         if (count >= 1)
             return true;
@@ -362,9 +421,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -374,7 +433,7 @@ public class Reqs
     }
     public bool r027() //1 invertebrate
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 1)
+        if (ThePlayer.InvertebratePlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -382,9 +441,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -396,8 +455,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -407,9 +466,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if ((GameManager.Instance.PlantPlacement[i].PlantType == "Canopy" || GameManager.Instance.PlantPlacement[i].PlantType == "Understory") && (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta" || GameManager.Instance.PlantPlacement[i].Division == "Coniferophyta"))
+            if ((ThePlayer.PlantPlacement[i].PlantType == "Canopy" || ThePlayer.PlantPlacement[i].PlantType == "Understory") && (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta" || ThePlayer.PlantPlacement[i].Division == "Coniferophyta"))
                 count++;
         }
 
@@ -421,10 +480,10 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerSubZeroCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.SubZeroCount;
 
         if (count >= 1)
             return true;
@@ -432,12 +491,12 @@ public class Reqs
     }
     public bool r032() //1 any species in play or the discard pile
     {
-        if (GameManager.Instance.AnimalPlacement.Count > 0 || GameManager.Instance.PlantPlacement.Count > 0 || GameManager.Instance.InvertebratePlacement.Count > 0 || GameManager.Instance.HumanPlacement.Count > 0)
+        if (ThePlayer.AnimalPlacement.Count > 0 || ThePlayer.PlantPlacement.Count > 0 || ThePlayer.InvertebratePlacement.Count > 0 || ThePlayer.HumanPlacement.Count > 0)
             return true;
 
-        for (int i = 0; i < GameManager.Instance.DiscardPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.DiscardPlacement.Count; i++)
         {
-            if (GameManager.Instance.DiscardPlacement[i].CardType == "Human" || GameManager.Instance.DiscardPlacement[i].CardType == "Animal" || GameManager.Instance.DiscardPlacement[i].CardType == "Plant" || GameManager.Instance.DiscardPlacement[i].CardType == "Invertebrate")
+            if (ThePlayer.DiscardPlacement[i].CardType == "Human" || ThePlayer.DiscardPlacement[i].CardType == "Animal" || ThePlayer.DiscardPlacement[i].CardType == "Plant" || ThePlayer.DiscardPlacement[i].CardType == "Invertebrate")
                 return true;
         }
 
@@ -447,8 +506,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 2)
             return true;
@@ -456,7 +515,7 @@ public class Reqs
     }
     public bool r034() //3 plants
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 3)
+        if (ThePlayer.PlantPlacement.Count >= 3)
             return true;
         else return false;
     }
@@ -464,8 +523,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 2)
             return true;
@@ -473,7 +532,7 @@ public class Reqs
     }
     public bool r036() //3 plants
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 3)
+        if (ThePlayer.PlantPlacement.Count >= 3)
             return true;
         else return false;
     }
@@ -481,14 +540,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 5)
             return true;
@@ -498,7 +557,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -508,9 +567,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if ((GameManager.Instance.PlantPlacement[i].PlantType == "Canopy" || GameManager.Instance.PlantPlacement[i].PlantType == "Understory") && (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta"))
+            if ((ThePlayer.PlantPlacement[i].PlantType == "Canopy" || ThePlayer.PlantPlacement[i].PlantType == "Understory") && (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta"))
                 count++;
         }
 
@@ -522,7 +581,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -532,9 +591,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -546,12 +605,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
 
         if (count >= 1)
             return true;
@@ -561,9 +620,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta")
+            if (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta")
                 count++;
         }
 
@@ -575,12 +634,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -588,7 +647,7 @@ public class Reqs
     }
     public bool r045() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -596,14 +655,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -611,12 +670,12 @@ public class Reqs
     }
     public bool r047() //1 species in play or in the discard pile
     {
-        if (GameManager.Instance.AnimalPlacement.Count > 0 || GameManager.Instance.PlantPlacement.Count > 0 || GameManager.Instance.InvertebratePlacement.Count > 0 || GameManager.Instance.HumanPlacement.Count > 0)
+        if (ThePlayer.AnimalPlacement.Count > 0 || ThePlayer.PlantPlacement.Count > 0 || ThePlayer.InvertebratePlacement.Count > 0 || ThePlayer.HumanPlacement.Count > 0)
             return true;
 
-        for (int i = 0; i < GameManager.Instance.DiscardPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.DiscardPlacement.Count; i++)
         {
-            if (GameManager.Instance.DiscardPlacement[i].CardType == "Human" || GameManager.Instance.DiscardPlacement[i].CardType == "Animal" || GameManager.Instance.DiscardPlacement[i].CardType == "Plant" || GameManager.Instance.DiscardPlacement[i].CardType == "Invertebrate")
+            if (ThePlayer.DiscardPlacement[i].CardType == "Human" || ThePlayer.DiscardPlacement[i].CardType == "Animal" || ThePlayer.DiscardPlacement[i].CardType == "Plant" || ThePlayer.DiscardPlacement[i].CardType == "Invertebrate")
                 return true;
         }
 
@@ -626,13 +685,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -642,9 +701,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta")
+            if (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta")
                 count++;
         }
 
@@ -656,13 +715,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -672,9 +731,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta")
+            if (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta")
                 count++;
         }
 
@@ -686,7 +745,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -696,9 +755,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy" || GameManager.Instance.PlantPlacement[i].PlantType == "Understory")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy" || ThePlayer.PlantPlacement[i].PlantType == "Understory")
                 count++;
         }
 
@@ -710,12 +769,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -725,9 +784,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta")
+            if (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta")
                 count++;
         }
 
@@ -739,7 +798,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -749,7 +808,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 2)
             return true;
@@ -759,9 +818,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -773,9 +832,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Groundcover")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Groundcover")
                 count++;
         }
 
@@ -787,7 +846,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -797,7 +856,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -807,7 +866,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -817,9 +876,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through the plants that have been played
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through the plants that have been played
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -831,7 +890,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -841,14 +900,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -858,7 +917,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 2)
             return true;
@@ -868,9 +927,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -882,9 +941,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].CardName.Contains("Mycorrhizal"))
+            if (ThePlayer.InvertebratePlacement[i].CardName.Contains("Mycorrhizal"))
                 count++;
         }
 
@@ -896,7 +955,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -906,7 +965,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -916,7 +975,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -926,9 +985,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -940,7 +999,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -950,7 +1009,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -960,9 +1019,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -974,7 +1033,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -984,9 +1043,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -998,9 +1057,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Groundcover")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Groundcover")
                 count++;
         }
 
@@ -1012,9 +1071,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].CardName.Contains("Mycorrhizal"))
+            if (ThePlayer.InvertebratePlacement[i].CardName.Contains("Mycorrhizal"))
                 count++;
         }
 
@@ -1026,7 +1085,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -1036,9 +1095,9 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerSubZeroCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.SubZeroCount;
 
         if (count >= 1)
             return true;
@@ -1048,7 +1107,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -1058,7 +1117,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -1068,9 +1127,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -1082,12 +1141,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 3)
             return true;
@@ -1095,7 +1154,7 @@ public class Reqs
     }
     public bool r086() //2 invertebrates
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 2)
+        if (ThePlayer.InvertebratePlacement.Count >= 2)
             return true;
         else return false;
     }
@@ -1103,9 +1162,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -1117,14 +1176,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1132,7 +1191,7 @@ public class Reqs
     }
     public bool r089() //1 human
     {
-        if (GameManager.Instance.HumanPlacement.Count >= 1)
+        if (ThePlayer.HumanPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1140,14 +1199,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1155,19 +1214,19 @@ public class Reqs
     }
     public bool r091() //1 human
     {
-        if (GameManager.Instance.HumanPlacement.Count >= 1)
+        if (ThePlayer.HumanPlacement.Count >= 1)
             return true;
         else return false;
     }
     public bool r092() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
     public bool r093() //1 invertebrate
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 1)
+        if (ThePlayer.InvertebratePlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1175,14 +1234,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1190,7 +1249,7 @@ public class Reqs
     }
     public bool r095() //1 human
     {
-        if (GameManager.Instance.HumanPlacement.Count >= 1)
+        if (ThePlayer.HumanPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1198,8 +1257,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1210,9 +1269,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Groundcover")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Groundcover")
                 count++;
         }
 
@@ -1224,8 +1283,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1235,9 +1294,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -1249,10 +1308,10 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerSubZeroCount;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.SubZeroCount;
 
         if (count >= 5)
             return true;
@@ -1262,9 +1321,9 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 2)
             return true;
@@ -1272,7 +1331,7 @@ public class Reqs
     }
     public bool r102() //1 invertebrate
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 1)
+        if (ThePlayer.InvertebratePlacement.Count >= 1)
             return true;
         return false;
     }
@@ -1280,9 +1339,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Medium")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small" || ThePlayer.AnimalPlacement[i].AnimalSize == "Medium")
                 count++;
         }
 
@@ -1294,9 +1353,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.ConditionPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.ConditionPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.ConditionPlacement[i].CardName.Contains("Cliff"))
+            if (ThePlayer.ConditionPlacement[i].CardName.Contains("Cliff"))
                 count++;
         }
 
@@ -1308,7 +1367,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1318,9 +1377,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++) //goes through regions
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++) //goes through regions
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Groundcover")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Groundcover")
                 count++;
         }
 
@@ -1332,7 +1391,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1342,13 +1401,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 2)
             return true;
@@ -1358,9 +1417,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Medium")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Medium")
                 count++;
         }
 
@@ -1372,9 +1431,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -1386,10 +1445,10 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerSubZeroCount;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.SubZeroCount;
 
         if (count >= 2)
             return true;
@@ -1398,13 +1457,13 @@ public class Reqs
     public bool r112() //1 plant
     {
 
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
     public bool r113() //1 invertebrate
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 1)
+        if (ThePlayer.InvertebratePlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1412,9 +1471,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -1426,14 +1485,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 5)
             return true;
@@ -1443,12 +1502,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1456,7 +1515,7 @@ public class Reqs
     }
     public bool r117() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1464,14 +1523,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1479,12 +1538,12 @@ public class Reqs
     }
     public bool r119() //1 species in play or in the discard pile
     {
-        if (GameManager.Instance.AnimalPlacement.Count > 0 || GameManager.Instance.PlantPlacement.Count > 0 || GameManager.Instance.InvertebratePlacement.Count > 0 || GameManager.Instance.HumanPlacement.Count > 0)
+        if (ThePlayer.AnimalPlacement.Count > 0 || ThePlayer.PlantPlacement.Count > 0 || ThePlayer.InvertebratePlacement.Count > 0 || ThePlayer.HumanPlacement.Count > 0)
             return true;
 
-        for (int i = 0; i < GameManager.Instance.DiscardPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.DiscardPlacement.Count; i++)
         {
-            if (GameManager.Instance.DiscardPlacement[i].CardType == "Human" || GameManager.Instance.DiscardPlacement[i].CardType == "Animal" || GameManager.Instance.DiscardPlacement[i].CardType == "Plant" || GameManager.Instance.DiscardPlacement[i].CardType == "Invertebrate")
+            if (ThePlayer.DiscardPlacement[i].CardType == "Human" || ThePlayer.DiscardPlacement[i].CardType == "Animal" || ThePlayer.DiscardPlacement[i].CardType == "Plant" || ThePlayer.DiscardPlacement[i].CardType == "Invertebrate")
                 return true;
         }
 
@@ -1494,13 +1553,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1510,9 +1569,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta")
+            if (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta")
                 count++;
         }
 
@@ -1524,14 +1583,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1539,7 +1598,7 @@ public class Reqs
     }
     public bool r123() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1547,8 +1606,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1558,9 +1617,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].Division == "Magnoliophyta")
+            if (ThePlayer.PlantPlacement[i].Division == "Magnoliophyta")
                 count++;
         }
 
@@ -1572,7 +1631,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1582,7 +1641,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
+        count += ThePlayer.ForestCount;
 
         if (count >= 1)
             return true;
@@ -1592,12 +1651,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1607,7 +1666,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1615,7 +1674,7 @@ public class Reqs
     }
     public bool r130() //1 human
     {
-        if (GameManager.Instance.HumanPlacement.Count >= 1)
+        if (ThePlayer.HumanPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1623,7 +1682,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1631,7 +1690,7 @@ public class Reqs
     }
     public bool r132() //1 human
     {
-        if (GameManager.Instance.HumanPlacement.Count >= 1)
+        if (ThePlayer.HumanPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1639,7 +1698,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1647,7 +1706,7 @@ public class Reqs
     }
     public bool r134() //1 human
     {
-        if (GameManager.Instance.HumanPlacement.Count >= 1)
+        if (ThePlayer.HumanPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1655,14 +1714,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 0)
             return true;
@@ -1672,7 +1731,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -1682,8 +1741,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 5)
             return true;
@@ -1693,9 +1752,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Canopy")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Canopy")
                 count++;
         }
 
@@ -1705,7 +1764,7 @@ public class Reqs
     }
     public bool r139() //3 animals
     {
-        if (GameManager.Instance.AnimalPlacement.Count >= 3)
+        if (ThePlayer.AnimalPlacement.Count >= 3)
             return true;
         else return false;
     }
@@ -1713,8 +1772,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -1722,7 +1781,7 @@ public class Reqs
     }
     public bool r141() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1730,9 +1789,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -1744,8 +1803,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -1753,12 +1812,12 @@ public class Reqs
     }
     public bool r144() //1 any species in play or the discard pile
     {
-        if (GameManager.Instance.AnimalPlacement.Count > 0 || GameManager.Instance.PlantPlacement.Count > 0 || GameManager.Instance.InvertebratePlacement.Count > 0 || GameManager.Instance.HumanPlacement.Count > 0)
+        if (ThePlayer.AnimalPlacement.Count > 0 || ThePlayer.PlantPlacement.Count > 0 || ThePlayer.InvertebratePlacement.Count > 0 || ThePlayer.HumanPlacement.Count > 0)
             return true;
 
-        for (int i = 0; i < GameManager.Instance.DiscardPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.DiscardPlacement.Count; i++)
         {
-            if (GameManager.Instance.DiscardPlacement[i].CardType == "Human" || GameManager.Instance.DiscardPlacement[i].CardType == "Animal" || GameManager.Instance.DiscardPlacement[i].CardType == "Plant" || GameManager.Instance.DiscardPlacement[i].CardType == "Invertebrate")
+            if (ThePlayer.DiscardPlacement[i].CardType == "Human" || ThePlayer.DiscardPlacement[i].CardType == "Animal" || ThePlayer.DiscardPlacement[i].CardType == "Plant" || ThePlayer.DiscardPlacement[i].CardType == "Invertebrate")
                 return true;
         }
 
@@ -1768,7 +1827,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
+        count += ThePlayer.RunningWaterCount;
 
         if (count >= 1)
             return true;
@@ -1776,7 +1835,7 @@ public class Reqs
     }
     public bool r146() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1784,9 +1843,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if ((GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small") && GameManager.Instance.InvertebratePlacement[i].AnimalEnvironment == "Aquatic")
+            if ((ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small") && ThePlayer.InvertebratePlacement[i].AnimalEnvironment == "Aquatic")
                 count++;
         }
 
@@ -1798,9 +1857,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if ((GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small") && GameManager.Instance.AnimalPlacement[i].AnimalEnvironment == "Aquatic")
+            if ((ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small") && ThePlayer.AnimalPlacement[i].AnimalEnvironment == "Aquatic")
                 count++;
         }
 
@@ -1812,7 +1871,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1822,8 +1881,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -1833,13 +1892,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 3)
             return true;
@@ -1849,9 +1908,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -1863,9 +1922,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Medium")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small" || ThePlayer.AnimalPlacement[i].AnimalSize == "Medium")
                 count++;
         }
 
@@ -1877,8 +1936,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -1886,12 +1945,12 @@ public class Reqs
     }
     public bool r155() //1 species in play or the discard pile
     {
-        if (GameManager.Instance.AnimalPlacement.Count > 0 || GameManager.Instance.PlantPlacement.Count > 0 || GameManager.Instance.InvertebratePlacement.Count > 0 || GameManager.Instance.HumanPlacement.Count > 0)
+        if (ThePlayer.AnimalPlacement.Count > 0 || ThePlayer.PlantPlacement.Count > 0 || ThePlayer.InvertebratePlacement.Count > 0 || ThePlayer.HumanPlacement.Count > 0)
             return true;
 
-        for (int i = 0; i < GameManager.Instance.DiscardPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.DiscardPlacement.Count; i++)
         {
-            if (GameManager.Instance.DiscardPlacement[i].CardType == "Human" || GameManager.Instance.DiscardPlacement[i].CardType == "Animal" || GameManager.Instance.DiscardPlacement[i].CardType == "Plant" || GameManager.Instance.DiscardPlacement[i].CardType == "Invertebrate")
+            if (ThePlayer.DiscardPlacement[i].CardType == "Human" || ThePlayer.DiscardPlacement[i].CardType == "Animal" || ThePlayer.DiscardPlacement[i].CardType == "Plant" || ThePlayer.DiscardPlacement[i].CardType == "Invertebrate")
                 return true;
         }
 
@@ -1901,8 +1960,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 3)
             return true;
@@ -1910,7 +1969,7 @@ public class Reqs
     }
     public bool r157() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -1918,9 +1977,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -1932,7 +1991,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -1942,8 +2001,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -1951,7 +2010,7 @@ public class Reqs
     }
     public bool r161() //2 invertebrates
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 2)
+        if (ThePlayer.InvertebratePlacement.Count >= 2)
             return true;
         else return false;
     }
@@ -1959,9 +2018,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if ((GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small") && GameManager.Instance.AnimalPlacement[i].AnimalEnvironment == "Aquatic")
+            if ((ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small") && ThePlayer.AnimalPlacement[i].AnimalEnvironment == "Aquatic")
                 count++;
         }
 
@@ -1973,8 +2032,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 5)
             return true;
@@ -1984,9 +2043,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].AnimalEnvironment == "Aquatic")
+            if (ThePlayer.PlantPlacement[i].AnimalEnvironment == "Aquatic")
                 count++;
         }
 
@@ -1996,7 +2055,7 @@ public class Reqs
     }
     public bool r165() //2 invertebrates
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 2)
+        if (ThePlayer.InvertebratePlacement.Count >= 2)
             return true;
         else return false;
     }
@@ -2004,23 +2063,23 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            int id = GameManager.Instance.AnimalPlacement[i].ReqID.Count;
+            int id = ThePlayer.AnimalPlacement[i].ReqID.Count;
 
             for (int j = 0; j < id; j++) //goes through and checks the requirements of the animals to see if they need running or standing water
             {
-                if (GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r002" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r137" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r140" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r143"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r150" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r154" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r156" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r160"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r163" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r166" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r167" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r170"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r172"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r173" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r174" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r176" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r180"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r188" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r189" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r190" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r191"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r192" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r194" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r198" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r199"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r202" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r207" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r235" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r145"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r211"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r218" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r222" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r225" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r229"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r231" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r235")
+                if (ThePlayer.AnimalPlacement[i].ReqID[j] == "r002" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r137" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r140" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r143"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r150" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r154" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r156" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r160"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r163" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r166" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r167" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r170"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r172"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r173" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r174" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r176" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r180"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r188" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r189" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r190" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r191"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r192" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r194" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r198" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r199"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r202" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r207" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r235" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r145"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r211"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r218" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r222" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r225" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r229"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r231" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r235")
                 {
                     count++;
                     break;
@@ -2036,8 +2095,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 3)
             return true;
@@ -2045,7 +2104,7 @@ public class Reqs
     }
     public bool r168() //2 invertebrates
     {
-        if (GameManager.Instance.InvertebratePlacement.Count >= 2)
+        if (ThePlayer.InvertebratePlacement.Count >= 2)
             return true;
         else return false;
     }
@@ -2053,9 +2112,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -2067,8 +2126,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2078,9 +2137,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -2092,8 +2151,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 3)
             return true;
@@ -2103,92 +2162,92 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++) // I KNOW THIS IS AWFULL TO LOOK AT AND NOT A GOOD WAY TO DO IT AT ALL I JUST HAD TO GET THIS DONE
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++) // I KNOW THIS IS AWFULL TO LOOK AT AND NOT A GOOD WAY TO DO IT AT ALL I JUST HAD TO GET THIS DONE
         {
-            int id = GameManager.Instance.AnimalPlacement[i].ReqID.Count;
+            int id = ThePlayer.AnimalPlacement[i].ReqID.Count;
 
             for (int j = 0; j < id; j++)
             {
-                if (GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r002" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r137" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r140" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r143"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r150" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r154" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r156" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r160"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r163" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r166" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r167" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r170"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r172"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r173" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r174" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r176" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r180"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r188" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r189" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r190" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r191"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r192" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r194" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r198" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r199"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r202" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r207" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r235" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r145"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r211"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r218" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r222" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r225" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r229"
-                    || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r231" || GameManager.Instance.AnimalPlacement[i].ReqID[j] == "r235")
+                if (ThePlayer.AnimalPlacement[i].ReqID[j] == "r002" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r137" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r140" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r143"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r150" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r154" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r156" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r160"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r163" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r166" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r167" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r170"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r172"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r173" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r174" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r176" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r180"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r188" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r189" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r190" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r191"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r192" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r194" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r198" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r199"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r202" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r207" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r235" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r145"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r211"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r218" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r222" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r225" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r229"
+                    || ThePlayer.AnimalPlacement[i].ReqID[j] == "r231" || ThePlayer.AnimalPlacement[i].ReqID[j] == "r235")
                 {
                     count++;
                     break;
                 }
             }
         }
-        for (int i = 0; i < GameManager.Instance.HumanPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.HumanPlacement.Count; i++)
         {
-            int id = GameManager.Instance.HumanPlacement[i].ReqID.Count;
+            int id = ThePlayer.HumanPlacement[i].ReqID.Count;
 
             for (int j = 0; j < id; j++)
             {
-                if (GameManager.Instance.HumanPlacement[i].ReqID[j] == "r002" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r137" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r140" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r143"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r150" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r154" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r156" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r160"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r163" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r166" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r167" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r170"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r172"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r173" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r174" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r176" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r180"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r188" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r189" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r190" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r191"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r192" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r194" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r198" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r199"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r202" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r207" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r235" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r145"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r211"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r218" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r222" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r225" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r229"
-                    || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r231" || GameManager.Instance.HumanPlacement[i].ReqID[j] == "r235")
+                if (ThePlayer.HumanPlacement[i].ReqID[j] == "r002" || ThePlayer.HumanPlacement[i].ReqID[j] == "r137" || ThePlayer.HumanPlacement[i].ReqID[j] == "r140" || ThePlayer.HumanPlacement[i].ReqID[j] == "r143"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r150" || ThePlayer.HumanPlacement[i].ReqID[j] == "r154" || ThePlayer.HumanPlacement[i].ReqID[j] == "r156" || ThePlayer.HumanPlacement[i].ReqID[j] == "r160"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r163" || ThePlayer.HumanPlacement[i].ReqID[j] == "r166" || ThePlayer.HumanPlacement[i].ReqID[j] == "r167" || ThePlayer.HumanPlacement[i].ReqID[j] == "r170"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r172"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r173" || ThePlayer.HumanPlacement[i].ReqID[j] == "r174" || ThePlayer.HumanPlacement[i].ReqID[j] == "r176" || ThePlayer.HumanPlacement[i].ReqID[j] == "r180"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r188" || ThePlayer.HumanPlacement[i].ReqID[j] == "r189" || ThePlayer.HumanPlacement[i].ReqID[j] == "r190" || ThePlayer.HumanPlacement[i].ReqID[j] == "r191"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r192" || ThePlayer.HumanPlacement[i].ReqID[j] == "r194" || ThePlayer.HumanPlacement[i].ReqID[j] == "r198" || ThePlayer.HumanPlacement[i].ReqID[j] == "r199"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r202" || ThePlayer.HumanPlacement[i].ReqID[j] == "r207" || ThePlayer.HumanPlacement[i].ReqID[j] == "r235" || ThePlayer.HumanPlacement[i].ReqID[j] == "r145"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r211"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r218" || ThePlayer.HumanPlacement[i].ReqID[j] == "r222" || ThePlayer.HumanPlacement[i].ReqID[j] == "r225" || ThePlayer.HumanPlacement[i].ReqID[j] == "r229"
+                    || ThePlayer.HumanPlacement[i].ReqID[j] == "r231" || ThePlayer.HumanPlacement[i].ReqID[j] == "r235")
                 {
                     count++;
                     break;
                 }
             }
         }
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            int id = GameManager.Instance.PlantPlacement[i].ReqID.Count;
+            int id = ThePlayer.PlantPlacement[i].ReqID.Count;
 
             for (int j = 0; j < id; j++)
             {
-                if (GameManager.Instance.PlantPlacement[i].ReqID[j] == "r002" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r137" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r140" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r143"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r150" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r154" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r156" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r160"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r163" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r166" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r167" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r170"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r172"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r173" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r174" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r176" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r180"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r188" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r189" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r190" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r191"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r192" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r194" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r198" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r199"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r202" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r207" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r235" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r145"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r211"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r218" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r222" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r225" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r229"
-                    || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r231" || GameManager.Instance.PlantPlacement[i].ReqID[j] == "r235")
+                if (ThePlayer.PlantPlacement[i].ReqID[j] == "r002" || ThePlayer.PlantPlacement[i].ReqID[j] == "r137" || ThePlayer.PlantPlacement[i].ReqID[j] == "r140" || ThePlayer.PlantPlacement[i].ReqID[j] == "r143"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r150" || ThePlayer.PlantPlacement[i].ReqID[j] == "r154" || ThePlayer.PlantPlacement[i].ReqID[j] == "r156" || ThePlayer.PlantPlacement[i].ReqID[j] == "r160"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r163" || ThePlayer.PlantPlacement[i].ReqID[j] == "r166" || ThePlayer.PlantPlacement[i].ReqID[j] == "r167" || ThePlayer.PlantPlacement[i].ReqID[j] == "r170"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r172"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r173" || ThePlayer.PlantPlacement[i].ReqID[j] == "r174" || ThePlayer.PlantPlacement[i].ReqID[j] == "r176" || ThePlayer.PlantPlacement[i].ReqID[j] == "r180"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r188" || ThePlayer.PlantPlacement[i].ReqID[j] == "r189" || ThePlayer.PlantPlacement[i].ReqID[j] == "r190" || ThePlayer.PlantPlacement[i].ReqID[j] == "r191"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r192" || ThePlayer.PlantPlacement[i].ReqID[j] == "r194" || ThePlayer.PlantPlacement[i].ReqID[j] == "r198" || ThePlayer.PlantPlacement[i].ReqID[j] == "r199"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r202" || ThePlayer.PlantPlacement[i].ReqID[j] == "r207" || ThePlayer.PlantPlacement[i].ReqID[j] == "r235" || ThePlayer.PlantPlacement[i].ReqID[j] == "r145"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r211"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r218" || ThePlayer.PlantPlacement[i].ReqID[j] == "r222" || ThePlayer.PlantPlacement[i].ReqID[j] == "r225" || ThePlayer.PlantPlacement[i].ReqID[j] == "r229"
+                    || ThePlayer.PlantPlacement[i].ReqID[j] == "r231" || ThePlayer.PlantPlacement[i].ReqID[j] == "r235")
                 {
                     count++;
                     break;
                 }
             }
         }
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            int id = GameManager.Instance.InvertebratePlacement[i].ReqID.Count;
+            int id = ThePlayer.InvertebratePlacement[i].ReqID.Count;
 
             for (int j = 0; j < id; j++)
             {
-                if (GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r002" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r137" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r140" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r143"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r150" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r154" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r156" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r160"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r163" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r166" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r167" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r170"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r172"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r173" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r174" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r176" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r180"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r188" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r189" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r190" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r191"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r192" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r194" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r198" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r199"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r202" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r207" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r235" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r145"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r211"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r218" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r222" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r225" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r229"
-                    || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r231" || GameManager.Instance.InvertebratePlacement[i].ReqID[j] == "r235")
+                if (ThePlayer.InvertebratePlacement[i].ReqID[j] == "r002" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r137" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r140" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r143"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r150" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r154" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r156" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r160"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r163" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r166" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r167" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r170"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r172"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r173" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r174" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r176" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r180"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r188" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r189" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r190" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r191"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r192" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r194" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r198" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r199"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r202" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r207" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r235" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r145"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r211"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r218" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r222" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r225" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r229"
+                    || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r231" || ThePlayer.InvertebratePlacement[i].ReqID[j] == "r235")
                 {
                     count++;
                     break;
@@ -2204,8 +2263,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2213,7 +2272,7 @@ public class Reqs
     }
     public bool r175() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -2221,8 +2280,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2232,9 +2291,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny")
                 count++;
         }
 
@@ -2246,12 +2305,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2259,7 +2318,7 @@ public class Reqs
     }
     public bool r179() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -2267,8 +2326,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2276,7 +2335,7 @@ public class Reqs
     }
     public bool r181() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -2284,9 +2343,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -2298,14 +2357,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2313,7 +2372,7 @@ public class Reqs
     }
     public bool r184() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -2321,9 +2380,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -2335,12 +2394,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2350,9 +2409,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].PlantType == "Groundcover")
+            if (ThePlayer.PlantPlacement[i].PlantType == "Groundcover")
                 count++;
         }
 
@@ -2364,8 +2423,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2375,8 +2434,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2386,8 +2445,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2397,8 +2456,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2408,8 +2467,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2419,13 +2478,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2435,8 +2494,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2446,13 +2505,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
 
         if (count >= 1)
@@ -2463,12 +2522,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2478,9 +2537,9 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerSubZeroCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.SubZeroCount;
 
         if (count >= 1)
             return true;
@@ -2490,8 +2549,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2501,8 +2560,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2510,7 +2569,7 @@ public class Reqs
     }
     public bool r200() //1 human
     {
-        if (GameManager.Instance.HumanPlacement.Count >= 1)
+        if (ThePlayer.HumanPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -2518,14 +2577,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2535,8 +2594,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2544,7 +2603,7 @@ public class Reqs
     }
     public bool r203() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -2552,9 +2611,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny" || GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Small")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny" || ThePlayer.InvertebratePlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -2566,7 +2625,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerGrasslandsCount;
+        count += ThePlayer.GrasslandsCount;
 
         if (count >= 1)
             return true;
@@ -2576,9 +2635,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.AnimalPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.AnimalPlacement.Count; i++)
         {
-            if (GameManager.Instance.AnimalPlacement[i].AnimalSize == "Tiny" || GameManager.Instance.AnimalPlacement[i].AnimalSize == "Small")
+            if (ThePlayer.AnimalPlacement[i].AnimalSize == "Tiny" || ThePlayer.AnimalPlacement[i].AnimalSize == "Small")
                 count++;
         }
 
@@ -2590,8 +2649,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2601,9 +2660,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny")
                 count++;
         }
 
@@ -2615,9 +2674,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.ConditionPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.ConditionPlacement.Count; i++)
         {
-            if (GameManager.Instance.ConditionPlacement[i].CardName.Contains("Cave") || GameManager.Instance.RegionPlacement[i].CardName.Contains("Cavern"))
+            if (ThePlayer.ConditionPlacement[i].CardName.Contains("Cave") || ThePlayer.RegionPlacement[i].CardName.Contains("Cavern"))
                 count++;
         }
 
@@ -2629,14 +2688,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 5)
             return true;
@@ -2646,7 +2705,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2656,14 +2715,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 4)
             return true;
@@ -2673,13 +2732,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2687,7 +2746,7 @@ public class Reqs
     }
     public bool r214() //1 plant
     {
-        if (GameManager.Instance.PlantPlacement.Count >= 1)
+        if (ThePlayer.PlantPlacement.Count >= 1)
             return true;
         else return false;
     }
@@ -2695,9 +2754,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].Family == "Aphididae")
+            if (ThePlayer.InvertebratePlacement[i].Family == "Aphididae")
                 count++;
         }
 
@@ -2709,13 +2768,13 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2725,9 +2784,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].Family == "Asclepiadaceae - Milkweed family")
+            if (ThePlayer.PlantPlacement[i].Family == "Asclepiadaceae - Milkweed family")
                 count++;
         }
 
@@ -2739,7 +2798,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2749,14 +2808,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2766,14 +2825,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2783,12 +2842,12 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2798,7 +2857,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2808,14 +2867,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2825,14 +2884,14 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny")
                 count++;
         }
-        for (int i = 0; i < GameManager.Instance.MicrobePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.MicrobePlacement.Count; i++)
         {
-            if (GameManager.Instance.MicrobePlacement[i].AnimalSize == "Tiny")
+            if (ThePlayer.MicrobePlacement[i].AnimalSize == "Tiny")
                 count++;
         }
 
@@ -2844,7 +2903,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 2)
             return true;
@@ -2854,9 +2913,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].Genus.Contains("Sphagnum"))
+            if (ThePlayer.PlantPlacement[i].Genus.Contains("Sphagnum"))
                 count++;
         }
 
@@ -2868,9 +2927,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny")
                 count++;
         }
 
@@ -2882,9 +2941,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.ConditionPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.ConditionPlacement.Count; i++)
         {
-            if (GameManager.Instance.ConditionPlacement[i].CardName.Contains("Peat-Bog"))
+            if (ThePlayer.ConditionPlacement[i].CardName.Contains("Peat-Bog"))
                 count++;
         }
 
@@ -2896,7 +2955,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2906,14 +2965,14 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerAridCount;
-        count += GameManager.Instance.playerForestCount;
-        count += GameManager.Instance.playerGrasslandsCount;
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerSaltWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
-        count += GameManager.Instance.playerSubZeroCount;
-        count += GameManager.Instance.playerMountainRange;
+        count += ThePlayer.AridCount;
+        count += ThePlayer.ForestCount;
+        count += ThePlayer.GrasslandsCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.SaltWaterCount;
+        count += ThePlayer.StandingWaterCount;
+        count += ThePlayer.SubZeroCount;
+        count += ThePlayer.MountainRange;
 
         if (count >= 1)
             return true;
@@ -2923,7 +2982,7 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 2)
             return true;
@@ -2933,9 +2992,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlantPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.PlantPlacement.Count; i++)
         {
-            if (GameManager.Instance.PlantPlacement[i].Genus.Contains("Sphagnum"))
+            if (ThePlayer.PlantPlacement[i].Genus.Contains("Sphagnum"))
                 count++;
         }
 
@@ -2947,9 +3006,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.InvertebratePlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.InvertebratePlacement.Count; i++)
         {
-            if (GameManager.Instance.InvertebratePlacement[i].AnimalSize == "Tiny")
+            if (ThePlayer.InvertebratePlacement[i].AnimalSize == "Tiny")
                 count++;
         }
 
@@ -2961,9 +3020,9 @@ public class Reqs
     {
         int count = 0;
 
-        for (int i = 0; i < GameManager.Instance.ConditionPlacement.Count; i++)
+        for (int i = 0; i < ThePlayer.ConditionPlacement.Count; i++)
         {
-            if (GameManager.Instance.ConditionPlacement[i].CardName.Contains("Peat-Bog"))
+            if (ThePlayer.ConditionPlacement[i].CardName.Contains("Peat-Bog"))
                 count++;
         }
 
@@ -2975,8 +3034,8 @@ public class Reqs
     {
         int count = 0;
 
-        count += GameManager.Instance.playerRunningWaterCount;
-        count += GameManager.Instance.playerStandingWaterCount;
+        count += ThePlayer.RunningWaterCount;
+        count += ThePlayer.StandingWaterCount;
 
         if (count >= 1)
             return true;
@@ -2985,33 +3044,33 @@ public class Reqs
 
     //REQUIREMENTS R236 - R245 ARE FOR THE MULTIPLAYER CARDS
 
-    public bool r236() //acidic waters
-    {
-        //checks to make sure there are even enough regions to be used - only has to be one
-        if ((GameManager.Instance.cp1SaltWaterCount + GameManager.Instance.cp1StandingWaterCount + GameManager.Instance.cp1RunningWaterCount) > 0)
-        {
-            //if enough are able to be used, then make the option visible to the plyer
-            return true;
-        }
+    //public bool r236() //acidic waters
+   // {
+        ////checks to make sure there are even enough regions to be used - only has to be one
+        //if ((GameManager.Instance.cp1SaltWaterCount + GameManager.Instance.cp1StandingWaterCount + GameManager.Instance.cp1RunningWaterCount) > 0)
+        //{
+        //    //if enough are able to be used, then make the option visible to the plyer
+        //    return true;
+        //}
 
-        // Computer two check
-        //checks to make sure there are even enough regions to be used - only has to be one
-        if ((GameManager.Instance.cp2SaltWaterCount + GameManager.Instance.cp2StandingWaterCount + GameManager.Instance.cp2RunningWaterCount) > 0)
-        {
-            //if enough are able to be used, then make the option visible to the plyer
-            return true;
-        }
+        //// Computer two check
+        ////checks to make sure there are even enough regions to be used - only has to be one
+        //if ((GameManager.Instance.cp2SaltWaterCount + GameManager.Instance.cp2StandingWaterCount + GameManager.Instance.cp2RunningWaterCount) > 0)
+        //{
+        //    //if enough are able to be used, then make the option visible to the plyer
+        //    return true;
+        //}
 
-        // Computer three check
-        //checks to make sure there are even enough regions to be used - only has to be one
-        if ((GameManager.Instance.cp3SaltWaterCount + GameManager.Instance.cp3StandingWaterCount + GameManager.Instance.cp3RunningWaterCount) > 0)
-        {
-            //if enough are able to be used, then make the option visible to the plyer
-            return true;
-        }
+        //// Computer three check
+        ////checks to make sure there are even enough regions to be used - only has to be one
+        //if ((GameManager.Instance.cp3SaltWaterCount + GameManager.Instance.cp3StandingWaterCount + GameManager.Instance.cp3RunningWaterCount) > 0)
+        //{
+        //    //if enough are able to be used, then make the option visible to the plyer
+        //    return true;
+        //}
 
-        return false;
-    }
+        //return false;
+   // }
 
     public bool r237() //children at play
     {
@@ -3059,6 +3118,8 @@ public class Reqs
     }
 
 
+    //accessors and mutators
+    public Player ThePlayer { get => thePlayer; set => thePlayer = value; }
 }
 
 

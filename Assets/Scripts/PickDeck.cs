@@ -76,8 +76,9 @@ public class PickDeck : MonoBehaviour
             //sets human canvas values
             GameManager.Instance.Person.DeckPicked = "D001";
             //GameManager.Instance.Person.AssignDeck();
-            GameManager.Instance.Person.Deck.DeckName = Allegheny ;
-            GameManager.Instance.Person.Deck.DeckColor = AlleghenyColor;
+            //Debug.Log("Deck picked" + GameManager.Instance.Person.Deck.Cards.Count);
+            //GameManager.Instance.Person.Deck.DeckName = Allegheny ;
+            //GameManager.Instance.Person.Deck.DeckColor = AlleghenyColor;
             //Debug.Log("PickDeck deck color" + GameManager.Instance.Person.Deck.DeckColor);
             //Debug.Log("PickDeck deck count" + GameManager.Instance.Person.Deck.Cards.Count);
             //Debug.Log("PickDeck deck ID" + GameManager.Instance.Person.Deck.DeckId);

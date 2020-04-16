@@ -42,142 +42,8 @@ public class GameManager : MonoBehaviour {
 
     //this is currently what populated our cards
     public phpImport importer;
-
-
-    //these are all here until we figure out the requirements part
-    public List<Card> Hand = new List<Card>();
-    public List<Card> RegionPlacement = new List<Card>();
-    public List<Card> SpecialRegionPlacement = new List<Card>();
-    public List<Card> PlantPlacement = new List<Card>();
-    public List<Card> AnimalPlacement = new List<Card>();
-    public List<Card> InvertebratePlacement = new List<Card>();
-    public List<Card> MicrobePlacement = new List<Card>();
-    public List<Card> HumanPlacement = new List<Card>();
-    public List<Card> MultiPlacement = new List<Card>();
-    public List<Card> FungiPlacement = new List<Card>();
-    public List<Card> ConditionPlacement = new List<Card>();
-    public List<Card> DiscardPlacement = new List<Card>();
-    public List<Deck> cp1Deck = new List<Deck>();
-    public List<Card> HandCP1 = new List<Card>();
-    public List<Card> RegionPlacementCP1 = new List<Card>();
-    public List<Card> SpecialRegionPlacementCP1 = new List<Card>();
-    public List<Card> PlantPlacementCP1 = new List<Card>();
-    public List<Card> AnimalPlacementCP1 = new List<Card>();
-    public List<Card> InvertebratePlacementCP1 = new List<Card>();
-    public List<Card> MicrobePlacementCP1 = new List<Card>();
-    public List<Card> HumanPlacementCP1 = new List<Card>();
-    public List<Card> MultiPlacementCP1 = new List<Card>();
-    public List<Card> FungiPlacementCP1 = new List<Card>();
-    public List<Card> ConditionPlacementCP1 = new List<Card>();
-    public List<Card> DiscardPlacementCP1 = new List<Card>();
-    public List<Deck> cp2Deck = new List<Deck>();
-    public List<Card> HandCP2 = new List<Card>();
-    public List<Card> RegionPlacementCP2 = new List<Card>();
-    public List<Card> SpecialRegionPlacementCP2 = new List<Card>();
-    public List<Card> PlantPlacementCP2 = new List<Card>();
-    public List<Card> AnimalPlacementCP2 = new List<Card>();
-    public List<Card> InvertebratePlacementCP2 = new List<Card>();
-    public List<Card> MicrobePlacementCP2 = new List<Card>();
-    public List<Card> HumanPlacementCP2 = new List<Card>();
-    public List<Card> MultiPlacementCP2 = new List<Card>();
-    public List<Card> FungiPlacementCP2 = new List<Card>();
-    public List<Card> ConditionPlacementCP2 = new List<Card>();
-    public List<Card> DiscardPlacementCP2 = new List<Card>();
-    public List<Deck> cp3Deck = new List<Deck>();
-    public List<Card> HandCP3 = new List<Card>();
-    public List<Card> RegionPlacementCP3 = new List<Card>();
-    public List<Card> SpecialRegionPlacementCP3 = new List<Card>();
-    public List<Card> PlantPlacementCP3 = new List<Card>();
-    public List<Card> AnimalPlacementCP3 = new List<Card>();
-    public List<Card> InvertebratePlacementCP3 = new List<Card>();
-    public List<Card> MicrobePlacementCP3 = new List<Card>();
-    public List<Card> HumanPlacementCP3 = new List<Card>();
-    public List<Card> MultiPlacementCP3 = new List<Card>();
-    public List<Card> FungiPlacementCP3 = new List<Card>();
-    public List<Card> ConditionPlacementCP3 = new List<Card>();
-    public List<Card> DiscardPlacementCP3 = new List<Card>();
-    public bool playerProtectedFromExtinction = false;
-    public bool cp1ProtectedFromExtinction = false;
-    public bool cp2ProtectedFromExtinction = false;
-    public bool cp3ProtectedFromExtinction = false;
-    public bool playerProtectedFromInvasiveAnimal = false;
-    public bool cp1ProtectedFromInvasiveAnimal = false;
-    public bool cp2ProtectedFromInvasiveAnimal = false;
-    public bool cp3ProtectedFromInvasiveAnimal = false;
-    public bool playerProtectedFromInvasivePlant = false;
-    public bool cp1ProtectedFromInvasivePlant = false;
-    public bool cp2ProtectedFromInvasivePlant = false;
-    public bool cp3ProtectedFromInvasivePlant = false;
-    public bool playerNoConditionRequirements = false;
-    public bool cp1NoConditionRequirements = false;
-    public bool cp2NoConditionRequirements = false;
-    public bool cp3NoConditionRequirements = false;
-    public bool playerProtectedFromBlight = false;
-    public bool cp1ProtectedFromBlight = false;
-    public bool cp2ProtectedFromBlight = false;
-    public bool cp3ProtectedFromBlight = false;
-    public bool playerPausedOneTurn = false;
-    public bool cp1PausedOneTurn = false;
-    public bool cp2PausedOneTurn = false;
-    public bool cp3PausedOneTurn = false;
-    public bool playerProtectedFromWeb = false;
-    public bool cp1ProtectedFromWeb = false;
-    public bool cp2ProtectedFromWeb = false;
-    public bool cp3ProtectedFromWeb = false;
-    public bool playerNoDiscard = false;
-    public bool cp1NoDiscard = false;
-    public bool cp2NoDiscard = false;
-    public bool cp3NoDiscard = false;
-    public bool playerDrawExtraCard = false;
-    public bool cp1DrawExtraCard = false;
-    public bool cp2DrawExtraCard = false;
-    public bool cp3DrawExtraCard = false;
+    //im not sure what this is used for yet but ill kep it around until i figure it out
     public bool ecosystemsConnected = false;
-    public bool playerTwentyPointNoDiscard = false;
-    public bool cp1TwentyPointNoDiscard = false;
-    public bool cp2TwentyPointNoDiscard = false;
-    public bool cp3TwentyPointNoDiscard = false;
-    public bool playerProtectedFromInvertebrate = false;
-    public bool cp1ProtectedFromInvertebrate = false;
-    public bool cp2ProtectedFromInvertebrate = false;
-    public bool cp3ProtectedFromInvertebrate = false;
-    public int playerAridCount = 0;
-    public int playerForestCount = 0;
-    public int playerGrasslandsCount = 0;
-    public int playerRunningWaterCount = 0;
-    public int playerSaltWaterCount = 0;
-    public int playerStandingWaterCount = 0;
-    public int playerSubZeroCount = 0;
-    public int playerMountainRange = 0;
-    public int playerTotalRegions = 0;
-    public int cp1AridCount = 0; 
-    public int cp1ForestCount = 0;
-    public int cp1GrasslandsCount = 0;
-    public int cp1RunningWaterCount = 0;
-    public int cp1SaltWaterCount = 0;
-    public int cp1StandingWaterCount = 0;
-    public int cp1SubZeroCount = 0;
-    public int cp1MountainRange = 0;
-    public int cp1TotalRegions = 0;
-    public int cp2AridCount = 0;
-    public int cp2ForestCount = 0;
-    public int cp2GrasslandsCount = 0;
-    public int cp2RunningWaterCount = 0;
-    public int cp2SaltWaterCount = 0;
-    public int cp2StandingWaterCount = 0;
-    public int cp2SubZeroCount = 0;
-    public int cp2MountainRange = 0;
-    public int cp2TotalRegions = 0;
-    public int cp3AridCount = 0;
-    public int cp3ForestCount = 0;
-    public int cp3GrasslandsCount = 0;
-    public int cp3RunningWaterCount = 0;
-    public int cp3SaltWaterCount = 0;
-    public int cp3StandingWaterCount = 0;
-    public int cp3SubZeroCount = 0;
-    public int cp3MountainRange = 0;
-    public int cp3TotalRegions = 0;
-
 
     /*****************************************************************************/
     /*****************************************************************************/
@@ -194,6 +60,8 @@ public class GameManager : MonoBehaviour {
 
     //  stores round number
     private int round;
+
+    private bool nextPlayer;
 
     //  stores sorting layers used throughout different classes to display objects in front of everything
     private int sortingOrder = 10;
@@ -229,8 +97,8 @@ public class GameManager : MonoBehaviour {
      *  @purpose    initialize GameManager object 
      */
     void Start () {
-        
-        //populates DeckId Class and then creates decks and polpulates the decklist
+        //Debug.Log("Game Manager Created");
+        //populates DeckId Class and then creates decks and populates the decklist
         CreateDecks();
 
         //populates decks in deck list
@@ -238,6 +106,8 @@ public class GameManager : MonoBehaviour {
 
         //  sets initial round number
         Round = 1;
+
+        NextPlayer = false;
 
         //this is how we inialize objects
         //initializing Human Person Player
@@ -265,24 +135,24 @@ public class GameManager : MonoBehaviour {
         CP2GO = new GameObject("CP2");
         CP2GO.AddComponent<Computer>();
         CP2 = GameObject.Find("CP2").GetComponent<Computer>();
-        CP2.InitializeObjects("Computer Two Board/ComputerTwoScoreText", "Computer Two Board/Main Images and Placements/ComputerTwoRoundText", "Computer Two Board/CP2Hand", 
-            "Computer Two Board/Region Card Placement", "Computer Two Board/Condition Card Placement", "Computer Two Board/Plant Card Placement", 
+        CP2.InitializeObjects("Computer Two Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText", "Computer Two Board/Main Images and Placements/ComputerTwoRoundText", "Computer Two Board/CP2Hand",
+            "Computer Two Board/Region Card Placement", "Computer Two Board/Condition Card Placement", "Computer Two Board/Plant Card Placement",
             "Computer Two Board/Invertebrate Card Placement", "Computer Two Board/Animal Card Placement", "Computer Two Board/Special Region Placement",
-            "Computer Two Board/Multiplayer Card Placement", "Computer Two Board/Microbe Card Placement", "Computer Two Board/Fungi Card Placement", 
+            "Computer Two Board/Multiplayer Card Placement", "Computer Two Board/Microbe Card Placement", "Computer Two Board/Fungi Card Placement",
             "Computer Two Board/Discard Pile Placement", "Computer Two Board/Human Card Placement", "CP2Color", "CP2DeckText", "Computer Two Board/Main Images and Placements/PlayerButton/PlayerScoreText",
             "Computer Two Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Two Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
-            "Computer Two Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText");
+            "Computer Two Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText1");
 
         //Initilizing CP3 Player
         CP3GO = new GameObject("CP3");
         CP3GO.AddComponent<Computer>();
         CP3 = GameObject.Find("CP3").GetComponent<Computer>();
-        CP3.InitializeObjects("Computer Three Board/ComputerThreeScoreText", "Computer Three Board/Main Images and Placements/ComputerThreeRoundText", "Computer Three Board/CP3Hand", 
+        CP3.InitializeObjects("Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText", "Computer Three Board/Main Images and Placements/ComputerThreeRoundText", "Computer Three Board/CP3Hand", 
             "Computer Three Board/Region Card Placement", "Computer Three Board/Condition Card Placement", "Computer Three Board/Plant Card Placement", 
             "Computer Three Board/Invertebrate Card Placement", "Computer Three Board/Animal Card Placement", "Computer Three Board/Special Region Placement", 
             "Computer Three Board/Multiplayer Card Placement", "Computer Three Board/Microbe Card Placement", "Computer Three Board/Fungi Card Placement", 
             "Computer Three Board/Discard Pile Placement", "Computer Three Board/Human Card Placement", "CP3Color", "CP3DeckText", "Computer Three Board/Main Images and Placements/PlayerButton/PlayerScoreText",
-            "Computer Three Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText",
+            "Computer Three Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Three Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
             "Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText");
 
         //hard codes deck for now
@@ -314,59 +184,106 @@ public class GameManager : MonoBehaviour {
             //  add newly created deck to Deck list
             Decks.Add(deck);
         }
+
     }
 
+    /*
+     *  @name       CreateBoards()
+     *  @purpose    Assigns the correct game objects to create an isntance of hideshow boards to change screens
+     */
+    public void CreateBoards()
+    {
+        HideShowGO = new GameObject("HideShow");
+        HideShowGO.AddComponent<HideShowBoards>();
+        HideShow = GameObject.Find("HideShow").GetComponent<HideShowBoards>();
+    }
+
+    //i added this script to the Player Draw Deck Placement so when it is clicked this is carried out// im still working on it
+    void OnMouseDown()
+    {
+        //even if i just call the mehtod below it causes an error 
+        //StartHumanTurn();
+        //Debug.Log("Clicked");
+    }
 
     /*
      *  @name       StartHumanTurn()
      *  @purpose   Starts teh human turn
+     *  Note: in order for any UI to be manipulated it the canvas or scene which the object that is being accessed on needs to be visible
      */
     public void StartHumanTurn()
     {
-        //i have the hide show here for now becasue at this point the playerboard scene has already been created
-        //creates hide show boards object     
-        //this is temporary but its so we dont remake objects and get erros
-            HideShowGO = new GameObject("HideShow");
-            HideShowGO.AddComponent<HideShowBoards>();
-            HideShow = GameObject.Find("HideShow").GetComponent<HideShowBoards>();
-
-        //updates all the scores on the UI of that canvas
-        Person.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
-        Person.StartTurn();
+        //if its the forst round instantite the objects for the hiesoe boards
+        if (Round == 1)
+        {
+            CreateBoards();
+        }
+            //starts the players loop
+            Person.StartTurn();
     }
 
+    /*
+     *  @name       StartComputerLoop()
+     *  @purpose   makes the computers take their turns then returns to human player
+     *  Note: in order for any UI to be manipulated it the canvas or scene which the object that is being accessed on needs to be visible
+     */
     public void StartComputerLoop()
     {
         Cursor.visible = false; //hides the mouse from the user
         Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor     
-       
+        //Debug.Log("Before start turn GM" + CP1.MoveToNextAIPlayer);
         HideShow.ShowCP1();
         //makes sure all scores on the canvas are up to date
         CP1.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
         CP1.StartTurn();
+        //while (NextPlayer == false)
+        //{
+        //    if (NextPlayer == true)
+        //    {
+        //        break;
+        //    }
+        //}
+        //Debug.Log("loop worked");
+        //Debug.Log("loop worked");
+
         //CP2
+        //stuck in this loop until the computer is done with its coroutine
+        //right now it freezes and im not sure why it must never be returning true from the start couritne function
         HideShow.ShowCP2();
         //makes sure all scores on the canvas are up to date
         CP2.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
         CP2.StartTurn();
+        //while (CP2.MoveToNextAIPlayer == false)
+        //{
+
+        //}
         //CP3
         HideShow.ShowCP3();
-        //makes sure all scores on the canvas are up to date
+        ////makes sure all scores on the canvas are up to date
         CP3.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
         CP3.StartTurn();
-        //Back to player
+        //while (CP3.MoveToNextAIPlayer == false)
+        //{
 
+        //}
+        //Back to player
         //shows mouse
-        Cursor.visible = true; 
+        Cursor.visible = true;
         //enables mouse
         Cursor.lockState = CursorLockMode.None;
 
-        //change the round
-        //UpdateRound();
-        Round++;
+        //change the round int the game manager
+        UpdateRound();
 
         //returns to players screen
         HideShow.ShowPlayer();
+        //makes sure the scores and round on the player canvas are up to date
+        Person.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
+        Person.ChangeRound();
+        //after the round has changed the player can draw again
+        Person.CanDraw = true;
+        //starts the players turn automatically 
+        Person.StartTurn();
     }
 
 
@@ -392,16 +309,17 @@ public class GameManager : MonoBehaviour {
         Round = 1;
 
         //  clear human and computer player hands
-        Hand.Clear();
-        HandCP1.Clear();
-        HandCP2.Clear();
-        HandCP3.Clear();
-        restartGame();
+        Person.Hand.Clear();
+        CP1.Hand.Clear();
+        CP2.Hand.Clear();
+        CP3.Hand.Clear();
+        //restartGame();
     }
 
     /*
      *  @name       restartGame()
      *  @purpose    on new game, destroy GameManager object and create a new one
+     *  This is called in the change scene and if it is the loading screen this function is called
      */
     public void restartGame()
     {
@@ -446,5 +364,21 @@ public class GameManager : MonoBehaviour {
     public int SortingOrder { get => sortingOrder; set => sortingOrder = value; }
     public List<string> DeckIds { get => deckIds; set => deckIds = value; }
     public List<Deck> Decks { get => decks; set => decks = value; }
+    public bool NextPlayer { get => nextPlayer; set => nextPlayer = value; }
 }
+
+/*
+ ISSUES
+ -cant use clickin on the deck to start the player draw
+ -cant use pick deck to assign deck and deck attricbutes casue they get over written
+ -i need to stop the computer corotines or stop the game loop from contuining until each computer
+ player is done and make sure they are on the correct canvas display
+
+    -i wana just make it so when player discards their card the computer loop starts why have a need to click a button? its just one more thing
+    -do we like just having everything automated?(player is called by computer and everyones draw is called automatically
+     
+     
+     */
+
+
 

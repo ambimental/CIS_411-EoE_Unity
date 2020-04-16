@@ -18,6 +18,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 {
     public static GameObject DraggedInstance; //gets the object that is being dragged
 
+    //these will hold the values to create an object from the script for Requirements
+    private GameObject reqGO;
+    private Requirements req;
+
     //this probably isnt needed
     //will be used to see if the player scene is active - will be used for the halos
     private CanvasGroup sceneCheck;
@@ -27,7 +31,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Component placementHalo; //for the current placement and discard placement
     private Component discardHalo;
 
-    private Requirements cardReqs; //to call the reqs function
     /*************************************************************************************************************/
     /*************************************************************************************************************/
     //temporaily took this out and everyhting with actons everywhere until we are ready o work on that -ben
@@ -59,6 +62,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
       */
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //this instantiates an game object of the class to use as an object and access methods
+        //creates a gameobjects
+        ReqGO = new GameObject("Req");
+        //assigns the script to the game object
+        ReqGO.AddComponent<Requirements>();
+        //assigns the game object to the script withe the game object
+        Req = GameObject.Find("Req").GetComponent<Requirements>();
+
         ParentReturn = this.transform.parent; //gets original parent panel - the hand
         //this makes sure the current card being draggeds return is the hand
         this.transform.SetParent(this.transform.parent.parent);
@@ -91,10 +102,13 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (SceneCheck.alpha == 1)//if this is not 1 it means that the player board is not the visible one
         {
             //this is where the requirements will be checked
+            //loop through each card in the human hand
             for (int z = 0; z < GameManager.Instance.Person.Hand.Count; z++)
             {
+                //if the current card being dagged matches the card in the hand
                 if (gameObject.name == GameManager.Instance.Person.Hand[z].CardName) //finds the card you are working with
                 {
+                    //part of requirement checking 
                     bool executeReqs = true; //to handle executing the reqs
 
                     if (GameManager.Instance.Person.Hand[z].CardType == "Condition") //determines if the standing action for the explorer is active
@@ -103,16 +117,22 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             executeReqs = false;
                     }
 
+                    //this is the basic requirement check routine
                     if (executeReqs == true)
                     {
+                        //if the card has requrements associated with it
                         if (GameManager.Instance.Person.Hand[z].ReqID.Count != 0)
                         {
-                            CardReqs = GameObject.Find("Main Camera").GetComponent<Requirements>();
-
-                            if (CardReqs.requirementCheck(GameManager.Instance.Person.Hand[z] )) //determines if they work or not
+                            //calls the method in requirements and passes in the current card being draged and the current object player 
+                            //and gets a true/false value to determine if requirements work
+                            if (Req.RequirementCheck(GameManager.Instance.Person.Hand[z], GameManager.Instance.Person.CurrentPlayer)== true)
+                            {
                                 RequirementsWork = true;
+                            }
+                            //if the requirements dont work then set the bool
                             else RequirementsWork = false;
                         }
+                        //if the card has no rewuirements associated with it then continue 
                         else
                         {
                             RequirementsWork = true; //allows it to be played
@@ -265,8 +285,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     if (DraggedInstance.name == GameManager.Instance.Person.Hand[i].CardName)
                     {
-                        DraggedInstance.transform.localScale = new Vector3(1.0f, 1.0f, 0); //sets the size to fit the placement area
-
+                        DraggedInstance.transform.localScale = new Vector3(1.0f, 1.0f, 0); //sets the size to fit the placement area                     
                         GameManager.Instance.Person.DiscardPlacement.Add(GameManager.Instance.Person.Hand[i]); //adds the card to the discard list
                         GameManager.Instance.Person.Hand.Remove(GameManager.Instance.Person.Hand[i]); //removes the card from the hand list
 
@@ -276,9 +295,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
                 Destroy(DraggedInstance.GetComponent<Draggable>()); //makes them no longer be abe to be dragged
 
-                //the end turn button is in charge of starting the AI turns so here we enable it 
-                GameManager.Instance.Person.EndTurnEnable("Active"); //makes the button visible again
-                GameManager.Instance.Person.EndTurnEnable("Interactable"); //enables the end turn button
+                //instead of the end sturn button it automatically starts the computers turn when the card is discarded
+                GameManager.Instance.StartComputerLoop();
 
             }
             else if (CType == "Region")
@@ -715,8 +733,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             if (GameManager.Instance.Person.Hand.Count == 0) //if you play your last card and dont have anymore, automatically goes
             {
-                GameManager.Instance.Person.EndTurnEnable("Active"); //makes the button visible again
-                GameManager.Instance.Person.EndTurnEnable("Interactable"); //enables the end turn button
+                //instead of the end sturn button it automatically starts the computers turn when the card is discarded
+                GameManager.Instance.StartComputerLoop();
             }
         }
     }
@@ -726,11 +744,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public GameObject DiscardPlacement { get => discardPlacement; set => discardPlacement = value; }
     public Component PlacementHalo { get => placementHalo; set => placementHalo = value; }
     public Component DiscardHalo { get => discardHalo; set => discardHalo = value; }
-    public Requirements CardReqs { get => cardReqs; set => cardReqs = value; }
     public Actions CardAction { get => cardAction; set => cardAction = value; }
     public ActionsStanding StandingActions { get => standingActions; set => standingActions = value; }
     public Transform ParentReturn { get => parentReturn; set => parentReturn = value; }
     public string CType { get => cType; set => cType = value; }
     public bool RequirementsWork { get => requirementsWork; set => requirementsWork = value; }
     public CanvasGroup SceneCheck { get => sceneCheck; set => sceneCheck = value; }
+    public GameObject ReqGO { get => reqGO; set => reqGO = value; }
+    public Requirements Req { get => req; set => req = value; }
 }

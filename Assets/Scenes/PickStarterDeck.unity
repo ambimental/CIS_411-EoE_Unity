@@ -653,8 +653,8 @@ GameObject:
   - component: {fileID: 889316047}
   - component: {fileID: 889316046}
   - component: {fileID: 889316045}
-  - component: {fileID: 889316044}
   - component: {fileID: 889316049}
+  - component: {fileID: 889316050}
   - component: {fileID: 889316048}
   m_Layer: 0
   m_Name: Main Camera
@@ -663,14 +663,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &889316044
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 889316043}
-  m_Enabled: 1
 --- !u!124 &889316045
 Behaviour:
   m_ObjectHideFlags: 0
@@ -760,6 +752,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b100e2c7328e7e419c9686831fc3ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &889316050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889316043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 846fde9c3f7251147885a3e9d3f30387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importer: {fileID: 0}
+  playerProtectedFromExtinction: 0
+  cp1ProtectedFromExtinction: 0
+  cp2ProtectedFromExtinction: 0
+  cp3ProtectedFromExtinction: 0
+  playerProtectedFromInvasiveAnimal: 0
+  cp1ProtectedFromInvasiveAnimal: 0
+  cp2ProtectedFromInvasiveAnimal: 0
+  cp3ProtectedFromInvasiveAnimal: 0
+  playerProtectedFromInvasivePlant: 0
+  cp1ProtectedFromInvasivePlant: 0
+  cp2ProtectedFromInvasivePlant: 0
+  cp3ProtectedFromInvasivePlant: 0
+  playerNoConditionRequirements: 0
+  cp1NoConditionRequirements: 0
+  cp2NoConditionRequirements: 0
+  cp3NoConditionRequirements: 0
+  playerProtectedFromBlight: 0
+  cp1ProtectedFromBlight: 0
+  cp2ProtectedFromBlight: 0
+  cp3ProtectedFromBlight: 0
+  playerPausedOneTurn: 0
+  cp1PausedOneTurn: 0
+  cp2PausedOneTurn: 0
+  cp3PausedOneTurn: 0
+  playerProtectedFromWeb: 0
+  cp1ProtectedFromWeb: 0
+  cp2ProtectedFromWeb: 0
+  cp3ProtectedFromWeb: 0
+  playerNoDiscard: 0
+  cp1NoDiscard: 0
+  cp2NoDiscard: 0
+  cp3NoDiscard: 0
+  playerDrawExtraCard: 0
+  cp1DrawExtraCard: 0
+  cp2DrawExtraCard: 0
+  cp3DrawExtraCard: 0
+  ecosystemsConnected: 0
+  playerTwentyPointNoDiscard: 0
+  cp1TwentyPointNoDiscard: 0
+  cp2TwentyPointNoDiscard: 0
+  cp3TwentyPointNoDiscard: 0
+  playerProtectedFromInvertebrate: 0
+  cp1ProtectedFromInvertebrate: 0
+  cp2ProtectedFromInvertebrate: 0
+  cp3ProtectedFromInvertebrate: 0
+  playerAridCount: 0
+  playerForestCount: 0
+  playerGrasslandsCount: 0
+  playerRunningWaterCount: 0
+  playerSaltWaterCount: 0
+  playerStandingWaterCount: 0
+  playerSubZeroCount: 0
+  playerMountainRange: 0
+  playerTotalRegions: 0
+  cp1AridCount: 0
+  cp1ForestCount: 0
+  cp1GrasslandsCount: 0
+  cp1RunningWaterCount: 0
+  cp1SaltWaterCount: 0
+  cp1StandingWaterCount: 0
+  cp1SubZeroCount: 0
+  cp1MountainRange: 0
+  cp1TotalRegions: 0
+  cp2AridCount: 0
+  cp2ForestCount: 0
+  cp2GrasslandsCount: 0
+  cp2RunningWaterCount: 0
+  cp2SaltWaterCount: 0
+  cp2StandingWaterCount: 0
+  cp2SubZeroCount: 0
+  cp2MountainRange: 0
+  cp2TotalRegions: 0
+  cp3AridCount: 0
+  cp3ForestCount: 0
+  cp3GrasslandsCount: 0
+  cp3RunningWaterCount: 0
+  cp3SaltWaterCount: 0
+  cp3StandingWaterCount: 0
+  cp3SubZeroCount: 0
+  cp3MountainRange: 0
+  cp3TotalRegions: 0
 --- !u!1 &892931753
 GameObject:
   m_ObjectHideFlags: 0

@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
      *  @name       Initialize Objects() 
      *  @purpose    acts as constuctor since unitiy doesnt let us create objects of classes normally. Is call when created in Game Manager class
      */
-    public void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject, 
+    public virtual void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject, 
         string pPlantGameObject, string pInvertebrateGameObject, string pAnimalGameObject, string pSpecialRegionGameObject, string pMultiplayerGameObject, 
         string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject, string pDeckTextGameObject,
         string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject)
@@ -237,13 +237,13 @@ public class Player : MonoBehaviour
      *  @name       ThreeCardExecute() 
      *  @purpose    used once per game per player and will not be able to be used again once used
      */
-    public void ThreeCardExecute(){}
+    public virtual void ThreeCardExecute(){}
 
     /*
      *  @name       GenerateCardObjects() 
      *  @purpose    this gets the card from the deck and assigns it to a game object that will be the card you will see omn the screen
      */
-    public void GenerateCardObject()
+    public virtual void GenerateCardObject()
     {
         //creating a new gameobject  to hold act as the card
         CardObject = new GameObject(Holder.CardNameHolder, typeof(RectTransform));
@@ -327,7 +327,7 @@ public class Player : MonoBehaviour
     *  @name       Draw()
     *  @purpose    draws card. Intentionally left empy becasue human and player draw differenly
     */
-    public void Draw(int pDrawAmount){}
+    public virtual void Draw(int pDrawAmount){}
 
         /*
     *  @name       ChangeRound()
@@ -340,7 +340,6 @@ public class Player : MonoBehaviour
         //  updates score text
         RoundText = GameObject.Find(RoundGameObject).GetComponent<Text>();
         RoundText.text = Round.ToString();
-        Debug.Log(Round);
     }
 
         /*
@@ -380,7 +379,7 @@ public class Player : MonoBehaviour
 *  @name       StartTurn()
 *  @purpose    deals the player 5 cards if its round one then starts the players turn
 */
-    public void StartTurn()
+    public virtual void StartTurn()
     {
         //assigns deck info and color
         //CreateDeckInfo();

@@ -27,7 +27,7 @@ public class LevelLoader : MonoBehaviour
     * @purpose calls the level loader that starts the couroutine
     * @return  void
     */
-    private void Start()
+    void Start()
     {
         //finds the text object
         ReturnToMenuText = GameObject.Find("Loading Text").GetComponent<Text>();
@@ -38,7 +38,7 @@ public class LevelLoader : MonoBehaviour
             ReturnToMenuText.text = "Returning to Main Menu...";
         }
 
-        loadLevel();
+        LoadLevel();
     }
 
         /*
@@ -47,7 +47,7 @@ public class LevelLoader : MonoBehaviour
      * 
      * @return  void
      */
-    public void loadLevel()
+    public void LoadLevel()
     {
         StartCoroutine(LoadAsynchronously("MainMenu")); //calls the coroutine and starts laoding the function asynchronously
     }
@@ -70,6 +70,7 @@ public class LevelLoader : MonoBehaviour
 
         SceneManager.LoadSceneAsync(name);
     }
+
     //accessors and mutators
     public float Counter { get => counter; set => counter = value; }
     public Slider Slider { get => slider; set => slider = value; }

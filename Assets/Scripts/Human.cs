@@ -24,8 +24,6 @@ public class Human : Player
 
     //to make the three card burst butto visibile ane not visible
     private Button threeCardBurstButton;
-    //will be used to access the end for the button itself
-    private Button endTurnBtn;
 
     // Start is called before the first frame update
     void Start(){}
@@ -37,7 +35,7 @@ public class Human : Player
  *  @name       Initialize Objects() extend from parent class and ads additon info specific to human
  *  @purpose    acts as constuctor since unitiy doesnt let us create objects of classes normally. Is call when created in Game Manager class
  */
-    public void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject,
+    public override void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject,
         string pPlantGameObject, string pInvertebrateGameObject, string pAnimalGameObject, string pSpecialRegionGameObject, string pMultiplayerGameObject,
         string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject, string pDeckTextGameObject,
         string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject)
@@ -57,32 +55,36 @@ public class Human : Player
     *  @name       StartTurn() extends from parent
     *  @purpose    deals the player 5 cards if its round one then starts the players turn
     */
-    public void StartTurn()
+    public override void StartTurn()
     {
+        Debug.Log("Player class" + Deck.Cards.Count);
         //execute parent method
         base.StartTurn();
-        CreateButtonObjects();
         //allowing colliders to work
         Physics.queriesHitTriggers = true;
-        drawText = GameObject.Find("DrawText").GetComponent<Text>(); //gets the text component so it can be changed
+        //after the round has changed the player needs to discard again
+        CardDiscarded = false;
+        //gets the text component so it can be changed
+        DrawText = GameObject.Find("DrawText").GetComponent<Text>(); //gets the text component so it can be changed
         //if it is the first round then deal 5 cards automatically
-        if (Round == 1) //only happens in the first round
+        if (Round == 1 && CanDraw == true) //only happens in the first round
         {
+            CreateButtonObjects();
             Draw(5);
         }
-
-            //gets the right amount of cards to draw based off regions its a parent function
-            DrawAmount();
+        DrawText.text = "Step 1: Play Card(s) \n Step 2: Discard to End Your Turn";
+         //gets the right amount of cards to draw based off regions its a parent function
+        DrawAmount();
             //draws the apropriate amount
-            Draw(DrawCount);
-            //makes the human player unable to draw again
-            CanDraw = false;
+        Draw(DrawCount);
+        //makes the human player unable to draw again
+        CanDraw = false;
     }
-    /*
- *  @name       GenerateCardObjects() extend from parent class and ads additon info specific to human
- *  @purpose    this gets the card from the deck and assigns it to a game object that will be the card you will see omn the screen
- */
-    private void GenerateCardObject()
+        /*
+     *  @name       GenerateCardObjects() extend from parent class and ads additon info specific to human
+     *  @purpose    this gets the card from the deck and assigns it to a game object that will be the card you will see omn the screen
+     */
+    public override void GenerateCardObject()
     {
         //gets the parent class method stuff
         base.GenerateCardObject();
@@ -91,18 +93,11 @@ public class Human : Player
         CardObject.AddComponent<DoubleClickDescription>(); //makes the cards able to be clicked on
     }
 
-    //i added this script to the Player Draw Deck Placement so when it is clicked this is carried out// im still working on it
-    void OnMouseDown()
-    {
-        //StartTurn();
-        //Debug.Log("The Deck Draw Button Was Called");
-    }
-
     /*
     *  @name       Draw(int pAmount) extends from parent
     *  @purpose    gets the card from the deck and calls generate card object and 
     */
-    public void Draw(int pAmount)
+    public override void Draw(int pAmount)
     {
         //gets parent info
         base.Draw(pAmount);
@@ -159,7 +154,7 @@ public class Human : Player
      *  @name       ThreeCardExecute() extends parent method
      *  @purpose    used once per game per player and will not be able to be used again once used
      */
-    public void ThreeCardExecute()
+    public override void ThreeCardExecute()
     {
         base.ThreeCardExecute();
         //makes it so player can draw the cards
@@ -182,55 +177,7 @@ public class Human : Player
         ThreeCardBurstButton = GameObject.Find("3CardBurst").GetComponent<Button>();
         //when the button is clicked, this is what occurs
         ThreeCardBurstButton.onClick.AddListener(ThreeCardExecute);
-
-        //finds the objects in the scene
-        EndTurnBtn = GameObject.Find("EndTurnButton").GetComponent<Button>();
-        //disable end turn button to start
-        EndTurnBtn.interactable = false;
-        //when the button is clicked, this is what occurs
-        EndTurnBtn.onClick.AddListener(EndTurn);
     }
-
-    /*
-     *  @name       EndTurn()
-     *  @purpose    is called on end turn button click disables the button and starts the computer loop
-     */
-    public void EndTurn()
-    {
-        EndTurnEnable("NotInteractable");
-        GameManager.Instance.StartComputerLoop();
-    }
-
-    /*
-     *  @name       EndTurnEnable()
-     *  @purpose    this is used by the draggable script and determines wether or not the end turn button is enabled
-     */
-    public void EndTurnEnable(string pEndTurn)
-    {
-        //EndTurnBtn = GameObject.Find("EndTurnButton").GetComponent<Button>();
-        if (pEndTurn == "Interactable")
-        {
-            EndTurnBtn.interactable = true;
-        }
-
-        if (pEndTurn == "NotInteractable")
-        {
-            EndTurnBtn.interactable = false;
-        }
-
-        if (pEndTurn == "Active")
-        {
-            EndTurnBtn.gameObject.SetActive(true);
-            EndTurnBtn.interactable = true;
-        }
-
-        if (pEndTurn == "NotActive")
-        {
-            EndTurnBtn.gameObject.SetActive(false);
-        }
-
-    }
-
 
     //accessors and mutators
     public bool CanDraw { get => canDraw; set => canDraw = value; }
@@ -238,6 +185,5 @@ public class Human : Player
     public Text DrawText { get => drawText; set => drawText = value; }
     public Human CurrentPlayer { get => currentPlayer; set => currentPlayer = value; }
     public Button ThreeCardBurstButton { get => threeCardBurstButton; set => threeCardBurstButton = value; }
-    public Button EndTurnBtn { get => endTurnBtn; set => endTurnBtn = value; }
 }
 

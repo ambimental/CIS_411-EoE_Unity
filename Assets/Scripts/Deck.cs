@@ -29,7 +29,7 @@ public class Deck {
     {
         DeckId = "";
         Cards = new List<Card>();
-        deckName="";
+        deckName= "";
         deckColor= new Color32(0, 0, 0, 0);
     }
 
