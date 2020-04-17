@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour {
     public CanvasGroup playerCanvas;
 
     //  stores round number
+<<<<<<< Updated upstream
     public int round;
 
     //  stores player scores
@@ -82,6 +83,28 @@ public class GameManager : MonoBehaviour {
 
     //Creates object to show card
     public DisplayOneCard showOneCard;
+=======
+    private int round;
+
+    //  stores sorting layers used throughout different classes to display objects in front of everything
+    private int sortingOrder = 10;
+
+    /*these are what are needed to create the player objects
+     the GameObject is what is created the add a compenent to
+     the Class object is what the game compentent is assigned to its just the way unity makes you do it*/
+    private GameObject personGO;
+    private Human person;
+    private GameObject cP1GO;
+    private Computer cP1;
+    private GameObject cP2GO;
+    private Computer cP2;
+    private GameObject cP3GO;
+    private Computer cP3;
+
+    //this is to be able to hide and show the boards
+    private GameObject hideShowGO;
+    private HideShowBoards hideShow;
+>>>>>>> Stashed changes
 
     /*
      *  @name       Awake()
@@ -99,8 +122,90 @@ public class GameManager : MonoBehaviour {
      */
     void  Start () {
         //  sets initial round number
+<<<<<<< Updated upstream
         round = 1;
+=======
+        Round = 1;
+
+        //this is how we inialize objects
+        //initializing Human Person Player
+        PersonGO = new GameObject("Person");
+        PersonGO.AddComponent<Human>();
+        Person = GameObject.Find("Person").GetComponent<Human>();
+        Person.InitializeObjects("PlayerScoreText", "PlayerRoundText", "Hand", "Region Card Placement", "Condition Card Placement", 
+            "Plant Card Placement", "Invertebrate Card Placement", "Animal Card Placement", "Special Region Placement", "Multiplayer Card Placement",
+            "Microbe Card Placement", "Fungi Card Placement", "Discard Pile Placement", "Human Card Placement", "PlayerColor", "PlayerDeckText", 
+            "PlayerScoreText", "ComputerOneScoreText", "ComputerTwoScoreText", "ComputerThreeScoreText", "Person");
+
+        //Initilizing CP1 Player
+        CP1GO = new GameObject("CP1");
+        CP1GO.AddComponent<Computer>();
+        CP1 = GameObject.Find("CP1").GetComponent<Computer>();
+        CP1.InitializeObjects("Computer One Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer One Board/Main Images and Placements/ComputerOneRoundText", 
+            "Computer One Board/CP1Hand", "Computer One Board/Region Card Placement", "Computer One Board/Condition Card Placement", "Computer One Board/Plant Card Placement", 
+            "Computer One Board/Invertebrate Card Placement", "Computer One Board/Animal Card Placement", "Computer One Board/Special Region Placement", 
+            "Computer One Board/Multiplayer Card Placement", "Computer One Board/Microbe Card Placement", "Computer One Board/Fungi Card Placement", 
+            "Computer One Board/Discard Pile Placement", "Computer One Board/Human Card Placement", "CP1Color", "CP1DeckText", "Computer One Board/Main Images and Placements/PlayerButton/PlayerScoreText",
+            "Computer One Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer One Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
+            "Computer One Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText", "CP1");
+
+        //Initilizing CP2 Player
+        CP2GO = new GameObject("CP2");
+        CP2GO.AddComponent<Computer>();
+        CP2 = GameObject.Find("CP2").GetComponent<Computer>();
+        CP2.InitializeObjects("Computer Two Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText", "Computer Two Board/Main Images and Placements/ComputerTwoRoundText", "Computer Two Board/CP2Hand",
+            "Computer Two Board/Region Card Placement", "Computer Two Board/Condition Card Placement", "Computer Two Board/Plant Card Placement",
+            "Computer Two Board/Invertebrate Card Placement", "Computer Two Board/Animal Card Placement", "Computer Two Board/Special Region Placement",
+            "Computer Two Board/Multiplayer Card Placement", "Computer Two Board/Microbe Card Placement", "Computer Two Board/Fungi Card Placement",
+            "Computer Two Board/Discard Pile Placement", "Computer Two Board/Human Card Placement", "CP2Color", "CP2DeckText", "Computer Two Board/Main Images and Placements/PlayerButton/PlayerScoreText",
+            "Computer Two Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Two Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
+            "Computer Two Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText1", "CP2");
+
+        //Initilizing CP3 Player
+        CP3GO = new GameObject("CP3");
+        CP3GO.AddComponent<Computer>();
+        CP3 = GameObject.Find("CP3").GetComponent<Computer>();
+        CP3.InitializeObjects("Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText", "Computer Three Board/Main Images and Placements/ComputerThreeRoundText", "Computer Three Board/CP3Hand", 
+            "Computer Three Board/Region Card Placement", "Computer Three Board/Condition Card Placement", "Computer Three Board/Plant Card Placement", 
+            "Computer Three Board/Invertebrate Card Placement", "Computer Three Board/Animal Card Placement", "Computer Three Board/Special Region Placement", 
+            "Computer Three Board/Multiplayer Card Placement", "Computer Three Board/Microbe Card Placement", "Computer Three Board/Fungi Card Placement", 
+            "Computer Three Board/Discard Pile Placement", "Computer Three Board/Human Card Placement", "CP3Color", "CP3DeckText", "Computer Three Board/Main Images and Placements/PlayerButton/PlayerScoreText",
+            "Computer Three Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Three Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
+            "Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText","CP3");
+
+        //hard codes deck for now
+        Person.Deck = Decks[0];
+        CP1.Deck = Decks[1];
+        CP2.Deck = Decks[2];
+        CP3.Deck = Decks[3];
     }
+
+        /*
+     *  @name       CreateDecks()
+     *  @purpose    Hard code deck IDs to a list then creates a deck and adds it to deck list with an id associated with it
+     */
+    public void CreateDecks()
+    {
+        //  adds individual deck IDs to list
+        DeckIds.Add("D001");
+        DeckIds.Add("D002");
+        DeckIds.Add("D003");
+        DeckIds.Add("D004");
+
+        //  for each deckID in list DeckIds
+        foreach (string id in DeckIds)
+        {
+            //  create a new deck
+            Deck deck = new Deck();
+            //  set new deck ID to id in list
+            deck.DeckId = id;
+            //  add newly created deck to Deck list
+            Decks.Add(deck);
+        }
+
+>>>>>>> Stashed changes
+    }
+
 
     /*
     *  @name       startGameLoop
@@ -129,6 +234,7 @@ public class GameManager : MonoBehaviour {
         //loop to go through each computer and changes screens
         for (int computerNum = 1; computerNum <= 3; computerNum++)
         {
+<<<<<<< Updated upstream
             //shows cp1 board
             if (computerNum == 1)
             {
@@ -148,6 +254,77 @@ public class GameManager : MonoBehaviour {
                 Debug.Log("worked c3");
                 showBoards.ShowCP3();
             }
+=======
+            //CreateBoards();
+        }
+            //starts the players loop
+            Person.StartTurn();
+    }
+
+    /*
+     *  @name       StartComputerLoop()
+     *  @purpose   makes the computers take their turns then returns to human player
+     *  Note: in order for any UI to be manipulated it the canvas or scene which the object that is being accessed on needs to be visible
+     */
+    public void StartComputerLoop()
+    {
+        //Cursor.visible = false; //hides the mouse from the user
+        //Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor     
+        ////Debug.Log("Before start turn GM" + CP1.MoveToNextAIPlayer);
+        //HideShow.ShowCP1();
+        ////makes sure all scores on the canvas are up to date
+        //CP1.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
+        //CP1.StartTurn();
+        ////while (NextPlayer == false)
+        ////{
+        ////    if (NextPlayer == true)
+        ////    {
+        ////        break;
+        ////    }
+        ////}
+        ////Debug.Log("loop worked");
+        ////Debug.Log("loop worked");
+
+        ////CP2
+        ////stuck in this loop until the computer is done with its coroutine
+        ////right now it freezes and im not sure why it must never be returning true from the start couritne function
+        //HideShow.ShowCP2();
+        ////makes sure all scores on the canvas are up to date
+        //CP2.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
+        //CP2.StartTurn();
+        ////while (CP2.MoveToNextAIPlayer == false)
+        ////{
+
+        ////}
+        ////CP3
+        //HideShow.ShowCP3();
+        //////makes sure all scores on the canvas are up to date
+        //CP3.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
+        //CP3.StartTurn();
+        ////while (CP3.MoveToNextAIPlayer == false)
+        ////{
+
+        ////}
+        ////Back to player
+        ////shows mouse
+        //Cursor.visible = true;
+        ////enables mouse
+        //Cursor.lockState = CursorLockMode.None;
+
+        ////change the round int the game manager
+        //UpdateRound();
+
+        ////returns to players screen
+        //HideShow.ShowPlayer();
+        ////makes sure the scores and round on the player canvas are up to date
+        //Person.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
+        //Person.ChangeRound();
+        ////after the round has changed the player can draw again
+        //Person.CanDraw = true;
+        ////starts the players turn automatically 
+        //Person.StartTurn();
+    }
+>>>>>>> Stashed changes
 
             //this is how we implement the pause in the loop 
             yield return wait;
@@ -233,6 +410,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+<<<<<<< Updated upstream
     /*
      *  @name       changePlayerScore()
      *  @purpose    update player score when point-bearing cards are played
@@ -264,6 +442,24 @@ public class GameManager : MonoBehaviour {
         oneScore = GameObject.Find("ComputerOneScoreText").GetComponent<Text>();
         oneScore.text = computerOneScore.ToString();
     }
+=======
+    //accessors and mutators
+    public GameObject PersonGO { get => personGO; set => personGO = value; }
+    public Human Person { get => person; set => person = value; }
+    public GameObject CP1GO { get => cP1GO; set => cP1GO = value; }
+    public Computer CP1 { get => cP1; set => cP1 = value; }
+    public GameObject CP2GO { get => cP2GO; set => cP2GO = value; }
+    public Computer CP2 { get => cP2; set => cP2 = value; }
+    public GameObject CP3GO { get => cP3GO; set => cP3GO = value; }
+    public Computer CP3 { get => cP3; set => cP3 = value; }
+    public GameObject HideShowGO { get => hideShowGO; set => hideShowGO = value; }
+    public HideShowBoards HideShow { get => hideShow; set => hideShow = value; }
+    public int Round { get => round; set => round = value; }
+    public int SortingOrder { get => sortingOrder; set => sortingOrder = value; }
+    public List<string> DeckIds { get => deckIds; set => deckIds = value; }
+    public List<Deck> Decks { get => decks; set => decks = value; }
+}
+>>>>>>> Stashed changes
 
     /*
      *  @name       changeComputerTwoScore()
