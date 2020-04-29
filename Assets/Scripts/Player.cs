@@ -278,11 +278,14 @@ public class Player : MonoBehaviour
         //updates human score
         HumanScoreText = GameObject.Find(HumanScoreGameObject).GetComponent<Text>();
         HumanScoreText.text = GameManager.Instance.Person.Score.ToString();
+<<<<<<< Updated upstream
         //HumanScoreText.text = 60.ToString();
+=======
+>>>>>>> Stashed changes
         //updates CP1 score
-        //updates score text
         CP1ScoreText = GameObject.Find(CP1ScoreGameObject).GetComponent<Text>();
         CP1ScoreText.text = GameManager.Instance.CP1.Score.ToString();
+<<<<<<< Updated upstream
         //CP1ScoreText.text = 61.ToString();
         //updates CP2 score
         CP2ScoreText = GameObject.Find(CP2ScoreGameObject).GetComponent<Text>();
@@ -293,6 +296,14 @@ public class Player : MonoBehaviour
         CP3ScoreText = GameObject.Find(CP3ScoreGameObject).GetComponent<Text>();
         CP3ScoreText.text = GameManager.Instance.CP3.Score.ToString();
         //CP3ScoreText.text = 63.ToString();
+=======
+        //updates CP2 score
+        CP2ScoreText = GameObject.Find(CP2ScoreGameObject).GetComponent<Text>();
+        CP2ScoreText.text = GameManager.Instance.CP2.Score.ToString();
+        //updates CP3 score
+        CP3ScoreText = GameObject.Find(CP3ScoreGameObject).GetComponent<Text>();
+        CP3ScoreText.text = GameManager.Instance.CP3.Score.ToString();
+>>>>>>> Stashed changes
     }
 
         /*
@@ -385,10 +396,11 @@ public class Player : MonoBehaviour
         DeckText = GameObject.Find(DeckTextGameObject).GetComponent<Text>();
         DeckText.text = Deck.DeckName.ToString();
     }
-    /*
-*  @name       StartTurn()
-*  @purpose    deals the player 5 cards if its round one then starts the players turn
-*/
+
+        /*
+    *  @name       StartTurn()
+    *  @purpose    deals the player 5 cards if its round one then starts the players turn
+    */
     public virtual void StartTurn()
     {
         //assigns deck info and color
@@ -400,7 +412,7 @@ public class Player : MonoBehaviour
         //creating an "instance" of the CardRetrievalFromDeck script, allows it to be retrieved as an object
         ScriptInstance = ScriptableObject.CreateInstance("CardRetrievalFromDeck"); //so you can use the script
         Holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>(); //access to script
-        CameraHolder = GameObject.Find("Main Camera"); //sets the object to just the main camera
+        //CameraHolder = GameObject.Find("Main Camera"); //sets the object to just the main camera
     }
 
     public void NextPlayer()

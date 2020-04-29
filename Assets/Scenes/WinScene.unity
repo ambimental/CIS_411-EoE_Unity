@@ -1146,8 +1146,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+<<<<<<< Updated upstream
       - m_Target: {fileID: 0}
         m_MethodName: EndOpenStore
+=======
+      - m_Target: {fileID: 1940285541}
+        m_MethodName: OpenHomePage
+>>>>>>> Stashed changes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
