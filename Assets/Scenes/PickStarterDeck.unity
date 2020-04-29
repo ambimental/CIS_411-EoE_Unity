@@ -308,7 +308,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Highlighted
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 113809148}
   m_OnClick:
     m_PersistentCalls:
@@ -528,7 +528,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Highlighted
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 504719928}
   m_OnClick:
     m_PersistentCalls:
@@ -846,6 +846,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b100e2c7328e7e419c9686831fc3ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
+=======
+--- !u!114 &889316050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889316043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 846fde9c3f7251147885a3e9d3f30387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importer: {fileID: 0}
+  ecosystemsConnected: 0
+>>>>>>> Stashed changes
 --- !u!1 &892931753
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +939,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Highlighted
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 892931756}
   m_OnClick:
     m_PersistentCalls:
