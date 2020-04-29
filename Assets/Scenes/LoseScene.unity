@@ -745,7 +745,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 232352065}
-        m_MethodName: OpenStore
+        m_MethodName: OpenHomePage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

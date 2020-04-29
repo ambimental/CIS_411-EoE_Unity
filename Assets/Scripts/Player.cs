@@ -26,6 +26,9 @@ public class Player : MonoBehaviour
     //to use three card burst
     private bool threeCardBurstAvailable;
 
+    //keeps track of which board goes next
+    private string playerName;
+
     //deck for the player
     private Deck deck;
     //  create list to hold players cards in hand
@@ -129,7 +132,7 @@ public class Player : MonoBehaviour
     public virtual void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject, 
         string pPlantGameObject, string pInvertebrateGameObject, string pAnimalGameObject, string pSpecialRegionGameObject, string pMultiplayerGameObject, 
         string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject, string pDeckTextGameObject,
-        string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject)
+        string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject, string pPlayerName)
     {
      
         //this will all be stuff from parent class below
@@ -162,6 +165,9 @@ public class Player : MonoBehaviour
         //game values
         Score = 0;
         Round = 1;
+
+        //sets the name so the round chan change
+        PlayerName = pPlayerName;
 
         //  create lists for player card placements
         RegionPlacement = new List<Card>();
@@ -259,7 +265,6 @@ public class Player : MonoBehaviour
         CardObject.transform.localScale = new Vector3(1.5f, 1.5f, 0);
         //adding the HoverClass script to the card object, which allows for hover functionality.
         CardObject.AddComponent<HoverClass>();
-        //adding the Draggable script to the card object, which allows it to be dragged and placed appropriately
         //adds the component to a canvas group so it can be manipulated and viewed approapriatly
         CardObject.AddComponent<CanvasGroup>().blocksRaycasts = false; //will block raycasts so you can see objects behind it with mouse
     }
@@ -268,21 +273,20 @@ public class Player : MonoBehaviour
     *  @name       ChangeAllScore()
     *  @purpose    Updates all the scores om the current canvas screen happens after each players turn
     */
-    public void ChangeAllScore(int pHumanScore, int pCP1Score, int pCP2Score, int pCP3Score)
+    public void ChangeAllScore()
     {
         //updates human score
         HumanScoreText = GameObject.Find(HumanScoreGameObject).GetComponent<Text>();
-        HumanScoreText.text = pHumanScore.ToString();
+        HumanScoreText.text = GameManager.Instance.Person.Score.ToString();
         //updates CP1 score
-        //updates score text
         CP1ScoreText = GameObject.Find(CP1ScoreGameObject).GetComponent<Text>();
-        CP1ScoreText.text = pCP1Score.ToString();
+        CP1ScoreText.text = GameManager.Instance.CP1.Score.ToString();
         //updates CP2 score
         CP2ScoreText = GameObject.Find(CP2ScoreGameObject).GetComponent<Text>();
-        CP2ScoreText.text = pCP2Score.ToString();
+        CP2ScoreText.text = GameManager.Instance.CP2.Score.ToString();
         //updates CP3 score
         CP3ScoreText = GameObject.Find(CP3ScoreGameObject).GetComponent<Text>();
-        CP3ScoreText.text = pCP3Score.ToString();
+        CP3ScoreText.text = GameManager.Instance.CP3.Score.ToString();
     }
 
         /*
@@ -375,20 +379,23 @@ public class Player : MonoBehaviour
         DeckText = GameObject.Find(DeckTextGameObject).GetComponent<Text>();
         DeckText.text = Deck.DeckName.ToString();
     }
-    /*
-*  @name       StartTurn()
-*  @purpose    deals the player 5 cards if its round one then starts the players turn
-*/
+
+        /*
+    *  @name       StartTurn()
+    *  @purpose    deals the player 5 cards if its round one then starts the players turn
+    */
     public virtual void StartTurn()
     {
         //assigns deck info and color
         //CreateDeckInfo();
         //Updates the round to current
         ChangeRound();
+        //updates the score board
+        ChangeAllScore();
         //creating an "instance" of the CardRetrievalFromDeck script, allows it to be retrieved as an object
         ScriptInstance = ScriptableObject.CreateInstance("CardRetrievalFromDeck"); //so you can use the script
         Holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>(); //access to script
-        CameraHolder = GameObject.Find("Main Camera"); //sets the object to just the main camera
+        //CameraHolder = GameObject.Find("Main Camera"); //sets the object to just the main camera
     }
 
     //accessors and mutators
@@ -468,5 +475,6 @@ public class Player : MonoBehaviour
     public Text CP1ScoreText { get => cP1ScoreText; set => cP1ScoreText = value; }
     public Text CP2ScoreText { get => cP2ScoreText; set => cP2ScoreText = value; }
     public Text CP3ScoreText { get => cP3ScoreText; set => cP3ScoreText = value; }
+    public string PlayerName { get => playerName; set => playerName = value; }
 }
 

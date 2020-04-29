@@ -61,8 +61,6 @@ public class GameManager : MonoBehaviour {
     //  stores round number
     private int round;
 
-    private bool nextPlayer;
-
     //  stores sorting layers used throughout different classes to display objects in front of everything
     private int sortingOrder = 10;
 
@@ -97,7 +95,7 @@ public class GameManager : MonoBehaviour {
      *  @purpose    initialize GameManager object 
      */
     void Start () {
-        //Debug.Log("Game Manager Created");
+
         //populates DeckId Class and then creates decks and populates the decklist
         CreateDecks();
 
@@ -107,8 +105,6 @@ public class GameManager : MonoBehaviour {
         //  sets initial round number
         Round = 1;
 
-        NextPlayer = false;
-
         //this is how we inialize objects
         //initializing Human Person Player
         PersonGO = new GameObject("Person");
@@ -117,7 +113,7 @@ public class GameManager : MonoBehaviour {
         Person.InitializeObjects("PlayerScoreText", "PlayerRoundText", "Hand", "Region Card Placement", "Condition Card Placement", 
             "Plant Card Placement", "Invertebrate Card Placement", "Animal Card Placement", "Special Region Placement", "Multiplayer Card Placement",
             "Microbe Card Placement", "Fungi Card Placement", "Discard Pile Placement", "Human Card Placement", "PlayerColor", "PlayerDeckText", 
-            "PlayerScoreText", "ComputerOneScoreText", "ComputerTwoScoreText", "ComputerThreeScoreText");
+            "PlayerScoreText", "ComputerOneScoreText", "ComputerTwoScoreText", "ComputerThreeScoreText", "Person");
 
         //Initilizing CP1 Player
         CP1GO = new GameObject("CP1");
@@ -129,7 +125,7 @@ public class GameManager : MonoBehaviour {
             "Computer One Board/Multiplayer Card Placement", "Computer One Board/Microbe Card Placement", "Computer One Board/Fungi Card Placement", 
             "Computer One Board/Discard Pile Placement", "Computer One Board/Human Card Placement", "CP1Color", "CP1DeckText", "Computer One Board/Main Images and Placements/PlayerButton/PlayerScoreText",
             "Computer One Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer One Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
-            "Computer One Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText");
+            "Computer One Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText", "CP1");
 
         //Initilizing CP2 Player
         CP2GO = new GameObject("CP2");
@@ -141,7 +137,7 @@ public class GameManager : MonoBehaviour {
             "Computer Two Board/Multiplayer Card Placement", "Computer Two Board/Microbe Card Placement", "Computer Two Board/Fungi Card Placement",
             "Computer Two Board/Discard Pile Placement", "Computer Two Board/Human Card Placement", "CP2Color", "CP2DeckText", "Computer Two Board/Main Images and Placements/PlayerButton/PlayerScoreText",
             "Computer Two Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Two Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
-            "Computer Two Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText1");
+            "Computer Two Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText1", "CP2");
 
         //Initilizing CP3 Player
         CP3GO = new GameObject("CP3");
@@ -153,7 +149,7 @@ public class GameManager : MonoBehaviour {
             "Computer Three Board/Multiplayer Card Placement", "Computer Three Board/Microbe Card Placement", "Computer Three Board/Fungi Card Placement", 
             "Computer Three Board/Discard Pile Placement", "Computer Three Board/Human Card Placement", "CP3Color", "CP3DeckText", "Computer Three Board/Main Images and Placements/PlayerButton/PlayerScoreText",
             "Computer Three Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Three Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
-            "Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText");
+            "Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText","CP3");
 
         //hard codes deck for now
         Person.Deck = Decks[0];
@@ -184,12 +180,13 @@ public class GameManager : MonoBehaviour {
             //  add newly created deck to Deck list
             Decks.Add(deck);
         }
-
     }
+
 
     /*
      *  @name       CreateBoards()
-     *  @purpose    Assigns the correct game objects to create an isntance of hideshow boards to change screens
+     *  @purpose    Assigns the correct game objects to create an isntance of hideshow boards to change screens there is one 
+     *  created ere and one created in the editor attached to the avatar buttons but this is serparate from that
      */
     public void CreateBoards()
     {
@@ -198,12 +195,57 @@ public class GameManager : MonoBehaviour {
         HideShow = GameObject.Find("HideShow").GetComponent<HideShowBoards>();
     }
 
-    //i added this script to the Player Draw Deck Placement so when it is clicked this is carried out// im still working on it
-    void OnMouseDown()
+    /*
+     *  @name       NextPlayer()
+     *  @purpose    This function is used to change the canvas and is basically the game loop. at teh end of each players turn this is called. 
+     *  For the human it is called when a card is discarded. for a computer it is called at the end of the courtine.
+     *  
+     */
+    public void NextPlayer(string pPlayerName)
     {
-        //even if i just call the mehtod below it causes an error 
-        //StartHumanTurn();
-        //Debug.Log("Clicked");
+        //quickly goes through each canvas and sets the correct score values that way they are all up to date
+        HideShow.ShowPlayer();
+        Person.ChangeAllScore();
+        HideShow.ShowCP3();
+        CP3.ChangeAllScore();
+        HideShow.ShowCP2();
+        CP2.ChangeAllScore();
+        HideShow.ShowCP1();
+        CP1.ChangeAllScore();
+
+        //goes through each player and executes accordingly
+        if (pPlayerName == "Person")
+        {
+            //Cursor.visible = false; //hides the mouse from the user
+            //Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor  
+            HideShow.ShowCP1();
+            CP1.StartTurn();
+        }
+        else if (pPlayerName == "CP1")
+        {
+            HideShow.ShowCP2();
+            CP2.StartTurn();
+        }
+        else if (pPlayerName == "CP2")
+        {
+            HideShow.ShowCP3();
+            CP3.StartTurn();
+        }
+        else if (pPlayerName == "CP3")
+        {
+            //updates the game manager round
+            UpdateRound();
+            //shows mouse
+            Cursor.visible = true;
+            //enables mouse
+            Cursor.lockState = CursorLockMode.None;
+            //shows the human player
+            HideShow.ShowPlayer();
+            //after the round has changed the player can draw again
+            Person.CanDraw = true;
+            //starts the players turn automatically 
+            Person.StartTurn();
+        }
     }
 
     /*
@@ -213,77 +255,12 @@ public class GameManager : MonoBehaviour {
      */
     public void StartHumanTurn()
     {
-        //if its the forst round instantite the objects for the hiesoe boards
-        if (Round == 1)
+        if (round == 1)
         {
             CreateBoards();
         }
             //starts the players loop
             Person.StartTurn();
-    }
-
-    /*
-     *  @name       StartComputerLoop()
-     *  @purpose   makes the computers take their turns then returns to human player
-     *  Note: in order for any UI to be manipulated it the canvas or scene which the object that is being accessed on needs to be visible
-     */
-    public void StartComputerLoop()
-    {
-        Cursor.visible = false; //hides the mouse from the user
-        Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor     
-        //Debug.Log("Before start turn GM" + CP1.MoveToNextAIPlayer);
-        HideShow.ShowCP1();
-        //makes sure all scores on the canvas are up to date
-        CP1.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
-        CP1.StartTurn();
-        //while (NextPlayer == false)
-        //{
-        //    if (NextPlayer == true)
-        //    {
-        //        break;
-        //    }
-        //}
-        //Debug.Log("loop worked");
-        //Debug.Log("loop worked");
-
-        //CP2
-        //stuck in this loop until the computer is done with its coroutine
-        //right now it freezes and im not sure why it must never be returning true from the start couritne function
-        HideShow.ShowCP2();
-        //makes sure all scores on the canvas are up to date
-        CP2.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
-        CP2.StartTurn();
-        //while (CP2.MoveToNextAIPlayer == false)
-        //{
-
-        //}
-        //CP3
-        HideShow.ShowCP3();
-        ////makes sure all scores on the canvas are up to date
-        CP3.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
-        CP3.StartTurn();
-        //while (CP3.MoveToNextAIPlayer == false)
-        //{
-
-        //}
-        //Back to player
-        //shows mouse
-        Cursor.visible = true;
-        //enables mouse
-        Cursor.lockState = CursorLockMode.None;
-
-        //change the round int the game manager
-        UpdateRound();
-
-        //returns to players screen
-        HideShow.ShowPlayer();
-        //makes sure the scores and round on the player canvas are up to date
-        Person.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
-        Person.ChangeRound();
-        //after the round has changed the player can draw again
-        Person.CanDraw = true;
-        //starts the players turn automatically 
-        Person.StartTurn();
     }
 
 
@@ -313,7 +290,6 @@ public class GameManager : MonoBehaviour {
         CP1.Hand.Clear();
         CP2.Hand.Clear();
         CP3.Hand.Clear();
-        //restartGame();
     }
 
     /*
@@ -364,21 +340,5 @@ public class GameManager : MonoBehaviour {
     public int SortingOrder { get => sortingOrder; set => sortingOrder = value; }
     public List<string> DeckIds { get => deckIds; set => deckIds = value; }
     public List<Deck> Decks { get => decks; set => decks = value; }
-    public bool NextPlayer { get => nextPlayer; set => nextPlayer = value; }
 }
-
-/*
- ISSUES
- -cant use clickin on the deck to start the player draw
- -cant use pick deck to assign deck and deck attricbutes casue they get over written
- -i need to stop the computer corotines or stop the game loop from contuining until each computer
- player is done and make sure they are on the correct canvas display
-
-    -i wana just make it so when player discards their card the computer loop starts why have a need to click a button? its just one more thing
-    -do we like just having everything automated?(player is called by computer and everyones draw is called automatically
-     
-     
-     */
-
-
 
