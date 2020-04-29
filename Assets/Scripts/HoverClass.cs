@@ -43,7 +43,7 @@ public class HoverClass : MonoBehaviour
         //setting the max sorting order, so it will always appear on top
         Rend.sortingOrder = 999;
         //increasing the renderer's localScale by 50% while the mouse is on it
-        Rend.transform.localScale += new Vector3(0.4F, 0.4F);
+        //Rend.transform.localScale += new Vector3(0.4F, 0.4F);
     }
 
     /*
@@ -57,7 +57,7 @@ public class HoverClass : MonoBehaviour
         //restting the sorting order to the stored original value
         Rend.sortingOrder = OriginalOrder;
         //resetting the localScale to its original value via reducing it by 50%
-        Rend.transform.localScale -= new Vector3(0.4F, 0.4F);
+        //Rend.transform.localScale -= new Vector3(0.4F, 0.4F);
     }
 
     //accessors and mutators

@@ -104,9 +104,36 @@ public class CSVParser
         List<Deck> parsedDecks = new List<Deck>();
         string[] deckPaths = new string[] { deckOnePath, deckTwoPath, deckThreePath, deckFourPath };
 
-        foreach(string deckPath in deckPaths)
+        int deckCount = 0;
+
+        foreach (string deckPath in deckPaths)
         {
-            parsedDecks.Add(deckParse(deckPath, actionList, requirementList));
+            deckCount++;
+            Deck tempDeck = deckParse(deckPath, actionList, requirementList);
+            tempDeck.DeckId = "D00" + deckCount;
+            switch (tempDeck.DeckId)
+            {
+                case ("D001"):
+                    tempDeck.DeckName = "Allegheny Forest";
+                    tempDeck.DeckColor = new Color32(58, 102, 44, 128);
+                    break;
+                case ("D002"):
+                    tempDeck.DeckName = "Appalachian Homestead";
+                    tempDeck.DeckColor = new Color32(166, 135, 82, 128);
+                    break;
+                case ("D003"):
+                    tempDeck.DeckName = "Peat Bogs";
+                    tempDeck.DeckColor = new Color32(124, 56, 58, 128);
+                    break;
+                case ("D004"):
+                    tempDeck.DeckName = "Clarion River";
+                    tempDeck.DeckColor = new Color32(116, 126, 140, 128);
+                    break;
+                case (null):
+                    Debug.Log("You shouldn't have come here (CSVParser.GetDecks()).");
+                    break;
+            }
+            parsedDecks.Add(tempDeck);
         }
 
         return parsedDecks;

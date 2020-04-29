@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour {
     }
 
     //this is currently what populated our cards
-    public phpImport importer;
+    public CSVParser parser;
     //im not sure what this is used for yet but ill kep it around until i figure it out
     public bool ecosystemsConnected = false;
 
@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour {
     private List<string> deckIds = new List<string>();
     //  create list to hold individual decks until they are assigned to players
     private List<Deck> decks = new List<Deck>();
+    public List<string[]> actions;
+    public List<string[]> requirements;
 
     //  stores round number
     private int round;
@@ -98,9 +100,6 @@ public class GameManager : MonoBehaviour {
 
         //populates DeckId Class and then creates decks and populates the decklist
         CreateDecks();
-
-        //populates decks in deck list
-        gameObject.AddComponent<phpImport>();
 
         //  sets initial round number
         Round = 1;
@@ -164,21 +163,15 @@ public class GameManager : MonoBehaviour {
      */
     public void CreateDecks()
     {
-        //  adds individual deck IDs to list
-        DeckIds.Add("D001");
-        DeckIds.Add("D002");
-        DeckIds.Add("D003");
-        DeckIds.Add("D004");
+        this.parser = new CSVParser();
+        this.parser.loadFiles();
+        this.actions = this.parser.parseActionIDs();
+        this.requirements = this.parser.parseRequirements();
+        this.Decks = this.parser.GetDecks(this.actions, this.requirements);
 
-        //  for each deckID in list DeckIds
-        foreach (string id in DeckIds)
+        foreach(Deck deck in Decks)
         {
-            //  create a new deck
-            Deck deck = new Deck();
-            //  set new deck ID to id in list
-            deck.DeckId = id;
-            //  add newly created deck to Deck list
-            Decks.Add(deck);
+            DeckIds.Add(deck.DeckId);
         }
     }
 

@@ -40,6 +40,8 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
 
     private Computer comp;
 
+    public SpriteRenderer Rend;
+
 
     // Use this for initialization
     void Start()
@@ -264,6 +266,7 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
     {
         GameManager.Instance.CreateBoards();
         GameManager.Instance.HideShow.ShowCardInfo();
+
 
         //SETTING THE FILTERS FOR THE CARDS NAMES SO THAT THEY PRINT OUT PROPERLY
         string nameHolder = this.gameObject.name; //this will be used to hold the name until it is correct

@@ -33,15 +33,7 @@ public class PickDeck : MonoBehaviour
      */
     public void Start()
     {
-        //instantiates colors and names
-        AppalachianColor = new Color32(166, 135, 82, 128);
-        AlleghenyColor = new Color32(58, 102, 44, 128);
-        ClarionRiverColor = new Color32(116, 126, 140, 128);
-        PeatBogsColor = new Color32(124, 56, 58, 128);
-        Allegheny = "Allegheny National Forest";
-        Appalachian= "Appalachian Homestead";
-        Peat = "Peat Bogs";
-        Clarion = "Clarion River";
+
     }
 
     /*
@@ -77,30 +69,19 @@ public class PickDeck : MonoBehaviour
             GameManager.Instance.Person.DeckPicked = "D001";
             //GameManager.Instance.Person.AssignDeck();
             //Debug.Log("Deck picked" + GameManager.Instance.Person.Deck.Cards.Count);
-            //GameManager.Instance.Person.Deck.DeckName = Allegheny ;
-            //GameManager.Instance.Person.Deck.DeckColor = AlleghenyColor;
-            //Debug.Log("PickDeck deck color" + GameManager.Instance.Person.Deck.DeckColor);
-            //Debug.Log("PickDeck deck count" + GameManager.Instance.Person.Deck.Cards.Count);
-            //Debug.Log("PickDeck deck ID" + GameManager.Instance.Person.Deck.DeckId);
 
             ////sets Cp1 canvas values
             //GameManager.Instance.CP1.DeckPicked = "D002";
             ////GameManager.Instance.CP1.AssignDeck();
-            //GameManager.Instance.CP1.Deck.DeckName = Appalachian;
-            //GameManager.Instance.CP1.Deck.DeckColor = AppalachianColor;
 
             ////sets CP2 canvas values
             //GameManager.Instance.CP2.DeckPicked = "D003";
             ////GameManager.Instance.CP2.AssignDeck();
-            //GameManager.Instance.CP2.Deck.DeckName = Peat;
-            //GameManager.Instance.CP2.Deck.DeckColor = PeatBogsColor;
 
 
             ////sets CP3 canvas values
             //GameManager.Instance.CP3.DeckPicked = "D004";
             ////GameManager.Instance.CP3.AssignDeck();
-            //GameManager.Instance.CP3.Deck.DeckName = Clarion;
-            //GameManager.Instance.CP3.Deck.DeckColor = ClarionRiverColor;
 
         }
         else if (deck == 1)
@@ -108,25 +89,18 @@ public class PickDeck : MonoBehaviour
             //sets human canvas values
             GameManager.Instance.Person.DeckPicked = "D002";
             ////GameManager.Instance.Person.AssignDeck();
-            //GameManager.Instance.Person.Deck.DeckName = Appalachian;
-            //GameManager.Instance.Person.Deck.DeckColor = AppalachianColor;
+
             ////sets Cp1 canvas values
             //GameManager.Instance.CP1.DeckPicked = "D001";
             ////GameManager.Instance.CP1.AssignDeck();
-            //GameManager.Instance.CP1.Deck.DeckName = Allegheny;
-            //GameManager.Instance.CP1.Deck.DeckColor = AlleghenyColor;
 
             ////sets CP2 canvas values
             //GameManager.Instance.CP2.DeckPicked = "D003";
             ////GameManager.Instance.CP2.AssignDeck();
-            //GameManager.Instance.CP2.Deck.DeckName = Peat;
-            //GameManager.Instance.CP2.Deck.DeckColor = PeatBogsColor;
 
             ////sets CP3 canvas values
             //GameManager.Instance.CP3.DeckPicked = "D004";
             ////GameManager.Instance.CP3.AssignDeck();
-            //GameManager.Instance.CP3.Deck.DeckName = Clarion;
-            //GameManager.Instance.CP3.Deck.DeckColor = ClarionRiverColor;
 
         }
         else if (deck == 2)
@@ -134,26 +108,18 @@ public class PickDeck : MonoBehaviour
             //sets human canvas values
             GameManager.Instance.Person.DeckPicked = "D003";
            // GameManager.Instance.Person.AssignDeck();
-            GameManager.Instance.Person.Deck.DeckName = Peat;
-            GameManager.Instance.Person.Deck.DeckColor = PeatBogsColor;
 
            // //sets Cp1 canvas values
            // GameManager.Instance.CP1.DeckPicked = "D001";
            // //GameManager.Instance.CP1.AssignDeck();
-           // GameManager.Instance.CP1.Deck.DeckName = Allegheny;
-           // GameManager.Instance.CP1.Deck.DeckColor = AlleghenyColor;
 
            // //sets CP2 canvas values
            // GameManager.Instance.CP2.DeckPicked = "D002";
            // //GameManager.Instance.CP2.AssignDeck();
-           // GameManager.Instance.CP2.Deck.DeckName = Appalachian;
-           // GameManager.Instance.CP2.Deck.DeckColor = AppalachianColor;
 
            // //sets CP3 canvas values
            // GameManager.Instance.CP3.DeckPicked = "D004";
            //// GameManager.Instance.CP3.AssignDeck();
-           // GameManager.Instance.CP3.Deck.DeckName = Clarion;
-           // GameManager.Instance.CP3.Deck.DeckColor = ClarionRiverColor;
 
         }
         else if (deck == 3)
@@ -161,26 +127,18 @@ public class PickDeck : MonoBehaviour
             //sets human canvas values
             GameManager.Instance.Person.DeckPicked = "D004";
             //GameManager.Instance.Person.AssignDeck();
-            GameManager.Instance.Person.Deck.DeckName = Clarion;
-            GameManager.Instance.Person.Deck.DeckColor = ClarionRiverColor;
 
             ////sets Cp1 canvas values
             //GameManager.Instance.CP1.DeckPicked = "D001";
             ////GameManager.Instance.CP1.AssignDeck();
-            //GameManager.Instance.CP1.Deck.DeckName = Allegheny;
-            //GameManager.Instance.CP1.Deck.DeckColor = AlleghenyColor;
 
             ////sets CP2 canvas values
             //GameManager.Instance.CP2.DeckPicked = "D002";
             ////GameManager.Instance.CP2.AssignDeck();
-            //GameManager.Instance.CP2.Deck.DeckName = Appalachian;
-            //GameManager.Instance.CP2.Deck.DeckColor = AppalachianColor;
 
             //// //sets CP3 canvas values
             //GameManager.Instance.CP3.DeckPicked = "D003";
             ////GameManager.Instance.CP3.AssignDeck();
-            //GameManager.Instance.CP3.Deck.DeckName = Peat;
-            //GameManager.Instance.CP3.Deck.DeckColor = PeatBogsColor;
         }
         //Debug.Log("End deck count" + GameManager.Instance.Person.Deck.Cards.Count);
         //Debug.Log("End deck ID" + GameManager.Instance.Person.Deck.DeckId);
