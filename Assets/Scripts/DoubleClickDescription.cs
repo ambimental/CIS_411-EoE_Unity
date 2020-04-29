@@ -2090,9 +2090,27 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
     private Image imageOfCard;
     private Text descriptionOfCard;
     private Text actions;
+<<<<<<< Updated upstream
     private Button buttonEnabler;
     private Card cardHolder;
     private Player thePlayer;//will be used to hold the card info 
+=======
+    private Button buttonActionEnabler;
+    private Card cardHolder;
+    private Player thePlayer; //will be used to hold the card info 
+
+    ///*********************************************************************/
+    ////this is all added for the multiplayer functionality
+    ////used to find which computer the humans multiplayer card effects
+    //private string multiplayerComputer;
+    ////multiplayer buttons
+    //private Button buttonMultiComputerOne;
+    //private Button buttonMultiComputerTwo;
+    //private Button buttonMultiComputerThree;
+
+    //private Computer comp;
+
+>>>>>>> Stashed changes
 
     // Use this for initialization
     void Start()
@@ -2101,7 +2119,20 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
         NameOfCard = GameObject.Find("CardName").GetComponent<Text>();
         ImageOfCard = GameObject.Find("CardImage").GetComponent<Image>();
         DescriptionOfCard = GameObject.Find("CardDescription").GetComponent<Text>();
+<<<<<<< Updated upstream
         ButtonEnabler = GameObject.Find("ActionButton").GetComponent<Button>();
+=======
+        ButtonActionEnabler = GameObject.Find("ActionButton").GetComponent<Button>();
+        //ButtonMultiComputerOne = GameObject.Find("MultiComputerOneButton").GetComponent<Button>();
+        //ButtonMultiComputerTwo = GameObject.Find("MultiComputerTwoButton").GetComponent<Button>();
+        //ButtonMultiComputerThree = GameObject.Find("MultiComputerThreeButton").GetComponent<Button>();
+
+        ////adds listeneers to the buttons
+        //ButtonMultiComputerOne.onClick.AddListener(ButtonOneClick);
+        //ButtonMultiComputerTwo.onClick.AddListener(ButtonTwoClick);
+        //ButtonMultiComputerThree.onClick.AddListener(ButtonThreeClick);
+
+>>>>>>> Stashed changes
     }
 
     /*
@@ -2136,6 +2167,7 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
     // Update is called once per frame
     void Update(){ }
 
+<<<<<<< Updated upstream
     public void OnPointerClick(PointerEventData eventData)
     {
         GameManager.Instance.CreateBoards();
@@ -2144,6 +2176,186 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
         //SETTING THE FILTERS FOR THE CARDS NAMES SO THAT THEY PRINT OUT PROPERLY
         string nameHolder = this.gameObject.name; //this will be used to hold the name until it is correct
         Transform parentHolder = this.gameObject.transform.parent;
+=======
+
+    ///****************************************************/
+    ///****************************************************/
+    ////this is all stuff for the multi player
+
+    //void ButtonOneClick()
+    //{
+    //    MultiplayerButtonClick("ComputerOne");
+    //}
+    //void ButtonTwoClick()
+    //{
+    //    MultiplayerButtonClick("ComputerTwo");
+    //}
+    //void ButtonThreeClick()
+    //{
+    //    MultiplayerButtonClick("ComputerThree");
+    //}
+
+    //public void ShowMultiplayerButtons()
+    //{
+    //    ButtonMultiComputerOne.interactable = true;
+    //    ButtonMultiComputerTwo.interactable = true;
+    //    ButtonMultiComputerThree.interactable = true;
+    //}
+
+    ////assigns the correct computer object based off whoch butto was clicked
+    //public void AssignComputer(string pComputer)
+    //{
+    //    if(pComputer == "ComputerOne")
+    //    {
+    //        Comp = GameManager.Instance.CP1;
+    //    }
+    //    else if (pComputer == "ComputerTwo")
+    //    {
+    //        Comp = GameManager.Instance.CP2;
+    //    }
+    //    else if (pComputer == "ComputerThree")
+    //    {
+    //        Comp = GameManager.Instance.CP3;
+    //    }
+    //}
+
+    //public void ShowBoards()
+    //{
+    //    if (Comp == GameManager.Instance.CP1)
+    //    {
+    //        GameManager.Instance.HideShow.ShowCP1();
+    //    }
+    //    else if (Comp == GameManager.Instance.CP2)
+    //    {
+    //        GameManager.Instance.HideShow.ShowCP2();
+    //    }
+    //    else if (Comp == GameManager.Instance.CP3)
+    //    {
+    //        GameManager.Instance.HideShow.ShowCP3();
+    //    }
+    //}
+
+    //public void MultiplayerButtonClick(string pComputer)
+    //{
+    //    //assigns the correct computer to the computer object
+    //    AssignComputer(pComputer);
+    //    //calls the test function to carry out the moving of cards
+    //    MoveMultiCard();
+    //}
+
+
+    //public void MoveMultiCard()
+    //{
+    //    Debug.Log("begin test function");
+    //    //makes sure that the approapiate canvas is displayed quickly so the graphic can be painted becasue you cant change
+    //    //ui elements without the screen being visible
+    //    ShowBoards();
+    //    Debug.Log("show baords was called");
+    //    //this is to take the current instacnce which is the card that was double clicked and assigns it to temp object
+    //    //SETTING THE FILTERS FOR THE CARDS NAMES SO THAT THEY PRINT OUT PROPERLY
+    //    string nameHolder = this.gameObject.name; //this will be used to hold the name until it is correct
+    //    Transform parentHolder = this.gameObject.transform.parent;
+
+    //    //goes through and matches the name, then proceeds to print the actions
+    //    for (int i = 0; i < ThePlayer.Hand.Count; i++)
+    //    {
+    //        if (ThePlayer.Hand[i].CardName == nameHolder)
+    //        {
+    //            CardHolder = ThePlayer.Hand[i]; //sets the card holder for the rest of the things needed to be set
+    //        }
+    //    }
+
+    //    if (nameHolder.Contains("Special")) //special region filter
+    //    {
+    //        this.transform.SetParent(GameObject.Find(Comp.SpecialRegionGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.SpecialRegionPlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+    //    else if (nameHolder.Contains("Region")) //region name filter
+    //    {           
+    //        this.transform.SetParent(GameObject.Find(Comp.RegionGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.RegionPlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+    //    else if (nameHolder.Contains("Plant")) //plant name filter
+    //    {
+    //        this.transform.SetParent(GameObject.Find(Comp.PlantGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.PlantPlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+    //    else if (nameHolder.Contains("Multi")) //multiplayer name filter
+    //    {
+    //        this.transform.SetParent(GameObject.Find(Comp.MultiplayerGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.MultiPlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+    //    else if (nameHolder.Contains("Condition")) //condition name filter
+    //    {
+    //        this.transform.SetParent(GameObject.Find(Comp.ConditionGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.ConditionPlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+    //    else if (nameHolder.Contains("Invertebrate")) //invertebrate name filter
+    //    {
+    //        this.transform.SetParent(GameObject.Find(Comp.InvertebrateGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.InvertebratePlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+    //    else if (nameHolder.Contains("Fungi")) //fungi name filter
+    //    {
+    //        this.transform.SetParent(GameObject.Find(Comp.FungiGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.FungiPlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+    //    else if (nameHolder.Contains("Human")) //humam name filter
+    //    {
+    //        this.transform.SetParent(GameObject.Find(Comp.HumanGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.HumanPlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+    //    else if (nameHolder.Contains("Animal")) //animal name filter
+    //    {
+    //        this.transform.SetParent(GameObject.Find(Comp.AnimalGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.AnimalPlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+    //    else if (nameHolder.Contains("Microbe")) //microbe name filter
+    //    {
+    //        this.transform.SetParent(GameObject.Find(Comp.MicrobeGameObject).transform);
+    //        this.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+    //        Comp.MicrobePlacement.Add(CardHolder);
+    //        ThePlayer.Hand.Remove(CardHolder);
+    //    }
+
+    //    //shows the human canvas screen
+    //    GameManager.Instance.HideShow.ShowPlayer();
+    //}
+
+    ////end of multiplayer stuff
+
+    ///****************************************************/
+    ///****************************************************/
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        //makes sure that it was double clicked
+        if (eventData.clickCount == 2)
+        {
+            GameManager.Instance.HideShow.ShowCardInfo();
+
+            //SETTING THE FILTERS FOR THE CARDS NAMES SO THAT THEY PRINT OUT PROPERLY
+            string nameHolder = this.gameObject.name; //this will be used to hold the name until it is correct
+            Transform parentHolder = this.gameObject.transform.parent;
+>>>>>>> Stashed changes
 
             //goes through and matches the name, then proceeds to print the actions
             for (int i = 0; i < ThePlayer.Hand.Count; i++)
@@ -2170,11 +2382,19 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction.ToString();
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
                     DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
                     ButtonEnabler.gameObject.SetActive(true);
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                 }
             }
             else if (nameHolder.Contains("Region")) //region name filter
@@ -2206,11 +2426,19 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction;
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
                     DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
                     ButtonEnabler.gameObject.SetActive(true);
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                 }
             }
             else if (nameHolder.Contains("Plant")) //plant name filter
@@ -2240,15 +2468,31 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction;
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
                     DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
                     ButtonEnabler.gameObject.SetActive(true);
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                 }
             }
             else if (nameHolder.Contains("Multi")) //multiplayer name filter
             {
+<<<<<<< Updated upstream
+=======
+
+
+                //shows the multiplayer buttons on screen
+               // ShowMultiplayerButtons();
+
+>>>>>>> Stashed changes
                 DescriptionOfCard.text = ""; //just resets it incase there is one that is completeley empty
 
                 //goes through andmatches the name, then proceeds to print the actions
@@ -2274,11 +2518,19 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction;
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
                     DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
                     ButtonEnabler.gameObject.SetActive(true);
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                 }
             }
             else if (nameHolder.Contains("Condition")) //condition name filter
@@ -2308,11 +2560,19 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction;
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
                     DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
                     ButtonEnabler.gameObject.SetActive(true);
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                 }
             }
             else if (nameHolder.Contains("Invertebrate")) //invertebrate name filter
@@ -2342,11 +2602,19 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction;
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
                     DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
                     ButtonEnabler.gameObject.SetActive(true);
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                 }
             }
             else if (nameHolder.Contains("Fungi")) //fungi name filter
@@ -2376,11 +2644,19 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction;
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
                     DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
                     ButtonEnabler.gameObject.SetActive(true);
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                 }
             }
             else if (nameHolder.Contains("Human")) //humam name filter
@@ -2410,11 +2686,19 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction;
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
                     DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
                     ButtonEnabler.gameObject.SetActive(true);
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                 }
             }
             else if (nameHolder.Contains("Animal")) //animal name filter
@@ -2444,11 +2728,19 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction;
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
                     DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
                     ButtonEnabler.gameObject.SetActive(true);
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                 }
             }
             else if (nameHolder.Contains("Microbe")) //microbe name filter
@@ -2478,6 +2770,7 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
                 DescriptionOfCard.text += "\n" + CardHolder.StandingAction;
 
                 if (CardHolder.SpecialAction == "" || CardHolder.SpecialAction == null)
+<<<<<<< Updated upstream
                     ButtonEnabler.gameObject.SetActive(false);
                 else
                 {
@@ -2559,6 +2852,90 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
             DescriptionOfCard.text += "Subdivision: " + CardHolder.Subdivision + "\n";
         if (CardHolder.Fungi_type != "")
             DescriptionOfCard.text += "Fungi Type: " + CardHolder.Fungi_type + "\n";
+=======
+                    ButtonActionEnabler.gameObject.SetActive(false);
+                else
+                {
+                    DescriptionOfCard.text += "\n" + CardHolder.SpecialAction.ToString();
+                    ButtonActionEnabler.gameObject.SetActive(true);
+                }
+            }
+
+            //sets the image to the current image of card
+            ImageOfCard.sprite = gameObject.GetComponent<SpriteRenderer>().sprite;
+        }
+    }
+
+    public void Description()
+        {
+            //adding the description based off of everything else
+            if (CardHolder.Kingdom != "")
+                DescriptionOfCard.text += "Kingdom: " + CardHolder.Kingdom + "\n";
+            if (CardHolder.Subkingdom != "")
+                DescriptionOfCard.text += "SubKingdom: " + CardHolder.Subkingdom + "\n";
+            if (CardHolder.Superphylum != "")
+                DescriptionOfCard.text += "Superphylum: " + CardHolder.Superphylum + "\n";
+            if (CardHolder.Phylum != "")
+                DescriptionOfCard.text += "Phylum: " + CardHolder.Phylum + "\n";
+            if (CardHolder.Subphylum != "")
+                DescriptionOfCard.text += "SubPhylum: " + CardHolder.Subphylum + "\n";
+            if (CardHolder.Superclass != "")
+                DescriptionOfCard.text += "Superclass: " + CardHolder.Superclass + "\n";
+            if (CardHolder.CardClass != "")
+                DescriptionOfCard.text += "Class: " + CardHolder.CardClass + "\n";
+            if (CardHolder.Subclass != "")
+                DescriptionOfCard.text += "Subclass: " + CardHolder.Subclass + "\n";
+            if (CardHolder.Superorder != "")
+                DescriptionOfCard.text += "Superorder: " + CardHolder.Superorder + "\n";
+            if (CardHolder.Order != "")
+                DescriptionOfCard.text += "Order: " + CardHolder.Order + "\n";
+            if (CardHolder.Suborder != "")
+                DescriptionOfCard.text += "Suborder: " + CardHolder.Suborder + "\n";
+            if (CardHolder.Superfamily != "")
+                DescriptionOfCard.text += "Superfamily: " + CardHolder.Superfamily + "\n";
+            if (CardHolder.Family != "")
+                DescriptionOfCard.text += "Fsmily: " + CardHolder.Family + "\n";
+            if (CardHolder.Subfamily != "")
+                DescriptionOfCard.text += "Subfamily: " + CardHolder.Subfamily + "\n";
+            if (CardHolder.Supergenus != "")
+                DescriptionOfCard.text += "Supergenus: " + CardHolder.Supergenus + "\n";
+            if (CardHolder.Genus != "")
+                DescriptionOfCard.text += "Genus: " + CardHolder.Genus + "\n";
+            if (CardHolder.Subgenus != "")
+                DescriptionOfCard.text += "Subgenus: " + CardHolder.Subgenus + "\n";
+            if (CardHolder.Species != "")
+                DescriptionOfCard.text += "Species: " + CardHolder.Species + "\n";
+            if (CardHolder.Subspecies != "")
+                DescriptionOfCard.text += "Subspecies: " + CardHolder.Subspecies + "\n";
+            if (CardHolder.AnimalSize != "")
+                DescriptionOfCard.text += "Animal Size: " + CardHolder.AnimalSize + "\n";
+            if (CardHolder.AnimalEnvironment != "")
+                DescriptionOfCard.text += "Animal Environment: " + CardHolder.AnimalEnvironment + "\n";
+            if (CardHolder.AnimalDiet != "")
+                DescriptionOfCard.text += "Animal Diet: " + CardHolder.AnimalDiet + "\n";
+            if (CardHolder.PlantType != "")
+                DescriptionOfCard.text += "Plant Type: " + CardHolder.PlantType + "\n";
+            if (CardHolder.RegionType != "")
+                DescriptionOfCard.text += "Regiontype: " + CardHolder.RegionType + "\n";
+            if (CardHolder.Domain != "")
+                DescriptionOfCard.text += "Domain: " + CardHolder.Domain + "\n";
+            if (CardHolder.Infraclass != "")
+                DescriptionOfCard.text += "Infraclass: " + CardHolder.Infraclass + "\n";
+            if (CardHolder.Infraorder != "")
+                DescriptionOfCard.text += "Infraorder: " + CardHolder.Infraorder + "\n";
+            if (CardHolder.Section != "")
+                DescriptionOfCard.text += "Section: " + CardHolder.Section + "\n";
+            if (CardHolder.Tribe != "")
+                DescriptionOfCard.text += "Tribe: " + CardHolder.Tribe + "\n";
+            if (CardHolder.Division != "")
+                DescriptionOfCard.text += "Division: " + CardHolder.Division + "\n";
+            if (CardHolder.Superdivision != "")
+                DescriptionOfCard.text += "Superdivision: " + CardHolder.Superdivision + "\n";
+            if (CardHolder.Subdivision != "")
+                DescriptionOfCard.text += "Subdivision: " + CardHolder.Subdivision + "\n";
+            if (CardHolder.Fungi_type != "")
+                DescriptionOfCard.text += "Fungi Type: " + CardHolder.Fungi_type + "\n";
+>>>>>>> Stashed changes
     }
 
     //accessors and mutators
@@ -2567,7 +2944,17 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
     public Image ImageOfCard { get => imageOfCard; set => imageOfCard = value; }
     public Text DescriptionOfCard { get => descriptionOfCard; set => descriptionOfCard = value; }
     public Text Actions { get => actions; set => actions = value; }
+<<<<<<< Updated upstream
     public Button ButtonEnabler { get => buttonEnabler; set => buttonEnabler = value; }
     public Card CardHolder { get => cardHolder; set => cardHolder = value; }
+=======
+    public Button ButtonActionEnabler { get => buttonActionEnabler; set => buttonActionEnabler = value; }
+    public Card CardHolder { get => cardHolder; set => cardHolder = value; }
+    //public string MultiplayerComputer { get => multiplayerComputer; set => multiplayerComputer = value; }
+    //public Button ButtonMultiComputerOne { get => buttonMultiComputerOne; set => buttonMultiComputerOne = value; }
+    //public Button ButtonMultiComputerTwo { get => buttonMultiComputerTwo; set => buttonMultiComputerTwo = value; }
+    //public Button ButtonMultiComputerThree { get => buttonMultiComputerThree; set => buttonMultiComputerThree = value; }
+    //public Computer Comp { get => comp; set => comp = value; }
+>>>>>>> Stashed changes
 }
 >>>>>>> Stashed changes

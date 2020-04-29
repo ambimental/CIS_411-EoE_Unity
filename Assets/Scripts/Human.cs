@@ -26,7 +26,9 @@ public class Human : Player
     private Button threeCardBurstButton;
 
     // Start is called before the first frame update
-    void Start(){}
+    void Start()
+    {
+    }
 
     // Update is called once per frame
     void Update(){}
@@ -57,7 +59,6 @@ public class Human : Player
     */
     public override void StartTurn()
     {
-        Debug.Log("Player class" + Deck.Cards.Count);
         //execute parent method
         base.StartTurn();
         //allowing colliders to work
@@ -80,6 +81,7 @@ public class Human : Player
         //makes the human player unable to draw again
         CanDraw = false;
     }
+
         /*
      *  @name       GenerateCardObjects() extend from parent class and ads additon info specific to human
      *  @purpose    this gets the card from the deck and assigns it to a game object that will be the card you will see omn the screen
@@ -90,8 +92,13 @@ public class Human : Player
         base.GenerateCardObject();
         //adding the Draggable script to the card object, which allows it to be dragged and placed appropriately
         CardObject.AddComponent<Draggable>();
+<<<<<<< Updated upstream
         CardObject.AddComponent<DoubleClickDescription>(); //makes the cards able to be clicked on
         CardObject.GetComponent<DoubleClickDescription>().CreatePlayer(CurrentPlayer);
+=======
+        //CardObject.AddComponent<DoubleClickDescription>(); //makes the cards able to be clicked on
+        //CardObject.GetComponent<DoubleClickDescription>().CreatePlayer(CurrentPlayer);
+>>>>>>> Stashed changes
     }
 
     /*

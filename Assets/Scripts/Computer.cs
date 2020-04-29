@@ -120,7 +120,6 @@ public class Computer : Player
     IEnumerator ComputerPerforms()
     //public void ComputerPerforms()
     {
-        Debug.Log("The Computer performed");
         //this instantiates an game object of the class to use as an object and access methods
         //creates a gameobjects
         ReqGO = new GameObject("Req");
@@ -232,9 +231,15 @@ public class Computer : Player
         {
             yield return new WaitForSeconds(2);
         }
+<<<<<<< Updated upstream
         Debug.Log("About to error");
         NextPlayer();
         Debug.Log("U just errored");
+=======
+
+        //calls the game manager instane to change the players turn and passes imn this instances name so we know which player goes nect
+        GameManager.Instance.NextPlayer(PlayerName);
+>>>>>>> Stashed changes
     }
 
     /*
