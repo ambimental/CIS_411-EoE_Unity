@@ -51,7 +51,8 @@ public class Requirements : MonoBehaviour
             MethodInfo method = type.GetMethod(x);
             //calls the method that was assigned from the list and passes in the "Class Object" so it know where to get the method from
             //and then in the returned value is false then set the requirements work to false
-            Debug.Log(card.CardName);
+            //use this debug below to find what card was just played or checked 
+            //Debug.Log(card.CardName);
             if (method.Invoke(ClassObject, null).ToString() == "False")
             {
                 works = false;

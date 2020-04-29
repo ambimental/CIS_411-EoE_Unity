@@ -26,7 +26,9 @@ public class Human : Player
     private Button threeCardBurstButton;
 
     // Start is called before the first frame update
-    void Start(){}
+    void Start()
+    {
+    }
 
     // Update is called once per frame
     void Update(){}
@@ -38,13 +40,13 @@ public class Human : Player
     public override void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject,
         string pPlantGameObject, string pInvertebrateGameObject, string pAnimalGameObject, string pSpecialRegionGameObject, string pMultiplayerGameObject,
         string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject, string pDeckTextGameObject,
-        string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject)
+        string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject, string pPlayerName)
     {
         //gets base parent class info
         base.InitializeObjects(pScoreGameObject, pRoundGameObject, pHandGameObject, pRegionGameObject, pConditionGameObject,
         pPlantGameObject, pInvertebrateGameObject, pAnimalGameObject, pSpecialRegionGameObject, pMultiplayerGameObject,
         pMicrobeGameObject, pFungiGameObject, pDiscardGameObject, pHumanGameObject, pDeckColorGameObject, pDeckTextGameObject,
-        pHumanScoreGameObject, pCP1ScoreGameObject, pCP2ScoreGameObject, pCP3ScoreGameObject);
+        pHumanScoreGameObject, pCP1ScoreGameObject, pCP2ScoreGameObject, pCP3ScoreGameObject, pPlayerName);
         //info specific to human
         CurrentPlayer = this;
         CanDraw = true;
@@ -57,7 +59,6 @@ public class Human : Player
     */
     public override void StartTurn()
     {
-        Debug.Log("Player class" + Deck.Cards.Count);
         //execute parent method
         base.StartTurn();
         //allowing colliders to work
@@ -80,6 +81,7 @@ public class Human : Player
         //makes the human player unable to draw again
         CanDraw = false;
     }
+
         /*
      *  @name       GenerateCardObjects() extend from parent class and ads additon info specific to human
      *  @purpose    this gets the card from the deck and assigns it to a game object that will be the card you will see omn the screen
@@ -91,6 +93,7 @@ public class Human : Player
         //adding the Draggable script to the card object, which allows it to be dragged and placed appropriately
         CardObject.AddComponent<Draggable>();
         CardObject.AddComponent<DoubleClickDescription>(); //makes the cards able to be clicked on
+        CardObject.GetComponent<DoubleClickDescription>().CreatePlayer(CurrentPlayer);
     }
 
     /*
@@ -137,7 +140,7 @@ public class Human : Player
     public void ChangeDeck()
     {
         //creating a new SpriteRenderer for the deck
-        SpriteRenderer swap = GameObject.Find("Deck Draw Placement").AddComponent<SpriteRenderer>();
+        SpriteRenderer swap = GameObject.Find("Deck Draw Button").AddComponent<SpriteRenderer>();
         //loading the out of cards texture
         TexSprite = Resources.Load<Texture2D>("Sprites/Out-Of-Cards");
         //creating a sprite out of said texture

@@ -296,7 +296,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 Destroy(DraggedInstance.GetComponent<Draggable>()); //makes them no longer be abe to be dragged
 
                 //instead of the end sturn button it automatically starts the computers turn when the card is discarded
-                GameManager.Instance.StartComputerLoop();
+                GameManager.Instance.NextPlayer(GameManager.Instance.Person.PlayerName);
 
             }
             else if (CType == "Region")
@@ -734,7 +734,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             if (GameManager.Instance.Person.Hand.Count == 0) //if you play your last card and dont have anymore, automatically goes
             {
                 //instead of the end sturn button it automatically starts the computers turn when the card is discarded
-                GameManager.Instance.StartComputerLoop();
+                GameManager.Instance.NextPlayer(GameManager.Instance.Person.PlayerName);
             }
         }
     }

@@ -30,13 +30,13 @@ public class Computer : Player
     public override void InitializeObjects(string pScoreGameObject, string pRoundGameObject, string pHandGameObject, string pRegionGameObject, string pConditionGameObject,
         string pPlantGameObject, string pInvertebrateGameObject, string pAnimalGameObject, string pSpecialRegionGameObject, string pMultiplayerGameObject,
         string pMicrobeGameObject, string pFungiGameObject, string pDiscardGameObject, string pHumanGameObject, string pDeckColorGameObject, string pDeckTextGameObject,
-        string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject)
+        string pHumanScoreGameObject, string pCP1ScoreGameObject, string pCP2ScoreGameObject, string pCP3ScoreGameObject, string pPlayerName)
     {
         //gets base parent class info
         base.InitializeObjects(pScoreGameObject, pRoundGameObject, pHandGameObject, pRegionGameObject, pConditionGameObject,
         pPlantGameObject, pInvertebrateGameObject, pAnimalGameObject, pSpecialRegionGameObject, pMultiplayerGameObject,
         pMicrobeGameObject, pFungiGameObject, pDiscardGameObject, pHumanGameObject, pDeckColorGameObject, pDeckTextGameObject,
-        pHumanScoreGameObject, pCP1ScoreGameObject, pCP2ScoreGameObject, pCP3ScoreGameObject);
+        pHumanScoreGameObject, pCP1ScoreGameObject, pCP2ScoreGameObject, pCP3ScoreGameObject, pPlayerName);
         //info specific to computers
         CurrentPlayer = this;
         RequirementsWork = false;
@@ -53,8 +53,8 @@ public class Computer : Player
             Draw(5);
         }
         //after the 5 cards aredealt, the procedexd with computer AI alogorithm
-        //StartCoroutine(ComputerPerforms()); //goes through the function needed for the AI
-        ComputerPerforms();
+        StartCoroutine(ComputerPerforms()); //goes through the function needed for the AI
+        //ComputerPerforms();
     }
 
         /*
@@ -117,10 +117,9 @@ public class Computer : Player
     }
 
     //where the card things will take place
-    //IEnumerator ComputerPerforms()
-    public void ComputerPerforms()
+    IEnumerator ComputerPerforms()
+    //public void ComputerPerforms()
     {
-        Debug.Log("The Computer performed");
         //this instantiates an game object of the class to use as an object and access methods
         //creates a gameobjects
         ReqGO = new GameObject("Req");
@@ -138,7 +137,7 @@ public class Computer : Player
         for (int z = Hand.Count - 1; z > -1; z--) //done this way to avoid exception
         {
             //creates time using the coroutine
-            // yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(5);
 
             //if the current card has requirements associated with it
             if (Hand[z].ReqID.Count != 0)
@@ -226,14 +225,15 @@ public class Computer : Player
             //calls the method to asssigning the correct sprite and update score and passes in z so it knows which card to work with
             MoveCard(0, DiscardGameObject, DiscardPlacement);
 
-            //yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(2);
         }
         else //if there are no cards left in the hand, will just automatically go to the next player
         {
-            //yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(2);
         }
 
-        GameManager.Instance.NextPlayer = true;
+        //calls the game manager instane to change the players turn and passes imn this instances name so we know which player goes nect
+        GameManager.Instance.NextPlayer(PlayerName);
     }
 
     /*
