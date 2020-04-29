@@ -134,6 +134,55 @@ public class Card {
         }
     }
 
+    public Card(string[] cardInfo)
+    {
+        CardID = cardInfo[0];
+        CardName = cardInfo[1];
+        CardType = cardInfo[2];
+        PointValue = int.Parse(cardInfo[3]);
+        Kingdom = cardInfo[4];
+        Subkingdom = cardInfo[5];
+        Superphylum = cardInfo[6];
+        Phylum = cardInfo[8];
+        Subphylum = cardInfo[9];
+        Superclass = cardInfo[10];
+        CardClass = cardInfo[11];
+        Subclass = cardInfo[12];
+        Superorder = cardInfo[13];
+        Order = cardInfo[14];
+        Suborder = cardInfo[15];
+        Superfamily = cardInfo[16];
+        Family = cardInfo[17];
+        Subfamily = cardInfo[18];
+        Supergenus = cardInfo[19];
+        Genus = cardInfo[20];
+        Subgenus = cardInfo[21];
+        Superspecies = cardInfo[22];
+        Species = cardInfo[23];
+        Subspecies = cardInfo[24];
+        AnimalSize = cardInfo[25];
+        AnimalEnvironment = cardInfo[26];
+        AnimalDiet = cardInfo[27];
+        PlantType = cardInfo[28];
+        RegionType = cardInfo[29];
+        Domain = cardInfo[30];
+        Infraclass = cardInfo[31];
+        Infraorder = cardInfo[32];
+        Section = cardInfo[33];
+        Tribe = cardInfo[34];
+        Division = cardInfo[35];
+        Superdivision = cardInfo[36];
+        Subdivision = cardInfo[37];
+        Fungi_type = cardInfo[38];
+        StandingAction = cardInfo[39];
+        SpecialAction = cardInfo[40];
+        CardNotes = cardInfo[41];
+
+        reqID = new List<string>();
+
+        actionID = new List<string>();
+    }
+
     public Card() //default constructor
     {
         CardID = "";
