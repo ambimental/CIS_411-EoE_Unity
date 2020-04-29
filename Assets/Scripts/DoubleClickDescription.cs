@@ -56,6 +56,7 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
         ButtonMultiComputerThree = GameObject.Find("MultiComputerThreeButton").GetComponent<Button>();
 
         //adds listeneers to the buttons
+        ButtonActionEnabler.onClick.AddListener(ButtonActionClick);
         ButtonMultiComputerOne.onClick.AddListener(ButtonOneClick);
         ButtonMultiComputerTwo.onClick.AddListener(ButtonTwoClick);
         ButtonMultiComputerThree.onClick.AddListener(ButtonThreeClick);
@@ -111,6 +112,10 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
     {
         MultiplayerButtonClick("ComputerThree");
     }
+    void ButtonActionClick()
+    {
+        ActionHandler.ActionDelegate(cardHolder.ActionID[1]);
+    }
 
     public void ShowMultiplayerButtons()
     {
@@ -159,7 +164,6 @@ public class DoubleClickDescription : MonoBehaviour, IPointerClickHandler
         //calls the test function to carry out the moving of cards
         MoveMultiCard();
     }
-
 
     public void MoveMultiCard()
     {

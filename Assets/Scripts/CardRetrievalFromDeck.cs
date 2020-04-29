@@ -64,6 +64,14 @@ public class CardRetrievalFromDeck : ScriptableObject
         pCurrentPlayer.RegionCounter = 1;
     }
 
+    public void DrawSpecific(Human pCurrentPlayer, Card card)
+    {
+        CardNameHolder = card.CardName;
+        pCurrentPlayer.Hand.Add(card);
+        pCurrentPlayer.Deck.Cards.Remove(card);
+
+    }
+
     /*
      *  @name       CardDrawRandomizer()
      *  @purpose    ensures the first round a region card is drawn. Similiar to above method except this one taks Computer Types

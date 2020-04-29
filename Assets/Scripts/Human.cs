@@ -133,6 +133,15 @@ public class Human : Player
         }
     }
 
+    public void DrawSpecific(Card card)
+    {
+        Holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>();
+        CardParent = GameObject.Find(HandGameObject).transform;
+        Holder.DrawSpecific(CurrentPlayer, card);
+        GenerateCardObject();
+        Holder.setSprite(Sr);
+    }
+
         /*
      *  @name       changeDeck()
      *  @purpose    when the human player is out of sards it replaces the image with an out of cards image

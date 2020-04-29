@@ -438,7 +438,7 @@ public class Actions : MonoBehaviour
 //    }
 
 //    //Human - Ranger 
-//    public void a008() //Special Action: The Ranger can be used to remove the Man-Eater multi-player card from play without removing the species it is played on.  Discard ranger and Man-eater cards if used in this way
+//    public void a008() //Special Action: The Ranger can be uRunning, Standing, or Salt water regions can no longer sustain lifesed to remove the Man-Eater multi-player card from play without removing the species it is played on.  Discard ranger and Man-eater cards if used in this way
 //    {
 //        //MAN EATER CURRENTLY NOT IN THE DATABASE SO THIS IS NOT NEEDED RIGHT NOW ND THERE IS REALLY NO WAY TO TEST IT
 //    }

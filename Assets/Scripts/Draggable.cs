@@ -586,13 +586,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             {
                                 if (GameManager.Instance.Person.HumanPlacement[j].ActionID.Count != 0) //only goes in if there are action
                                 {
-                                    /**********************************************************************************************/
-                                    /**********************************************************************************************/
-                                    //i commented everything to do with actions out until we are ready to get to it
-                                    //standingActions = GameObject.Find("Main Camera").GetComponent<ActionsStanding>(); //gets the script
-                                    //standingActions.checkStandingAction(GameManager.Instance.Person.HumanPlacement[j]); //executes cards actions
-                                    /**********************************************************************************************/
-                                    /**********************************************************************************************/
+                                    ActionHandler.ActionDelegate(GameManager.Instance.Person.HumanPlacement[j].ActionID[0]);
                                 }
                                 else
                                 {

@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -10644,7 +10645,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &974740680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12751,37 +12752,38 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "\nHOW TO PLAY\r\n\nHow to Win\r\nThe player who has the most points in
     their ecosystem at the end of 10 rounds wins the game.\r\n\nGame Setup\r\nEach
-    player shuffles their own deck and draws five cards off the top. If a player does
-    not draw\r\nany region cards, they can reshuffle and draw again. The youngest
+    player shuffles their own deck and draws five cards off the top. If a player
+    does not draw\r\nany region cards, they can reshuffle and draw again. The youngest
     player starts the game.\n\r\nOn a player\u2019s turn, they complete the following
     steps:\r\n\n\t1. Draw one card from the top of their deck. Draw an additional
-    card for every five regions\r within their ecosystem.\r\n\t2. Play none, any or
-    all playable cards from their hand into their ecosystem\r\n\t3. End their turn
-    by discarding one card. If they have no cards left in their hand, they can\r end
-    their turn without discarding. The player to the left then begins their turn.\r\n\nWhen
+    card for every five regions\r within their ecosystem.\r\n\t2. Play none, any
+    or all playable cards from their hand into their ecosystem\r\n\t3. End their
+    turn by discarding one card. If they have no cards left in their hand, they can\r
+    end their turn without discarding. The player to the left then begins their turn.\r\n\nWhen
     all the players have completed their first turn, the first round is complete.
     Rounds 2-10\rare completed the same way.\r\n\nBuilding your Ecosystem\r\nRegions
-    are the foundation of an ecosystem. They are the lands and waters everything else
-    lives\r on and in. They don\u2019t have requirements, and you can play them at
-    any time during your turn.\r\n\nThe rest of the cards have a requirements section.
-    A card\u2019s requirements need to be met\r (already in the ecosystem) before
-    the card can be played.\r\n\nThe bulk of an ecosystem\u2019s points will be comprised
-    of animal, plant, invertebrate, fungi,\r microbe and condition cards. Understanding
-    when and how to play these cards is the key to\r winning the game. Good Luck!\r\n\nThe
-    Three Card Burst\r\nOnce each game, each player has the ability to draw three
-    cards whenever they want. Many\r times, this \u201CThree Card Burst\u201D is used
-    when they run out of cards or don\u2019t want to discard an\r important card in
-    their hand.\r\n\nHuman Cards\r\nHumans have Standing Actions and sometimes Special
-    Actions. Standing Actions are in effect\r while the human is within the ecosystem.
-    Special Actions take effect when you discard the\r human card. Note: Up to three
-    humans can be within an ecosystem at any one time.\r\n\nSpecial Region Cards\r\nSpecial
-    Regions are cards that combine the value of more than one region and/or condition\r
-    into one card. The more cards they represent, the lower their point value. Many
-    of these cards\r have negative point values. At the end of the game when counting
-    point totals, negative point\r cards count against your total score.\r\n\nMulti-Player
-    Cards\r\nMulti-player cards change the gameplay or affect one or more ecosystems
-    when played. Each\r multi-player card has unique instructions to follow when using
-    it. Unless it states otherwise,\r the card is discarded after use.\n"
+    are the foundation of an ecosystem. They are the lands and waters everything
+    else lives\r on and in. They don\u2019t have requirements, and you can play them
+    at any time during your turn.\r\n\nThe rest of the cards have a requirements
+    section. A card\u2019s requirements need to be met\r (already in the ecosystem)
+    before the card can be played.\r\n\nThe bulk of an ecosystem\u2019s points will
+    be comprised of animal, plant, invertebrate, fungi,\r microbe and condition cards.
+    Understanding when and how to play these cards is the key to\r winning the game.
+    Good Luck!\r\n\nThe Three Card Burst\r\nOnce each game, each player has the ability
+    to draw three cards whenever they want. Many\r times, this \u201CThree Card Burst\u201D
+    is used when they run out of cards or don\u2019t want to discard an\r important
+    card in their hand.\r\n\nHuman Cards\r\nHumans have Standing Actions and sometimes
+    Special Actions. Standing Actions are in effect\r while the human is within the
+    ecosystem. Special Actions take effect when you discard the\r human card. Note:
+    Up to three humans can be within an ecosystem at any one time.\r\n\nSpecial Region
+    Cards\r\nSpecial Regions are cards that combine the value of more than one region
+    and/or condition\r into one card. The more cards they represent, the lower their
+    point value. Many of these cards\r have negative point values. At the end of
+    the game when counting point totals, negative point\r cards count against your
+    total score.\r\n\nMulti-Player Cards\r\nMulti-player cards change the gameplay
+    or affect one or more ecosystems when played. Each\r multi-player card has unique
+    instructions to follow when using it. Unless it states otherwise,\r the card
+    is discarded after use.\n"
 --- !u!222 &1213392360
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20537,7 +20539,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846fde9c3f7251147885a3e9d3f30387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  importer: {fileID: 0}
   ecosystemsConnected: 0
 --- !u!1 &1992182566
 GameObject:
