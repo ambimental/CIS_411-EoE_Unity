@@ -1,13 +1,13 @@
-﻿////THE ACTIONS FOR THE COMPUTER ONE AI
+﻿//THE ACTIONS FOR THE COMPUTER ONE AI
 
-//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Reflection;
-//using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
 
-//public class ActionsCP3 : MonoBehaviour
-//{
+public class ActionsCP3 : MonoBehaviour
+{
 
 //    // Use this for initialization
 //    void Start()
@@ -979,4 +979,4 @@
 
 //    }
 
-//}
+}

@@ -1,4 +1,10 @@
-﻿//WILL BE USED IN PLACE OF THE MOVE BOARD SCRIPT, WILL INSTEAD HIDE THE BOARDS AND MAKE THEM REAPPEAR WHEN NEEDED
+﻿/*
+ *  @class      HideShowBoard.cs
+ *  @purpose    makes each canvas visible depending on function
+ *  
+ *  @author     CIS 411
+ *  @date       2020/04/07
+*/
 
 using System.Collections;
 using System.Collections.Generic;
@@ -7,468 +13,233 @@ using UnityEngine.UI;
 
 public class HideShowBoards : MonoBehaviour {
 
+    //these are to change the position in canvas group to bring to front of canvas to be seen
+    private CanvasGroup personCG;
+    private CanvasGroup cp1CG;
+    private CanvasGroup cp2CG;
+    private CanvasGroup cp3CG;
+    private CanvasGroup pauseCG;
+    private CanvasGroup showDeckDiscardCG;
+    private CanvasGroup cardInfoPanelCG;
+    private CanvasGroup acidicWatersCG;
+    private CanvasGroup learnToPlayCG;
 
-    //will be used to access the canvas groups to disable and enable the view
-    public CanvasGroup playerCG;
-    public CanvasGroup cp1CG;
-    public CanvasGroup cp2CG;
-    public CanvasGroup cp3CG;
-
-    public GameObject showPlayer; //for showin the player and cp boards
-    public GameObject showCP1;
-    public GameObject showCP2;
-    public GameObject showCP3;
-
-    //to be used for the round text - can only be changed when they are visible
-    public Text cp1Round;
-    public Text cp2Round;
-    public Text cp3Round;
-
-    public Image player1Color;
-    public Image cp1Color;
-    public Image cp2Color;
-    public Image cp3Color;
-
-    public Text player1DeckText;
-    public Text cp1DeckText;
-    public Text cp2DeckText;
-    public Text cp3DeckText;
-
-    //will be used to set the titel of the decks
-    /*public Image playerDeckImage;
-    public Image cp1DeckImage;
-    public Image cp2DeckImage;
-    public Image cp3DeckImage;
-    */
-
-    public Text drawText; //will be used to set the player draw text
-
-    //public GameObject cardInfo;
-
-    //public GameObject AcidicWatersCanvas; //for the acidic waters canvas
-
-    //public Text acidCp1Text; //for the acidic waters text
-    //public Text acidCp2Text;
-    //public Text acidCp3Text;
-
-    //public Button acidCp1Button; //for the acidic waters buttons
-    //public Button acidCp2Button;
-    //public Button acidCp3Button;
-
-    // Use this for initialization
-    void Start() {
-        //Initializes all objects to the appropriate canvas groups
-        playerCG = GameObject.Find("Player Board").GetComponent<CanvasGroup>();
-        //GameManager.Instance.playerCanvas = playerCG; //sets the global variable
-        cp1CG = GameObject.Find("CP1 Board").GetComponent<CanvasGroup>();
-        cp2CG = GameObject.Find("CP2 Board").GetComponent<CanvasGroup>();
-        cp3CG = GameObject.Find("CP3 Board").GetComponent<CanvasGroup>();
-
-
-        showPlayer = GameObject.Find("Player");
-      //  GameManager.Instance.playerView = showPlayer; //sets the global variable
-        showCP1 = GameObject.Find("CP1 Board");
-        showCP2 = GameObject.Find("CP2 Board");
-        showCP3 = GameObject.Find("CP3 Board");
-
-        cp1Round = GameObject.Find("ComputerOneRoundText").GetComponent<Text>();
-        cp2Round = GameObject.Find("ComputerTwoRoundText").GetComponent<Text>();
-        cp3Round = GameObject.Find("ComputerThreeRoundText").GetComponent<Text>();
-
-        ////finds the variables that need accessed
-        //player1Color = GameObject.Find("PlayerColor").GetComponent<Image>();
-        //cp1Color = GameObject.Find("CP1Color").GetComponent<Image>();
-        //cp2Color = GameObject.Find("CP2Color").GetComponent<Image>();
-        //cp3Color = GameObject.Find("CP3Color").GetComponent<Image>();
-
-        ////finds the text variables that need accessed
-        //player1DeckText = GameObject.Find("PlayerDeckText").GetComponent<Text>();
-        //cp1DeckText = GameObject.Find("CP1DeckText").GetComponent<Text>();
-        //cp2DeckText = GameObject.Find("CP2DeckText").GetComponent<Text>();
-        //cp3DeckText = GameObject.Find("CP3DeckText").GetComponent<Text>();
+    //these set the canvas active so they can be seen
+    private GameObject showPerson; //for showin the player and cp boards
+    private GameObject showCP1;
+    private GameObject showCP2;
+    private GameObject showCP3;
+    private GameObject showPause;
+    private GameObject showDeckDiscard;
+    private GameObject showCardInfoPanel;
+    private GameObject showAcidicWaters;
+    private GameObject showLearnToPlay;
 
         /*
-        playerDeckImage = GameObject.Find("PlayerDeckTitleImage").GetComponent<Image>();
-        cp1DeckImage = GameObject.Find("CP1DeckTitleImage").GetComponent<Image>();
-        cp2DeckImage = GameObject.Find("CP2DeckTitleImage").GetComponent<Image>();
-        cp3DeckImage = GameObject.Find("CP3DeckTitleImage").GetComponent<Image>();
-        */    
+     * @name    Start
+     * @purpose Initializes objects
+     * 
+     * @return  Void
+     */
+    void Start() {
 
-        //sets the hand parents
-        //GameManager.Instance.cp1Hand = GameObject.Find("Computer One Board/CP1Hand").transform;
-        //GameManager.Instance.cp2Hand = GameObject.Find("Computer Two Board/CP2Hand").transform;
-        //GameManager.Instance.cp3Hand = GameObject.Find("Computer Three Board/CP3Hand").transform;
-
-        //cardInfo = GameObject.Find("CardInfoCanvas"); //to get the panel
-        //GameManager.Instance.cardInfoPanel = cardInfo;
-
-        //GameManager.Instance.nameCard = GameObject.Find("CardInfoCanvas/CardInfoPanel/CardName").GetComponent<Text>();
-        //GameManager.Instance.imageCard = GameObject.Find("CardInfoCanvas/CardInfoPanel/CardImage").GetComponent<Image>();
-        //GameManager.Instance.descriptionCard = GameObject.Find("CardInfoCanvas/CardInfoPanel/CardDescription").GetComponent<Text>();
-        //GameManager.Instance.specialActionButton = GameObject.Find("CardInfoCanvas/CardInfoPanel/ActionButton").GetComponent<Button>();
-
-        //GameManager.Instance.cp1AI = GameObject.Find("Game Board Container/CP1 Board/CP1 Canvas/Computer One Board/CP1Hand").GetComponent<Transform>();
-
-        //AcidicWatersCanvas = GameObject.Find("AcidicWatersChoiceCanvas"); //gets the canvas
-        //GameManager.Instance.AcidicWatersCanvas = AcidicWatersCanvas;
-
-        ////buttons for acidic waters
-        //GameManager.Instance.cp1AcidButton = GameObject.Find("AcidicWatersChoiceCanvas/AcidicWatersPanel/Cp1Button").GetComponent<Button>();
-        //GameManager.Instance.cp2AcidButton = GameObject.Find("AcidicWatersChoiceCanvas/AcidicWatersPanel/Cp2Button").GetComponent<Button>();
-        //GameManager.Instance.cp3AcidButton = GameObject.Find("AcidicWatersChoiceCanvas/AcidicWatersPanel/Cp3Button").GetComponent<Button>();
-
-        ////text for acidic waters
-        //GameManager.Instance.cp1AcidText = GameObject.Find("AcidicWatersChoiceCanvas/Cp1Text").GetComponent<Text>();
-        //GameManager.Instance.cp2AcidText = GameObject.Find("AcidicWatersChoiceCanvas/Cp2Text").GetComponent<Text>();
-        //GameManager.Instance.cp3AcidText = GameObject.Find("AcidicWatersChoiceCanvas/Cp3Text").GetComponent<Text>();
-
-
-
-        //text for acidic waters
-
-        //will set the initial colors based off of what the decks are
-
-        //if (GameManager.Instance.deckPicked == "D001")
-        //{
-        //    player1Color.color = GameManager.Instance.alleghenyColor;
-        //    //playerDeckImage.sprite = GameManager.Instance.anfTitle;
-        //    player1DeckText.text = "Allegheny National Forest";
-        //}
-        //else if (GameManager.Instance.deckPicked == "D002")
-        //{
-        //    player1Color.color = GameManager.Instance.appalachianColor;
-        //    //playerDeckImage.sprite = GameManager.Instance.ahTitle;
-        //    player1DeckText.text = "Appalachian Homestead";
-        //}
-        //else if (GameManager.Instance.deckPicked == "D003")
-        //{
-        //    player1Color.color = GameManager.Instance.peatBogsColor;
-        //    //playerDeckImage.sprite = GameManager.Instance.pbTitle;
-        //    player1DeckText.text = "Peat Bogs";
-        //}
-        //else if (GameManager.Instance.deckPicked == "D004")
-        //{
-        //    player1Color.color = GameManager.Instance.clarionRiverColor;
-        //    //playerDeckImage.sprite = GameManager.Instance.crTitle;
-        //    player1DeckText.text = "Clarion River";
-        //}
-
-        //if (GameManager.Instance.computerOneDeck == "D001") //set cp1 color
-        //{
-        //    cp1Color.color = GameManager.Instance.alleghenyColor;
-        //    //cp1DeckImage.sprite = GameManager.Instance.anfTitle;
-        //    cp1DeckText.text = "Allegheny National Forest";
-        //}
-        //else if (GameManager.Instance.computerOneDeck == "D002")
-        //{
-        //    cp1Color.color = GameManager.Instance.appalachianColor;
-        //    //cp1DeckImage.sprite = GameManager.Instance.ahTitle;
-        //    cp1DeckText.text = "Appalachian Homestead";
-        //}
-        //else if (GameManager.Instance.computerOneDeck == "D003")
-        //{
-        //    cp1Color.color = GameManager.Instance.peatBogsColor;
-        //    //cp1DeckImage.sprite = GameManager.Instance.pbTitle;
-        //    cp1DeckText.text = "Peat Bogs";
-        //}
-        //else if (GameManager.Instance.computerOneDeck == "D004")
-        //{
-        //    cp1Color.color = GameManager.Instance.clarionRiverColor;
-        //    //cp1DeckImage.sprite = GameManager.Instance.crTitle;
-        //    cp1DeckText.text = "Clarion River";
-        //}
-
-        //if (GameManager.Instance.computerTwoDeck == "D001") //set cp2 color
-        //{
-        //    cp2Color.color = GameManager.Instance.alleghenyColor;
-        //    //cp2DeckImage.sprite = GameManager.Instance.anfTitle;
-        //    cp2DeckText.text = "Allegheny National Forest";
-        //}
-        //else if (GameManager.Instance.computerTwoDeck == "D002")
-        //{
-        //    cp2Color.color = GameManager.Instance.appalachianColor;
-        //    //cp2DeckImage.sprite = GameManager.Instance.ahTitle;
-        //    cp2DeckText.text = "Appalachian Homestead";
-        //}
-        //else if (GameManager.Instance.computerTwoDeck == "D003")
-        //{
-        //    cp2Color.color = GameManager.Instance.peatBogsColor;
-        //    //cp2DeckImage.sprite = GameManager.Instance.pbTitle;
-        //    cp2DeckText.text = "Peat Bogs";
-        //}
-        //else if (GameManager.Instance.computerTwoDeck == "D004")
-        //{
-        //    cp2Color.color = GameManager.Instance.clarionRiverColor;
-        //    //cp2DeckImage.sprite = GameManager.Instance.crTitle;
-        //    cp2DeckText.text = "Clarion River";
-        //}
-
-        //if (GameManager.Instance.computerThreeDeck == "D001") //set cp3 color
-        //{
-        //    cp3Color.color = GameManager.Instance.alleghenyColor;
-        //    //cp3DeckImage.sprite = GameManager.Instance.anfTitle;
-        //    cp3DeckText.text = "Allegheny National Forest";
-        //}
-        //else if (GameManager.Instance.computerThreeDeck == "D002")
-        //{
-        //    cp3Color.color = GameManager.Instance.appalachianColor;
-        //    //cp3DeckImage.sprite = GameManager.Instance.ahTitle;
-        //    cp3DeckText.text = "Appalachian Homestead";
-        //}
-        //else if (GameManager.Instance.computerThreeDeck == "D003")
-        //{
-        //    cp3Color.color = GameManager.Instance.peatBogsColor;
-        //    //cp3DeckImage.sprite = GameManager.Instance.pbTitle;
-        //    cp3DeckText.text = "Peat Bogs";
-        //}
-        //else if (GameManager.Instance.computerThreeDeck == "D004")
-        //{
-        //    cp3Color.color = GameManager.Instance.clarionRiverColor;
-        //    //cp3DeckImage.sprite = GameManager.Instance.crTitle;
-        //    cp3DeckText.text = "Clarion River";
-        //}
-
-
-        drawText = GameObject.Find("DrawText").GetComponent<Text>();
-        drawText.text = "Please Draw 1 Card!";
-
-        ////getting access to two of the buttons on the playerboard scene
-        GameManager.Instance.endTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
-        //GameManager.Instance.threeCardBurst = GameObject.Find("3CardBurst").GetComponent<Button>();
-
-        //will set the initial playing field to this
-        playerCG.alpha = 1f;
-        playerCG.blocksRaycasts = true;
-        playerCG.interactable = true;
-
-        cp1CG.alpha = 0f;
-        cp1CG.blocksRaycasts = false;
-        cp1CG.interactable = false;
-
-        cp2CG.alpha = 0f;
-        cp2CG.blocksRaycasts = false;
-        cp2CG.interactable = false;
-
-        cp3CG.alpha = 0f;
-        cp3CG.blocksRaycasts = false;
-        cp3CG.interactable = false;
-
-        //GameManager.Instance.cardInfoPanel.SetActive(false); //doesnt show the card info panel canvas
-
-        //GameManager.Instance.AcidicWatersCanvas.SetActive(false); //doesnt show the acidic waters canvas
+        //Initializes all objects to the appropriate canvas groups
+        PersonCG = GameObject.Find("Player Board").GetComponent<CanvasGroup>();      
+        Cp1CG = GameObject.Find("CP1 Board").GetComponent<CanvasGroup>();
+        Cp2CG = GameObject.Find("CP2 Board").GetComponent<CanvasGroup>();
+        Cp3CG = GameObject.Find("CP3 Board").GetComponent<CanvasGroup>();
+        PauseCG = GameObject.Find("Pause").GetComponent<CanvasGroup>();
+        ShowDeckDiscardCG = GameObject.Find("ShowDeckDiscard").GetComponent<CanvasGroup>();
+        CardInfoPanelCG = GameObject.Find("CardInfoPanel").GetComponent<CanvasGroup>();
+        AcidicWatersCG = GameObject.Find("AcidicWatersChoiceCanvas").GetComponent<CanvasGroup>();
+        LearnToPlayCG = GameObject.Find("LearnToPlay").GetComponent<CanvasGroup>();
+        //instializes objects to the appropriate canvas
+        ShowPerson = GameObject.Find("Player");
+        ShowCP11 = GameObject.Find("CP1 Board");
+        ShowCP21 = GameObject.Find("CP2 Board");
+        ShowCP31 = GameObject.Find("CP3 Board");
+        ShowPause1 = GameObject.Find("Pause"); 
+        ShowDeckDiscard1 = GameObject.Find("ShowDeckDiscard"); 
+        ShowCardInfoPanel = GameObject.Find("CardInfoPanel"); 
+        ShowAcidicWaters1 = GameObject.Find("AcidicWatersChoiceCanvas"); 
+        ShowLearnToPlay1 = GameObject.Find("LearnToPlay"); 
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-    //willgo back to the player field
+       /*
+     * @name    ShowPlayer, ShowCP1, ShowCP2, ShowCP3, S
+     * @purpose disables and all canvases and shows the correct one based off of wich method
+     * 
+     * @return  Void
+     */
+     //shows person player
     public void ShowPlayer()
     {
-        //will set the initial playing field to this
-        playerCG.alpha = 1f;
-        playerCG.blocksRaycasts = true;
-        playerCG.interactable = true;
-
-        showPlayer.SetActive(true);
-
-            ////if function willd etermine and show how mny cards will be drawn
-            //if (GameManager.Instance.getPlayerTotalRegions() < 5)
-            //{
-            //    if (GameManager.Instance.playerDrawExtraCard == true)
-            //    {
-            //        drawText.text = "Please Draw 2 Cards!";
-            //        GameManager.Instance.playerDrawCount = 2;
-            //    }
-            //    else
-            //    {
-            //        drawText.text = "Please Draw 1 Card!";
-            //        GameManager.Instance.playerDrawCount = 1;
-            //    }
-            //}
-            //else if (GameManager.Instance.getPlayerTotalRegions() < 10)
-            //{
-            //    if (GameManager.Instance.playerDrawExtraCard == true)
-            //    {
-            //        drawText.text = "Please Draw 3 Cards!";
-            //        GameManager.Instance.playerDrawCount = 3;
-            //    }
-            //    else
-            //    {
-            //        drawText.text = "Please Draw 2 Cards!";
-            //        GameManager.Instance.playerDrawCount = 2;
-            //    }
-            //}
-            //else if (GameManager.Instance.getPlayerTotalRegions() < 15)
-            //{
-            //    if (GameManager.Instance.playerDrawExtraCard == true)
-            //    {
-            //        drawText.text = "Please Draw 4 Cards!";
-            //        GameManager.Instance.playerDrawCount = 4;
-            //    }
-            //    else
-            //    {
-            //        drawText.text = "Please Draw 3 Cards!";
-            //        GameManager.Instance.playerDrawCount = 3;
-            //    }
-            //}
-            //else if (GameManager.Instance.getPlayerTotalRegions() < 20)
-            //{
-            //    if (GameManager.Instance.playerDrawExtraCard == true)
-            //    {
-            //        drawText.text = "Please Draw 5 Cards!";
-            //        GameManager.Instance.playerDrawCount = 5;
-            //    }
-            //    else
-            //    {
-            //        drawText.text = "Please Draw 4 Cards!";
-            //        GameManager.Instance.playerDrawCount = 4;
-            //    }
-            //}
-
-        cp1CG.alpha = 0f;
-        cp1CG.blocksRaycasts = false;
-        cp1CG.interactable = false;
-
-        showCP1.SetActive(false);
-
-        cp2CG.alpha = 0f;
-        cp2CG.blocksRaycasts = false;
-        cp2CG.interactable = false;
-
-        showCP2.SetActive(false);
-
-        cp3CG.alpha = 0f;
-        cp3CG.blocksRaycasts = false;
-        cp3CG.interactable = false;
-
-        showCP3.SetActive(false);
-
-       // GameManager.Instance.cardInfoPanel.SetActive(false);
+        ShowNone();
+        PersonCG.alpha = 1f;
+        PersonCG.blocksRaycasts = true;
+        PersonCG.interactable = true;
+        ShowPerson.SetActive(true);      
     }
 
     //will show computer board 1
     public void ShowCP1()
     {
-        //will set the playing field to board 1
-        playerCG.alpha = 0f;
-        playerCG.blocksRaycasts = false;
-        playerCG.interactable = false;
-
-        showPlayer.SetActive(false);
-        //sets the canvas group opacity to full 
-        cp1CG.alpha = 1f;
-        cp1CG.blocksRaycasts = true;
-        cp1CG.interactable = true;
-
-        showCP1.SetActive(true);
-
-        if (cp1Round.text != GameManager.Instance.round.ToString()) //should set the round
-            cp1Round.text = GameManager.Instance.round.ToString();
-
-        cp2CG.alpha = 0f;
-        cp2CG.blocksRaycasts = false;
-        cp2CG.interactable = false;
-
-        showCP2.SetActive(false);
-
-        cp3CG.alpha = 0f;
-        cp3CG.blocksRaycasts = false;
-        cp3CG.interactable = false;
-
-        showCP3.SetActive(false);
+        ShowNone();
+        Cp1CG.alpha = 1f;
+        Cp1CG.blocksRaycasts = true;
+        Cp1CG.interactable = true;
+        ShowCP11.SetActive(true);
     }
 
     //will show computer board 2
     public void ShowCP2()
     {
-        //will set the playing field to board 1
-        playerCG.alpha = 0f;
-        playerCG.blocksRaycasts = false;
-        playerCG.interactable = false;
-
-        showPlayer.SetActive(false);
-
-        cp1CG.alpha = 0f;
-        cp1CG.blocksRaycasts = false;
-        cp1CG.interactable = false;
-
-        showCP1.SetActive(false);
-
-        cp2CG.alpha = 1f;
-        cp2CG.blocksRaycasts = true;
-        cp2CG.interactable = true;
-
-        showCP2.SetActive(true);
-
-        if (cp2Round.text != GameManager.Instance.round.ToString()) //should set the round
-            cp2Round.text = GameManager.Instance.round.ToString();
-
-        cp3CG.alpha = 0f;
-        cp3CG.blocksRaycasts = false;
-        cp3CG.interactable = false;
-
-        showCP3.SetActive(false);
+        ShowNone();
+        Cp2CG.alpha = 1f;
+        Cp2CG.blocksRaycasts = true;
+        Cp2CG.interactable = true;
+        ShowCP21.SetActive(true);
     }
 
-    //willshow computer board 3
+    //will show computer board 3
     public void ShowCP3()
     {
-        //will set the playing field to board 1
-        playerCG.alpha = 0f;
-        playerCG.blocksRaycasts = false;
-        playerCG.interactable = false;
-
-        showPlayer.SetActive(false);
-
-        cp1CG.alpha = 0f;
-        cp1CG.blocksRaycasts = false;
-        cp1CG.interactable = false;
-
-        showCP1.SetActive(false);
-
-        cp2CG.alpha = 0f;
-        cp2CG.blocksRaycasts = false;
-        cp2CG.interactable = false;
-
-        showCP2.SetActive(false);
-
-        cp3CG.alpha = 1f;
-        cp3CG.blocksRaycasts = true;
-        cp3CG.interactable = true;
-
-        showCP3.SetActive(true);
-
-        if (cp3Round.text != GameManager.Instance.round.ToString()) //should set the round
-            cp3Round.text = GameManager.Instance.round.ToString();
+        ShowNone();
+        Cp3CG.alpha = 1f;
+        Cp3CG.blocksRaycasts = true;
+        Cp3CG.interactable = true;
+        ShowCP31.SetActive(true);
     }
 
-    public void showNone() //will only be used whenever the picking of cards from the deck is happening
+    //will show pause menu
+    public void ShowPause()
     {
-        //makes non of them visible
-        playerCG.alpha = 0f;
-        playerCG.blocksRaycasts = false;
-        playerCG.interactable = false;
-
-        showPlayer.SetActive(false);
-
-        cp1CG.alpha = 0f;
-        cp1CG.blocksRaycasts = false;
-        cp1CG.interactable = false;
-
-        showCP1.SetActive(false);
-
-        cp2CG.alpha = 0f;
-        cp2CG.blocksRaycasts = false;
-        cp2CG.interactable = false;
-
-        showCP2.SetActive(false);
-
-        cp3CG.alpha = 0f;
-        cp3CG.blocksRaycasts = false;
-        cp3CG.interactable = false;
-
-        showCP3.SetActive(false);
+        ShowNone();   
+        PauseCG.alpha = 1f;
+        PauseCG.blocksRaycasts = true;
+        PauseCG.interactable = true;
+        ShowPause1.SetActive(true);
     }
+
+    //will show deck discard
+    //in this current version of the game this is never used
+    public void ShowDeckDiscard()
+    {
+        ShowNone();
+        ShowDeckDiscardCG.alpha = 1f;
+        ShowDeckDiscardCG.blocksRaycasts = true;
+        ShowDeckDiscardCG.interactable = true;
+        ShowDeckDiscard1.SetActive(true);
+    }
+
+    //will show card info
+    //this is different than the others becasue we need the cnvas that is worked on to still be active so the 
+    //hover class zoom goes back to normal
+    public void ShowCardInfo()
+    {
+        //this is set to 2 so it is in fron of the previously active canvas
+        CardInfoPanelCG.alpha = 2f;
+        CardInfoPanelCG.blocksRaycasts = true;
+        CardInfoPanelCG.interactable = true;
+        ShowCardInfoPanel.SetActive(true);
+    }
+
+    //will show acidic waters
+    public void ShowAcidicWaters()
+    {
+        ShowNone();
+        AcidicWatersCG.alpha = 1f;
+        AcidicWatersCG.blocksRaycasts = true;
+        AcidicWatersCG.interactable = true;
+        ShowAcidicWaters1.SetActive(true);
+    }
+
+    //will show learn to play
+    public void ShowLearnToPlay()
+    {
+        ShowNone();
+        LearnToPlayCG.alpha = 1f;
+        LearnToPlayCG.blocksRaycasts = true;
+        LearnToPlayCG.interactable = true;
+        ShowLearnToPlay1.SetActive(true);
+    }
+
+    //will show none
+    public void ShowNone() //disables all canvases
+    {
+        //disables person
+        PersonCG.alpha = 0f;
+        PersonCG.blocksRaycasts = false;
+        PersonCG.interactable = false;
+        ShowPerson.SetActive(false);
+
+        //disables CP1
+        Cp1CG.alpha = 0f;
+        Cp1CG.blocksRaycasts = false;
+        Cp1CG.interactable = false;
+        ShowCP11.SetActive(false);
+
+        //disables cp2
+        Cp2CG.alpha = 0f;
+        Cp2CG.blocksRaycasts = false;
+        Cp2CG.interactable = false;
+        ShowCP21.SetActive(false);
+
+        //disables cp3
+        Cp3CG.alpha = 0f;
+        Cp3CG.blocksRaycasts = false;
+        Cp3CG.interactable = false;
+        ShowCP31.SetActive(false);
+
+        //disables pause
+        PauseCG.alpha = 0f;
+        PauseCG.blocksRaycasts = false;
+        PauseCG.interactable = false;
+        ShowPause1.SetActive(false);
+
+        //disables deck discard
+        ShowDeckDiscardCG.alpha = 0f;
+        ShowDeckDiscardCG.blocksRaycasts = false;
+        ShowDeckDiscardCG.interactable = false;
+        ShowDeckDiscard1.SetActive(false);
+
+        //disables card info panel
+        CardInfoPanelCG.alpha = 0f;
+        CardInfoPanelCG.blocksRaycasts = false;
+        CardInfoPanelCG.interactable = false;
+        ShowCardInfoPanel.SetActive(false);
+
+        //disables acidic waters 
+        AcidicWatersCG.alpha = 0f;
+        AcidicWatersCG.blocksRaycasts = false;
+        AcidicWatersCG.interactable = false;
+        ShowAcidicWaters1.SetActive(false);
+
+        //disables learn to play
+        LearnToPlayCG.alpha = 0f;
+        LearnToPlayCG.blocksRaycasts = false;
+        LearnToPlayCG.interactable = false;
+        ShowLearnToPlay1.SetActive(false);
+
+    }
+
+    //accessors and mutators
+    public CanvasGroup PersonCG { get => personCG; set => personCG = value; }
+    public CanvasGroup Cp1CG { get => cp1CG; set => cp1CG = value; }
+    public CanvasGroup Cp2CG { get => cp2CG; set => cp2CG = value; }
+    public CanvasGroup Cp3CG { get => cp3CG; set => cp3CG = value; }
+    public CanvasGroup PauseCG { get => pauseCG; set => pauseCG = value; }
+    public CanvasGroup ShowDeckDiscardCG { get => showDeckDiscardCG; set => showDeckDiscardCG = value; }
+    public CanvasGroup CardInfoPanelCG { get => cardInfoPanelCG; set => cardInfoPanelCG = value; }
+    public CanvasGroup AcidicWatersCG { get => acidicWatersCG; set => acidicWatersCG = value; }
+    public CanvasGroup LearnToPlayCG { get => learnToPlayCG; set => learnToPlayCG = value; }
+    public GameObject ShowPerson { get => showPerson; set => showPerson = value; }
+    public GameObject ShowCP11 { get => showCP1; set => showCP1 = value; }
+    public GameObject ShowCP21 { get => showCP2; set => showCP2 = value; }
+    public GameObject ShowCP31 { get => showCP3; set => showCP3 = value; }
+    public GameObject ShowPause1 { get => showPause; set => showPause = value; }
+    public GameObject ShowDeckDiscard1 { get => showDeckDiscard; set => showDeckDiscard = value; }
+    public GameObject ShowCardInfoPanel { get => showCardInfoPanel; set => showCardInfoPanel = value; }
+    public GameObject ShowAcidicWaters1 { get => showAcidicWaters; set => showAcidicWaters = value; }
+    public GameObject ShowLearnToPlay1 { get => showLearnToPlay; set => showLearnToPlay = value; }
 }

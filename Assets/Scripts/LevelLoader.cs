@@ -1,19 +1,27 @@
-﻿//WILL BE USED TO CREATE THE INITIAL LOADING SCREEN FOR THE GAME
-
+﻿/*
+ *  @class      GameManager.cs
+ *  @purpose    This is what controls the loading screen 
+ *  
+ *  @author     CIS 411
+ *  @date       2020/03/01
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LevelLoader : MonoBehaviour {
+public class LevelLoader : MonoBehaviour
+{
 
-    float counter = 0.1f;
-    public Slider slider;
+    private float counter = 0.1f;
+    //serializefield make private objects availabe in untiy inspector
+    [SerializeField] private Slider slider;
 
-<<<<<<< Updated upstream
-    public void loadLevel() //will load the next level whenever is necessary
-=======
+    //these are used to determin if the tet displayed on the loading says laoding decks or returning to menu
+    private bool returnToMenu = true;
+    private Text returnToMenuText;
+
     /*
     * @name    Start
     * @purpose calls the level loader that starts the couroutine
@@ -40,31 +48,32 @@ public class LevelLoader : MonoBehaviour {
      * @return  void
      */
     public void LoadLevel()
->>>>>>> Stashed changes
     {
         StartCoroutine(LoadAsynchronously("MainMenu")); //calls the coroutine and starts laoding the function asynchronously
     }
 
+        /*
+     * @name    LoadAsynchronously
+     * @purpose creates a timer like loop to move the slider across the screen
+     * 
+     * @return 
+     */
     IEnumerator LoadAsynchronously(string name) //will be used to load the scene and keep track of the progress
     {
-        while (counter <= 1.0f)
+        while (Counter <= 1.0f)
         {
-<<<<<<< Updated upstream
-            counter += 0.005f;
-            slider.value = counter;
-=======
             //put this back to 0.005f when you are done testing - ben
-            Counter += 0.005f;
+            Counter += 0.05f;
             Slider.value = Counter;
->>>>>>> Stashed changes
             yield return null;
         }
 
         SceneManager.LoadSceneAsync(name);
     }
 
-    private void Start()
-    {
-        loadLevel();
-    }
+    //accessors and mutators
+    public float Counter { get => counter; set => counter = value; }
+    public Slider Slider { get => slider; set => slider = value; }
+    public bool ReturnToMenu { get => returnToMenu; set => returnToMenu = value; }
+    public Text ReturnToMenuText { get => returnToMenuText; set => returnToMenuText = value; }
 }

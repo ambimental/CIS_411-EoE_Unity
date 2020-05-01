@@ -96,7 +96,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
-    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -132,7 +131,6 @@ GameObject:
   - component: {fileID: 232352064}
   - component: {fileID: 232352063}
   - component: {fileID: 232352062}
-  - component: {fileID: 232352061}
   - component: {fileID: 232352065}
   - component: {fileID: 232352066}
   m_Layer: 0
@@ -142,14 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &232352061
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 232352060}
-  m_Enabled: 1
 --- !u!124 &232352062
 Behaviour:
   m_ObjectHideFlags: 0
@@ -755,11 +745,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 232352065}
-<<<<<<< Updated upstream
-        m_MethodName: EndOpenStore
-=======
         m_MethodName: OpenHomePage
->>>>>>> Stashed changes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -894,7 +880,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: MainMenu
+          m_StringArgument: LoadingScreen
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1541974943

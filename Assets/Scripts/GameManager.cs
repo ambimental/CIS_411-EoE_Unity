@@ -2,17 +2,18 @@
  *  @class      GameManager.cs
  *  @purpose    Manages turn-by-turn game loop and game-critical functions
  *  
- *  @author     John Georgvich, previous CIS411 group
- *  @date       2020/01/22
+ *  @author     CIS411
+ *  @date       2020/04/10
  */
+
+ //This game manager shiuld be created when the loading screen scene is on and right now is created in the playerboard scene main camera. 
+ //We did this because the objects of human and computers were being created only in the loading screen seen and we need it in the playerboard and ran out of time
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System;
-
 
 public class GameManager : MonoBehaviour {
 
@@ -42,11 +43,6 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-<<<<<<< Updated upstream
-    //  create playerView and playerCanvas objects
-    public GameObject playerView;
-    public CanvasGroup playerCanvas;
-=======
     //this is currently what populated our cards
     public phpImport importer;
     //im not sure what this is used for yet but ill kep it around until i figure it out
@@ -76,46 +72,8 @@ public class GameManager : MonoBehaviour {
     private List<string> deckIds = new List<string>();
     //  create list to hold individual decks until they are assigned to players
     private List<Deck> decks = new List<Deck>();
->>>>>>> Stashed changes
 
     //  stores round number
-<<<<<<< Updated upstream
-    public int round;
-
-    //  stores player scores
-    public int playerScore;
-    public int computerOneScore;
-    public int computerTwoScore;
-    public int computerThreeScore;
-
-    //  stores sorting layers
-    public int sortingOrder = 10;
-
-    //  determines win/loss status for human player
-    public bool win;
-    public bool lose;
-
-    //  stores values for round text information
-    //we may not need these variables we can probably just use one round varibale since we will all always be on same round
-    public Text playerRound;
-    public Text oneRound;
-    public Text twoRound;
-    public Text threeRound;
-
-    //  stores values for player score information
-    public Text pScore;
-    public Text oneScore;
-    public Text twoScore;
-    public Text threeScore;
-    //  button to end turn
-    public Button endTurnButton;
-
-    //created object to access funstionc for hide show boards
-    public HideShowBoards showBoards;
-
-    //Creates object to show card
-    public DisplayOneCard showOneCard;
-=======
     private int round;
 
     //  stores sorting layers used throughout different classes to display objects in front of everything
@@ -136,11 +94,10 @@ public class GameManager : MonoBehaviour {
     //this is to be able to hide and show the boards
     private GameObject hideShowGO;
     private HideShowBoards hideShow;
->>>>>>> Stashed changes
 
     /*
      *  @name       Awake()
-     *  @purpose    start Unity framework; ensure GameManager instance is not destoryed on scene load
+     *  @purpose    
      */
     public void Awake()
     {
@@ -152,22 +109,16 @@ public class GameManager : MonoBehaviour {
      *  @name       Start
      *  @purpose    initialize GameManager object 
      */
-<<<<<<< Updated upstream
-    void  Start () {
-=======
     void Start () {
 
+        Debug.Log("GameManagerCreated");
         //populates DeckId Class and then creates decks and populates the decklist
         CreateDecks();
 
         //populates decks in deck list
         gameObject.AddComponent<phpImport>();
 
->>>>>>> Stashed changes
         //  sets initial round number
-<<<<<<< Updated upstream
-        round = 1;
-=======
         Round = 1;
 
         //this is how we inialize objects
@@ -216,6 +167,11 @@ public class GameManager : MonoBehaviour {
             "Computer Three Board/Main Images and Placements/Computer1Button/ComputerOneScoreText", "Computer Three Board/Main Images and Placements/Computer2Button/ComputerTwoScoreText",
             "Computer Three Board/Main Images and Placements/Computer3Button/ComputerThreeScoreText","CP3");
 
+
+
+        /******************************************************/
+        /******************************************************/
+        //this will all be moved to the pick deck class but for now we have the game manager being created from the main camera inthe playerboard scene
         //hard codes deck for now
         Person.Deck = Decks[0];
         CP1.Deck = Decks[1];
@@ -240,10 +196,7 @@ public class GameManager : MonoBehaviour {
         CP2.Deck.DeckName = Peat;
         CP2.Deck.DeckColor = PeatBogsColor;
         CP3.Deck.DeckName = Clarion;
-        CP3.Deck.DeckColor = ClarionRiverColor;
-        
-
-
+        CP3.Deck.DeckColor = ClarionRiverColor;     
     }
 
     /*
@@ -268,36 +221,21 @@ public class GameManager : MonoBehaviour {
             //  add newly created deck to Deck list
             Decks.Add(deck);
         }
-<<<<<<< Updated upstream
-
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
 
 
     /*
-<<<<<<< Updated upstream
-    *  @name       startGameLoop
-    *  @purpose    since the main loop has a co routine wqe need this to wrap that function and choose when the coroutine is started
-    *  the coroutine is being used to make a 5 second pause in the loop between each computer turn
-    */
-    public void startGameLoop()
-=======
      *  @name       CreateBoards()
      *  @purpose    Assigns the correct game objects to create an isntance of hideshow boards to change screens there is one 
      *  created ere and one created in the editor attached to the avatar buttons but this is serparate from that
      */
     public void CreateBoards()
->>>>>>> Stashed changes
     {
-        //calls functionto display one card
-        showOneCard.displayCard();
+        HideShowGO = new GameObject("HideShow");
+        HideShowGO.AddComponent<HideShowBoards>();
+        HideShow = GameObject.Find("HideShow").GetComponent<HideShowBoards>();
+    }
 
-<<<<<<< Updated upstream
-        //starts coroutine and calls gameloop function
-        StartCoroutine(gameLoop());
-=======
     /*
      *  @name       NextPlayer()
      *  @purpose    This function is used to change the canvas and is basically the game loop. at teh end of each players turn this is called. 
@@ -353,171 +291,45 @@ public class GameManager : MonoBehaviour {
             //starts the players turn automatically 
             Person.StartTurn();
         }
->>>>>>> Stashed changes
     }
 
     /*
-    *  @name       gameLoop
-    *  @purpose    main loop for game
-    */
-    IEnumerator gameLoop()
+     *  @name       StartHumanTurn()
+     *  @purpose   Starts teh human turn
+     *  Note: in order for any UI to be manipulated it the canvas or scene which the object that is being accessed on needs to be visible
+     */
+    public void StartHumanTurn()
     {
-<<<<<<< Updated upstream
-        //whitout this swt to 1 it measn it is set to 0 and the loop doesnt functio correctly there must be some parameter set in the inspector that has this set to 1
-        Time.timeScale = 1;
-       //creates a wait of 5 seconds each time the loop is executed
-         WaitForSeconds wait = new WaitForSeconds(1.0f);
-        //loop to go through each computer and changes screens
-        for (int computerNum = 1; computerNum <= 3; computerNum++)
-        {
-<<<<<<< Updated upstream
-            //shows cp1 board
-            if (computerNum == 1)
-            {
-                Debug.Log("worked cp1");
-                showBoards.ShowCP1();
-
-            }
-            //shows cp2 board
-            else if (computerNum == 2)
-            {
-                Debug.Log("worked c2");
-                showBoards.ShowCP2();
-            }
-            //shows cp3 board
-            else if (computerNum == 3)
-            {
-                Debug.Log("worked c3");
-                showBoards.ShowCP3();
-            }
-=======
-            //CreateBoards();
-=======
         if (round == 1)
         {
-            CreateBoards();
-            
->>>>>>> Stashed changes
+            CreateBoards(); 
+            Person.CreateDeckInfo();
+
         }
             //starts the players loop
             Person.StartTurn();
     }
 
-<<<<<<< Updated upstream
-    /*
-     *  @name       StartComputerLoop()
-     *  @purpose   makes the computers take their turns then returns to human player
-     *  Note: in order for any UI to be manipulated it the canvas or scene which the object that is being accessed on needs to be visible
-     */
-    public void StartComputerLoop()
-    {
-        //Cursor.visible = false; //hides the mouse from the user
-        //Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor     
-        ////Debug.Log("Before start turn GM" + CP1.MoveToNextAIPlayer);
-        //HideShow.ShowCP1();
-        ////makes sure all scores on the canvas are up to date
-        //CP1.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
-        //CP1.StartTurn();
-        ////while (NextPlayer == false)
-        ////{
-        ////    if (NextPlayer == true)
-        ////    {
-        ////        break;
-        ////    }
-        ////}
-        ////Debug.Log("loop worked");
-        ////Debug.Log("loop worked");
-
-        ////CP2
-        ////stuck in this loop until the computer is done with its coroutine
-        ////right now it freezes and im not sure why it must never be returning true from the start couritne function
-        //HideShow.ShowCP2();
-        ////makes sure all scores on the canvas are up to date
-        //CP2.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
-        //CP2.StartTurn();
-        ////while (CP2.MoveToNextAIPlayer == false)
-        ////{
-
-        ////}
-        ////CP3
-        //HideShow.ShowCP3();
-        //////makes sure all scores on the canvas are up to date
-        //CP3.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
-        //CP3.StartTurn();
-        ////while (CP3.MoveToNextAIPlayer == false)
-        ////{
-
-        ////}
-        ////Back to player
-        ////shows mouse
-        //Cursor.visible = true;
-        ////enables mouse
-        //Cursor.lockState = CursorLockMode.None;
-
-        ////change the round int the game manager
-        //UpdateRound();
-
-        ////returns to players screen
-        //HideShow.ShowPlayer();
-        ////makes sure the scores and round on the player canvas are up to date
-        //Person.ChangeAllScore(Person.Score, CP1.Score, CP2.Score, CP3.Score);
-        //Person.ChangeRound();
-        ////after the round has changed the player can draw again
-        //Person.CanDraw = true;
-        ////starts the players turn automatically 
-        //Person.StartTurn();
-    }
->>>>>>> Stashed changes
-
-            //this is how we implement the pause in the loop 
-            yield return wait;
-        }
-        //shows players board
-        Debug.Log("play work");
-        showBoards.ShowPlayer();
-
-        //changes scores and round
-        changePlayerScore(playerScore);
-        changeComputerOneScore(computerOneScore);
-        changeComputerTwoScore(computerTwoScore);
-        changeComputerThreeScore(computerThreeScore);
-        changeRound();
-    }
-=======
->>>>>>> Stashed changes
 
     /*
      *  @name       winOrLose
-     *  @purpose    determins who wins
+     *  @purpose    determines whether the human player has won or lost
      */
     public void winOrLose()
     {
         //  if human playerScore is less than computer player scores
-        if(playerScore < computerOneScore || playerScore < computerTwoScore || playerScore < computerThreeScore)
+        if (Person.Score < CP1.Score || Person.Score < CP2.Score || Person.Score < CP3.Score)
         {
-            //  set lose to true
-            lose = true;
-            //  set win to false
-            win = false;
-
             //  load game-lose screen
-            SceneManager.LoadScene("LoseScene"); 
+            SceneManager.LoadScene("LoseScene");
         }
         else
         {
-            //  set win to true
-            win = true;
-            //  set lose to false
-            lose = false;
-
             //  load game-win screen
             SceneManager.LoadScene("WinScene");
         }
 
         //  resets round number
-<<<<<<< Updated upstream
-        round = 1;
-=======
         Round = 1;
 
         //  clear human and computer player hands
@@ -525,12 +337,12 @@ public class GameManager : MonoBehaviour {
         CP1.Hand.Clear();
         CP2.Hand.Clear();
         CP3.Hand.Clear();
->>>>>>> Stashed changes
     }
 
     /*
      *  @name       restartGame()
      *  @purpose    on new game, destroy GameManager object and create a new one
+     *  This is called in the change scene and if it is the loading screen this function is called
      */
     public void restartGame()
     {
@@ -544,60 +356,22 @@ public class GameManager : MonoBehaviour {
      *  @name       changeRound()
      *  @purpose    progress game across round numbers
      */
-    public void changeRound()
+    public void UpdateRound()
     {
         //  check if round number is not 10
-        if (round != 10)
+        if (Round != 10)
         {
             //  increment round number
-            round++;
-
-            //  update round text
-            playerRound = GameObject.Find("PlayerRoundText").GetComponent<Text>();
-            playerRound.text = round.ToString();
+            Round++;
         }
-
         //  if round number is 10
-        else if ( round == 10)
+        else if (Round == 10)
         {
-            //  end game; 
+            //  end game; see winOrLose()
             winOrLose();
         }
     }
 
-<<<<<<< Updated upstream
-    /*
-     *  @name       changePlayerScore()
-     *  @purpose    update player score when point-bearing cards are played
-     *  
-     *  @param      int score;  specifies the amount of points to be added to player score
-     */
-    public void changePlayerScore(int score)
-    {
-        //  adds integer parameter to existing score
-        playerScore = playerScore + score;
-
-        //  updates score text
-        pScore = GameObject.Find("PlayerScoreText").GetComponent<Text>();
-        pScore.text = playerScore.ToString();
-    }
-
-    /*
-     *  @name       changeComputerOneScore()
-     *  @purpose    update computer player score when point-bearing cards are played
-     *  
-     *  @param      int score;  specifies the amount of points to be added to computer one player score
-     */
-    public void changeComputerOneScore(int score)
-    {
-        //  adds integer parameter to existing score
-        computerOneScore = computerOneScore + score;
-
-        //  updates score text
-        oneScore = GameObject.Find("ComputerOneScoreText").GetComponent<Text>();
-        oneScore.text = computerOneScore.ToString();
-    }
-=======
     //accessors and mutators
     public GameObject PersonGO { get => personGO; set => personGO = value; }
     public Human Person { get => person; set => person = value; }
@@ -613,8 +387,6 @@ public class GameManager : MonoBehaviour {
     public int SortingOrder { get => sortingOrder; set => sortingOrder = value; }
     public List<string> DeckIds { get => deckIds; set => deckIds = value; }
     public List<Deck> Decks { get => decks; set => decks = value; }
-<<<<<<< Updated upstream
-=======
     public Color32 AppalachianColor { get => appalachianColor; set => appalachianColor = value; }
     public Color32 AlleghenyColor { get => alleghenyColor; set => alleghenyColor = value; }
     public Color32 ClarionRiverColor { get => clarionRiverColor; set => clarionRiverColor = value; }
@@ -623,44 +395,5 @@ public class GameManager : MonoBehaviour {
     public string Appalachian { get => appalachian; set => appalachian = value; }
     public string Peat { get => peat; set => peat = value; }
     public string Clarion { get => clarion; set => clarion = value; }
->>>>>>> Stashed changes
-}
->>>>>>> Stashed changes
-
-    /*
-     *  @name       changeComputerTwoScore()
-     *  @purpose    update computer player score when point-bearing cards are played
-     *  
-     *  @param      int score;  specifies the amount of points to be added to computer player two score
-     */
-    public void changeComputerTwoScore(int score)
-    {
-        //  adds integer parameter to existing score
-        computerTwoScore = computerTwoScore + score;
-
-<<<<<<< Updated upstream
-        //  updates score text
-        twoScore = GameObject.Find("ComputerTwoScoreText").GetComponent<Text>();
-        twoScore.text = computerTwoScore.ToString();
-    }
-
-    /*
-     *  @name       changeComputerThreeScore()
-     *  @purpose    update computer player score when points-bearing cards are played
-     *  
-     *  @param      int score;  specifies the amount of points to be added to computer player three score
-     */
-    public void changeComputerThreeScore(int score)
-    {
-        //  adds integer parameter to existing score
-        computerThreeScore = computerThreeScore + score;
-
-        //  updates score text
-        threeScore = GameObject.Find("ComputerThreeScoreText").GetComponent<Text>();
-        threeScore.text = computerThreeScore.ToString();
-    }
-
 }
 
-=======
->>>>>>> Stashed changes

@@ -1,13 +1,13 @@
-﻿////THE ACTIONS FOR THE COMPUTER ONE AI
+﻿//THE ACTIONS FOR THE COMPUTER ONE AI
 
-//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Reflection;
-//using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
 
-//public class ActionsCP1 : MonoBehaviour
-//{
+public class ActionsCP1 : MonoBehaviour
+{
 
 //    // Use this for initialization
 //    void Start()
@@ -122,7 +122,7 @@
 //                    }
 //                }
 
-//                for(int x = 1; x < GameManager.Instance.DiscardSelectionList.Count; x++) //if there is a card in the discard pile with greater value, it will replace the card holder
+//                for (int x = 1; x < GameManager.Instance.DiscardSelectionList.Count; x++) //if there is a card in the discard pile with greater value, it will replace the card holder
 //                {
 //                    if (GameManager.Instance.DiscardSelectionList[x].PointValue > cardHolder.PointValue)
 //                    {
@@ -133,7 +133,7 @@
 //                }
 
 //                //determine which pile the cardHolder came from and where to get rid of the card in the AI playing field
-//                if(deckCard == true)
+//                if (deckCard == true)
 //                {
 //                    cardParent = GameManager.Instance.pickCardHolder;
 
@@ -145,7 +145,7 @@
 
 //                    GameManager.Instance.AnimalPlacementCP1.Add(cardHolder); //adds the selected card to the animal placement list
 
-//                    for(int i = 0; i < deck.Cards.Count; i++) //goes through the deck, finds the card, then removes it from the deck list
+//                    for (int i = 0; i < deck.Cards.Count; i++) //goes through the deck, finds the card, then removes it from the deck list
 //                    {
 //                        if (deck.Cards[i].CardName == cardHolder.CardName)
 //                        {
@@ -154,7 +154,7 @@
 //                        }
 //                    }
 //                }
-//                else if(discardCard == true)
+//                else if (discardCard == true)
 //                {
 //                    cardParent = GameManager.Instance.pickCardHolder;
 
@@ -979,5 +979,5 @@
 
 //    }
 
-//}
+}
 

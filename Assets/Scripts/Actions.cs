@@ -1,33 +1,36 @@
-﻿///*
-// *  @class   Actions.cs
-// *  @purpose Determine what actions the player will take 
-// * 
-// *  @author     John Georgvich, previous CIS411 group
-// *  @date       2020/01/23
-// */
+﻿/*
+ *  @class   Actions.cs
+ *  @purpose Determine what actions the player will take 
+ * 
+ *  @author     John Georgvich, previous CIS411 group
+ *  @date       2020/01/23
+ */
 
-//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Reflection;
-//using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
 
-//public class Actions : MonoBehaviour {
+public class Actions : MonoBehaviour
+{
 
 //    /*
 //     *  @name       Start()
 //     *  @purpose    Used by Unity engine to initialize objects
 //     */
-//    void Start() {
+//    void Start()
+//    {
 
 //    }
 
-//	/*
+//    /*
 //     *  @name       Update()
 //     *  @purpose    Used by Unity engine to update game object frame-by-frame
 //     */
-//	void Update () {
-//	}
+//    void Update()
+//    {
+//    }
 
 //    /*
 //     *  @name       checkAction()
@@ -41,7 +44,7 @@
 //        List<string> actions = new List<string>();
 
 //        //  for each string in card actionID
-//        foreach(string x in card.ActionID)
+//        foreach (string x in card.ActionID)
 //        {
 //            //  save string to instanced variable and add to actions list
 //            string actionId = x;
@@ -49,7 +52,7 @@
 //        }
 
 
-//        foreach(string x in actions)
+//        foreach (string x in actions)
 //        {
 //            Type type = typeof(Acts);
 //            Acts ClassObject = new Acts();
@@ -70,11 +73,11 @@
 //{
 //    //  create public/private objects for "acts class"
 //    //  all of this shit is going away anyway, who cares
-    //public CardRetrievalFromDeck holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>();
-    //public DebugDealer playerDraw = ScriptableObject.FindObjectOfType<DebugDealer>();
-    //private GameObject cardObject;
-    //public Transform cardParent;
-    //private SpriteRenderer sr;
+//    public CardRetrievalFromDeck holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>();
+//    public DebugDealer playerDraw = ScriptableObject.FindObjectOfType<DebugDealer>();
+//    private GameObject cardObject;
+//    public Transform cardParent;
+//    private SpriteRenderer sr;
 
 //    //  determines if requirements are met and retrieves necessary requirements
 //    public bool requirementsWork = false;
@@ -88,27 +91,26 @@
 //     *  @name       generateCardObject()
 //     *  @purpose    Creates an instance of card object
 //     */
-//private void generateCardObject()
-//{
-//    //creating a new gameobject  to hold act as the card
-//    cardObject = new GameObject(holder.cardNameHolder, typeof(RectTransform));
-//    //creating a SpriteRenderer to hold the card's Sprite
-//    sr = cardObject.AddComponent<SpriteRenderer>();
-//    //THIS IS EXACTLY WHAT I WAS LOOKING FOR ben
+//    private void generateCardObject()
+//    {
+//        //creating a new gameobject  to hold act as the card
+//        cardObject = new GameObject(holder.cardNameHolder, typeof(RectTransform));
+//        //creating a SpriteRenderer to hold the card's Sprite
+//        sr = cardObject.AddComponent<SpriteRenderer>();
 //        //setting the rectangle size  of the card object
 //        cardObject.GetComponent<RectTransform>().sizeDelta = new Vector2(90, 120);
-//    //adding a collider to the card object, which is sized based on the rectangle size
-//    cardObject.AddComponent<BoxCollider2D>().size = cardObject.GetComponent<RectTransform>().sizeDelta;
-//    //setting the card object's parent to be the Hand, so that it will render in the player's hand
-//    cardObject.transform.SetParent(cardParent);
-//    //setting the localScale of the card object, so that it will be appropriately sized
-//    cardObject.transform.localScale = new Vector3(1f, 1f, 0);
-//    //adding the HoverClass script to the card object, which allows for hover functionality.
-//    cardObject.AddComponent<HoverClass>();
-//    cardObject.AddComponent<ChooseCard>(); //makes it so that you can choose the card
-//                                           //to allow mouse to go through the sprite to view what is behind it
-//    cardObject.AddComponent<CanvasGroup>().blocksRaycasts = false; //will block raycasts so you can see objects behind it with mouse
-//}
+//        //adding a collider to the card object, which is sized based on the rectangle size
+//        cardObject.AddComponent<BoxCollider2D>().size = cardObject.GetComponent<RectTransform>().sizeDelta;
+//        //setting the card object's parent to be the Hand, so that it will render in the player's hand
+//        cardObject.transform.SetParent(cardParent);
+//        //setting the localScale of the card object, so that it will be appropriately sized
+//        cardObject.transform.localScale = new Vector3(1f, 1f, 0);
+//        //adding the HoverClass script to the card object, which allows for hover functionality.
+//        cardObject.AddComponent<HoverClass>();
+//        cardObject.AddComponent<ChooseCard>(); //makes it so that you can choose the card
+//        //to allow mouse to go through the sprite to view what is behind it
+//        cardObject.AddComponent<CanvasGroup>().blocksRaycasts = false; //will block raycasts so you can see objects behind it with mouse
+//    }
 
 //    void Start()
 //    {
@@ -371,7 +373,7 @@
 //                    }
 //                }
 
-//                if(deckCount == 0 && discardCount == 0)
+//                if (deckCount == 0 && discardCount == 0)
 //                {
 //                    display = false;
 //                }
@@ -473,7 +475,7 @@
 
 //        // Computer one check
 //        //checks to make sure there are even enough regions to be used - only has to be one
-//        if((GameManager.Instance.cp1SaltWaterCount + GameManager.Instance.cp1StandingWaterCount + GameManager.Instance.cp1RunningWaterCount) > 0)
+//        if ((GameManager.Instance.cp1SaltWaterCount + GameManager.Instance.cp1StandingWaterCount + GameManager.Instance.cp1RunningWaterCount) > 0)
 //        {
 //            //if enough are able to be used, then make the option visible to the plyer
 //            acid1 = true;
@@ -499,15 +501,15 @@
 //        GameManager.Instance.AcidicWatersCanvas.SetActive(true); //shows the canvas
 
 //        //displays the option to choose which player should get the acidic waters
-//        if(acid1 == true)
+//        if (acid1 == true)
 //        {
 
 //        }
-//        if(acid2 == true)
+//        if (acid2 == true)
 //        {
 
 //        }
-//        if(acid3 == true)
+//        if (acid3 == true)
 //        {
 
 //        }
@@ -576,7 +578,7 @@
 //                }
 //            }
 
-//            if(discardCount == 0 && deckCount == 0)
+//            if (discardCount == 0 && deckCount == 0)
 //            {
 //                display = false;
 //            }
@@ -1010,7 +1012,7 @@
 
 //    //Plant - Common Dandelion
 //    public void a044() //Common Dandelion is immune to Invasive Plant Species. It cannot be discarded or relocated once played
-//    { 
+//    {
 //    }
 
 //    //Plant - Orange Hawkweed
@@ -1033,4 +1035,4 @@
 //    {
 //    }
 
-//}
+}

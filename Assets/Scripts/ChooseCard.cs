@@ -1,10 +1,10 @@
-﻿////THIS SCRIPT WILL BE USED TO CHOOSE A CARD WHENEVER A SPECIAL ACTION REQUIRES IT TO HAPPEN
+﻿//THIS SCRIPT WILL BE USED TO CHOOSE A CARD WHENEVER A SPECIAL ACTION REQUIRES IT TO HAPPEN
 
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-//public class ChooseCard : MonoBehaviour {
+public class ChooseCard : MonoBehaviour {
 
 //    public Card selectedCard; //to hold the card that wil be selected to display
 //    public CheckDeckAndDiscardPlayer showBoard; //will be sued to go back to the player one board
@@ -151,10 +151,10 @@
 //                        GameManager.Instance.playerView.SetActive(true); //sets the view as active
 //                        showBoard.hideDeckDiscard(); //goes back to the player
 
-//                        GameManager.Instance.changePlayerScore(changeScore); //changes the score
+//                        GameManager.Instance.Person.ChangeScore(changeScore); //changes the score
 //                    }
 //                }
 //            }
 //        }
 //    }
-//}
+}

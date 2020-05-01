@@ -96,7 +96,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
-    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -272,7 +271,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1940285542}
         m_MethodName: ChangeScene
         m_Mode: 5
         m_Arguments:
@@ -466,7 +465,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1940285542}
         m_MethodName: ChangeScene
         m_Mode: 5
         m_Arguments:
@@ -594,7 +593,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1940285542}
         m_MethodName: ChangeScene
         m_Mode: 5
         m_Arguments:
@@ -602,7 +601,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: MainMenu
+          m_StringArgument: LoadingScreen
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &980176896
@@ -830,7 +829,6 @@ GameObject:
   - component: {fileID: 1940285540}
   - component: {fileID: 1940285539}
   - component: {fileID: 1940285538}
-  - component: {fileID: 1940285537}
   - component: {fileID: 1940285542}
   - component: {fileID: 1940285541}
   m_Layer: 0
@@ -840,14 +838,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1940285537
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1940285536}
-  m_Enabled: 1
 --- !u!124 &1940285538
 Behaviour:
   m_ObjectHideFlags: 0
@@ -1018,7 +1008,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1940285541}
         m_MethodName: OpenFacebook
         m_Mode: 1
         m_Arguments:
@@ -1146,13 +1136,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-<<<<<<< Updated upstream
-      - m_Target: {fileID: 0}
-        m_MethodName: EndOpenStore
-=======
       - m_Target: {fileID: 1940285541}
         m_MethodName: OpenHomePage
->>>>>>> Stashed changes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

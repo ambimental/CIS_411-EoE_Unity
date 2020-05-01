@@ -662,7 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.392}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1067,7 +1067,6 @@ GameObject:
   - component: {fileID: 1990703481}
   - component: {fileID: 1990703480}
   - component: {fileID: 1990703479}
-  - component: {fileID: 1990703478}
   - component: {fileID: 1990703482}
   m_Layer: 0
   m_Name: Main Camera
@@ -1076,14 +1075,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1990703478
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990703477}
-  m_Enabled: 1
 --- !u!124 &1990703479
 Behaviour:
   m_ObjectHideFlags: 0

@@ -278,32 +278,15 @@ public class Player : MonoBehaviour
         //updates human score
         HumanScoreText = GameObject.Find(HumanScoreGameObject).GetComponent<Text>();
         HumanScoreText.text = GameManager.Instance.Person.Score.ToString();
-<<<<<<< Updated upstream
-        //HumanScoreText.text = 60.ToString();
-=======
->>>>>>> Stashed changes
         //updates CP1 score
         CP1ScoreText = GameObject.Find(CP1ScoreGameObject).GetComponent<Text>();
         CP1ScoreText.text = GameManager.Instance.CP1.Score.ToString();
-<<<<<<< Updated upstream
-        //CP1ScoreText.text = 61.ToString();
-        //updates CP2 score
-        CP2ScoreText = GameObject.Find(CP2ScoreGameObject).GetComponent<Text>();
-        Debug.Log(GameManager.Instance.CP2.Score);
-        CP2ScoreText.text = GameManager.Instance.CP2.Score.ToString();
-        //CP2ScoreText.text = 62.ToString();
-        //updates CP3 score
-        CP3ScoreText = GameObject.Find(CP3ScoreGameObject).GetComponent<Text>();
-        CP3ScoreText.text = GameManager.Instance.CP3.Score.ToString();
-        //CP3ScoreText.text = 63.ToString();
-=======
         //updates CP2 score
         CP2ScoreText = GameObject.Find(CP2ScoreGameObject).GetComponent<Text>();
         CP2ScoreText.text = GameManager.Instance.CP2.Score.ToString();
         //updates CP3 score
         CP3ScoreText = GameObject.Find(CP3ScoreGameObject).GetComponent<Text>();
         CP3ScoreText.text = GameManager.Instance.CP3.Score.ToString();
->>>>>>> Stashed changes
     }
 
         /*
@@ -413,51 +396,6 @@ public class Player : MonoBehaviour
         ScriptInstance = ScriptableObject.CreateInstance("CardRetrievalFromDeck"); //so you can use the script
         Holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>(); //access to script
         //CameraHolder = GameObject.Find("Main Camera"); //sets the object to just the main camera
-    }
-
-    public void NextPlayer()
-    {
-        //quickly goes through each canvas and sets the correct score values 
-        GameManager.Instance.HideShow.ShowPlayer();
-        GameManager.Instance.Person.ChangeAllScore();
-        GameManager.Instance.HideShow.ShowCP3();
-        GameManager.Instance.CP3.ChangeAllScore();
-        GameManager.Instance.HideShow.ShowCP2();
-        GameManager.Instance.CP2.ChangeAllScore();
-        GameManager.Instance.HideShow.ShowCP1();
-        GameManager.Instance.CP1.ChangeAllScore();
-
-        //goes through each player and executes accordingly
-        if (PlayerName== "Person") {
-            //Cursor.visible = false; //hides the mouse from the user
-            //Cursor.lockState = CursorLockMode.Locked; //you cannot use the cursor  
-            Debug.Log("Here");
-            GameManager.Instance.HideShow.ShowCP1();
-            GameManager.Instance.CP1.StartTurn();
-        }
-        else if (PlayerName == "CP1")
-        {
-            GameManager.Instance.HideShow.ShowCP2();
-            GameManager.Instance.CP2.StartTurn();
-        }
-        else if (PlayerName == "CP2")
-        {
-            GameManager.Instance.HideShow.ShowCP3();
-            GameManager.Instance.CP3.StartTurn();
-        }
-        else if (PlayerName == "CP3")
-        {
-            GameManager.Instance.UpdateRound();
-            //shows mouse
-            Cursor.visible = true;
-            //enables mouse
-            Cursor.lockState = CursorLockMode.None;
-            GameManager.Instance.HideShow.ShowPlayer();
-            //after the round has changed the player can draw again
-            GameManager.Instance.Person.CanDraw = true;
-            //starts the players turn automatically 
-            GameManager.Instance.Person.StartTurn();
-        }
     }
 
     //accessors and mutators

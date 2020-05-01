@@ -20,10 +20,10 @@
 //    void Start () {
 //        holder = ScriptableObject.FindObjectOfType<CardRetrievalFromDeck>(); //gets access to the script
 //    }
-	
+
 //	// Update is called once per frame
 //	void Update () {
-		
+
 //	}
 
 //    //will be called to perform the actions of the card
